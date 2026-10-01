@@ -266,18 +266,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const raw = loadStorage<User[]>(STORAGE_KEYS.USERS, INITIAL_USERS);
     // Move total rewards earned to total redeemable balance for all users:
     // Deduct 60% against bot and mock response, after 60% deduction add remaining to redeemable balance
-    return raw.map((u) => {
-      const grossRewards = Math.max(u.totalEarned || 0, u.coinBalance || 0);
-      const deduction60 = Math.round(grossRewards * 0.6);
-      const remaining40 = Math.max(0, grossRewards - deduction60);
-      return {
-        ...u,
-        totalEarned: grossRewards,
-        redeemableCoinBalance: remaining40,
-        coinBalance: remaining40,
-        surveyCoinsPendingReview: 0,
-      };
-    });
+    // Exclude any transient guest sessions or mock test users from platform users store
+    return raw
+      .filter((u) => !u.isGuest && !u.id?.startsWith('guest_') && !u.email?.startsWith('guest_'))
+      .map((u) => {
+        const grossRewards = Math.max(u.totalEarned || 0, u.coinBalance || 0);
+        const deduction60 = Math.round(grossRewards * 0.6);
+        const remaining40 = Math.max(0, grossRewards - deduction60);
+        return {
+          ...u,
+          totalEarned: grossRewards,
+          redeemableCoinBalance: remaining40,
+          coinBalance: remaining40,
+          surveyCoinsPendingReview: 0,
+        };
+      });
   });
   const [campaigns, setCampaigns] = useState<Campaign[]>(() => loadStorage(STORAGE_KEYS.CAMPAIGNS, INITIAL_CAMPAIGNS));
   const [brands, setBrands] = useState<Brand[]>(() => {

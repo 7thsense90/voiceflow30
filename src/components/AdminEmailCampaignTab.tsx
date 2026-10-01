@@ -41,6 +41,7 @@ import {
   Campaign,
   User,
 } from '../types';
+import { validateRealEmail } from '../utils/emailValidation';
 
 export const AdminEmailCampaignTab: React.FC = () => {
   const {
@@ -290,17 +291,25 @@ export const AdminEmailCampaignTab: React.FC = () => {
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
   }, [users]);
 
-  // Compute targeted recipients list
+  // Compute targeted recipients list (excludes guest sessions, dummy accounts, and example.com addresses)
   const targetedUsers: User[] = useMemo(() => {
+    const isDeliverableUser = (u: User) => {
+      if (u.isGuest || (u.id && u.id.startsWith('guest_'))) return false;
+      if (!u.email) return false;
+      return validateRealEmail(u.email).isValid;
+    };
+
+    const deliverableUsers = users.filter(isDeliverableUser);
+
     if (targetAudience === 'newsletter_subscribers') {
       const subscriberEmails = new Set(
         newsletterSubscribers
-          .filter((s) => s.status === 'active')
+          .filter((s) => s.status === 'active' && s.email && validateRealEmail(s.email).isValid)
           .map((s) => s.email.toLowerCase().trim())
       );
 
       // 1. All registered platform users who have newsletterSubscribed === true or match subscriberEmails
-      const subscribedFromUsers = users.filter(
+      const subscribedFromUsers = deliverableUsers.filter(
         (u) =>
           u.email &&
           (u.newsletterSubscribed === true || subscriberEmails.has(u.email.toLowerCase().trim()))
@@ -310,7 +319,13 @@ export const AdminEmailCampaignTab: React.FC = () => {
 
       // 2. Standalone subscribers not yet in registered users list
       const standalone = newsletterSubscribers
-        .filter((s) => s.status === 'active' && !existingEmails.has(s.email.toLowerCase().trim()))
+        .filter(
+          (s) =>
+            s.status === 'active' &&
+            s.email &&
+            validateRealEmail(s.email).isValid &&
+            !existingEmails.has(s.email.toLowerCase().trim())
+        )
         .map((s) => ({
           id: s.id,
           name: s.userName || s.email.split('@')[0],
@@ -327,7 +342,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
       return [...subscribedFromUsers, ...standalone];
     }
 
-    return users.filter((u) => {
+    return deliverableUsers.filter((u) => {
       if (targetAudience === 'active_only') {
         return u.status === 'active';
       }
@@ -485,7 +500,9 @@ export const AdminEmailCampaignTab: React.FC = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            recipients: targetedUsers.map((u) => ({ email: u.email, name: u.name })),
+            recipients: targetedUsers
+              .filter((u) => u.email && validateRealEmail(u.email).isValid && !u.isGuest && !u.id?.startsWith('guest_'))
+              .map((u) => ({ email: u.email, name: u.name })),
             subject: subject.trim(),
             htmlContent: introMessage.trim(),
             campaignTitle: headline.trim(),
