@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // 1. Ensure window.fetch has both a getter and setter to prevent third-party scripts/wrappers from crashing
+      (function() {
+        try {
+          var nativeFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          var customFetch = nativeFetch;
+          
+          Object.defineProperty(window, 'fetch', {
+            get: function() {
+              return customFetch || nativeFetch;
+            },
+            set: function(fn) {
+              customFetch = fn;
+            },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          try {
+            var proto = Object.getPrototypeOf(window) || Window.prototype;
+            if (proto) {
+              Object.defineProperty(proto, 'fetch', {
+                get: function() { return customFetch || nativeFetch; },
+                set: function(fn) { customFetch = fn; },
+                configurable: true,
+                enumerable: true
+              });
+            }
+          } catch (_) {}
+        }
+
+        // 2. Intercept and suppress uncaught errors regarding fetch getter
+        window.addEventListener('error', function(event) {
+          var msg = (event && (event.message || (event.error && event.error.message))) || '';
+          if (typeof msg === 'string' && (
+            msg.indexOf('Cannot set property fetch') !== -1 ||
+            msg.indexOf('fetch of #<Window>') !== -1 ||
+            msg.indexOf('which has only a getter') !== -1
+          )) {
+            if (event.preventDefault) event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        var prevOnError = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          var str = String(message || (error && error.message) || '');
+          if (str.indexOf('fetch') !== -1 && (str.indexOf('getter') !== -1 || str.indexOf('Cannot set') !== -1)) {
+            return true;
+          }
+          if (prevOnError) return prevOnError.apply(this, arguments);
+        };
+      })();
+
+      // 3. Clean up and unregister any legacy or harmful service workers/caches
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (var i = 0; i < registrations.length; i++) {
+            registrations[i].unregister();
+          }
+        }).catch(function(err) {
+          console.debug('SW unregister error:', err);
+        });
+      }
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (var i = 0; i < names.length; i++) {
+            caches.delete(names[i]);
+          }
+        }).catch(function(err) {
+          console.debug('Cache cleanup error:', err);
+        });
+      }
+
+      // Purge any lingering scripts matching nap5k.com, pl31235133 social bar, or zone 11737977/11737966
+      try {
+        var purgeSelectors = 'script[src*="nap5k.com"], script[src*="pl31235133"], script[src*="3c54f34a0d6bae61bb4146aad95fda67"], script[data-zone="11737977"], script[data-zone="11737966"], script#adsterra-survey-social-bar-script';
+        document.querySelectorAll(purgeSelectors).forEach(function(el) { el.remove(); });
+      } catch (_) {}
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Flow 360</title>
+    <meta name="description" content="Voice Flow 360 - Verified consumer research platform. Be a part of brand research studies and earn rewards, backed by empirical market insights and structured consumer analytics." />
+    <meta name="keywords" content="market research, consumer sentiment, brand feedback, user research studies, voice flow 360, consumer opinions, research rewards, product surveys" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://voiceflow360.com/" />
+
+    <!-- Google AdSense Account Verification -->
+    <meta name="google-adsense-account" content="ca-pub-2513423020167554" />
+
+    <!-- Open Graph / Social Media Sharing -->
+    <meta property="og:title" content="Voice Flow 360" />
+    <meta property="og:description" content="Voice Flow 360 - Verified consumer research platform. Be a part of brand research studies and earn rewards, backed by empirical market insights and structured consumer analytics." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://voiceflow360.com/" />
+    <meta property="og:site_name" content="Voice Flow 360" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Voice Flow 360" />
+    <meta name="twitter:description" content="Voice Flow 360 conversational consumer feedback platform where users participate in chat surveys, answer questions, and earn redeemable coin rewards." />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://voiceflow360.com/#website",
+            "url": "https://voiceflow360.com",
+            "name": "Voice Flow 360",
+            "description": "Interactive conversational survey platform offering real cash and gift card rewards for authentic brand feedback.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://voiceflow360.com/?search={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://voiceflow360.com/#organization",
+            "name": "Voice Flow 360",
+            "url": "https://voiceflow360.com",
+            "logo": "https://voiceflow360.com/favicon.ico",
+            "sameAs": [
+              "https://twitter.com/voiceflow360",
+              "https://linkedin.com/company/voiceflow360"
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

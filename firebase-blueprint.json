@@ -1,0 +1,174 @@
+{
+  "entities": {
+    "User": {
+      "collection": "users",
+      "fields": {
+        "id": { "type": "string", "description": "User ID" },
+        "name": { "type": "string", "description": "Display name" },
+        "email": { "type": "string", "description": "User email address" },
+        "country": { "type": "string", "description": "Country of residence" },
+        "role": { "type": "string", "description": "User role ('user' | 'admin')" },
+        "coinBalance": { "type": "number", "description": "Current spendable coin balance" },
+        "totalEarned": { "type": "number", "description": "Lifetime earned coins" },
+        "redeemedCoins": { "type": "number", "description": "Total coins redeemed" },
+        "status": { "type": "string", "description": "Account status ('active' | 'inactive' | 'suspended')" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of account creation" },
+        "bio": { "type": "string", "description": "Optional biography" },
+        "favoriteCategories": { "type": "array", "description": "User's favorite survey topics" },
+        "isGuest": { "type": "boolean", "description": "Whether user is in guest session" },
+        "surveyCooldownUntil": { "type": "string", "description": "ISO timestamp when the 12-hour survey quality cooldown expires" }
+      }
+    },
+    "Campaign": {
+      "collection": "campaigns",
+      "fields": {
+        "id": { "type": "string", "description": "Campaign unique ID" },
+        "title": { "type": "string", "description": "Campaign title" },
+        "description": { "type": "string", "description": "Campaign description" },
+        "category": { "type": "string", "description": "Category slug" },
+        "targetAudience": { "type": "string", "description": "Target demographic" },
+        "estimatedMinutes": { "type": "number", "description": "Estimated completion time in minutes" },
+        "rewardCoins": { "type": "number", "description": "Coins awarded upon completion" },
+        "status": { "type": "string", "description": "Status ('draft' | 'active' | 'paused' | 'completed')" },
+        "questions": { "type": "array", "description": "Array of question objects" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" },
+        "completedCount": { "type": "number", "description": "Total number of completed submissions" },
+        "icon": { "type": "string", "description": "Optional icon name" },
+        "brandId": { "type": "string", "description": "Optional associated brand ID" }
+      }
+    },
+    "Brand": {
+      "collection": "brands",
+      "fields": {
+        "id": { "type": "string", "description": "Brand ID" },
+        "name": { "type": "string", "description": "Brand name" },
+        "category": { "type": "string", "description": "Industry category" },
+        "description": { "type": "string", "description": "Brand description" },
+        "icon": { "type": "string", "description": "Lucide icon name" },
+        "website": { "type": "string", "description": "Website URL" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "UserResponse": {
+      "collection": "responses",
+      "fields": {
+        "id": { "type": "string", "description": "Response submission ID" },
+        "userId": { "type": "string", "description": "User ID who submitted" },
+        "userName": { "type": "string", "description": "User display name" },
+        "userEmail": { "type": "string", "description": "User email" },
+        "campaignId": { "type": "string", "description": "Campaign ID answered" },
+        "campaignTitle": { "type": "string", "description": "Title of campaign" },
+        "category": { "type": "string", "description": "Category of survey" },
+        "answers": { "type": "array", "description": "List of user answers" },
+        "completedAt": { "type": "string", "description": "ISO timestamp of completion" },
+        "coinsAwarded": { "type": "number", "description": "Coins awarded for this response" },
+        "brandId": { "type": "string", "description": "Optional brand ID" },
+        "isHidden": { "type": "boolean", "description": "Admin moderation flag" }
+      }
+    },
+    "Transaction": {
+      "collection": "transactions",
+      "fields": {
+        "id": { "type": "string", "description": "Transaction ID" },
+        "userId": { "type": "string", "description": "User ID" },
+        "type": { "type": "string", "description": "Type ('earned' | 'redeemed' | 'bonus' | 'adjustment')" },
+        "amount": { "type": "number", "description": "Coin amount" },
+        "description": { "type": "string", "description": "Transaction description" },
+        "date": { "type": "string", "description": "ISO timestamp" },
+        "status": { "type": "string", "description": "Status ('completed' | 'pending' | 'approved' | 'rejected')" },
+        "campaignId": { "type": "string", "description": "Associated campaign ID if applicable" },
+        "withdrawalId": { "type": "string", "description": "Associated withdrawal ID if applicable" }
+      }
+    },
+    "WithdrawalRequest": {
+      "collection": "withdrawals",
+      "fields": {
+        "id": { "type": "string", "description": "Withdrawal request ID" },
+        "userId": { "type": "string", "description": "User ID" },
+        "userName": { "type": "string", "description": "User name" },
+        "userEmail": { "type": "string", "description": "User email" },
+        "coins": { "type": "number", "description": "Coins redeemed" },
+        "usdAmount": { "type": "number", "description": "Calculated USD value" },
+        "payoutMethod": { "type": "string", "description": "Payout method ('paypal' | 'bank_transfer' | 'gift_card' | 'crypto')" },
+        "accountDetails": { "type": "string", "description": "Recipient address / email" },
+        "status": { "type": "string", "description": "Status ('pending' | 'approved' | 'processing' | 'completed' | 'rejected')" },
+        "requestedAt": { "type": "string", "description": "ISO timestamp" },
+        "processedAt": { "type": "string", "description": "ISO timestamp when processed" },
+        "adminNote": { "type": "string", "description": "Optional admin notes" }
+      }
+    },
+    "AppNotification": {
+      "collection": "notifications",
+      "fields": {
+        "id": { "type": "string", "description": "Notification ID" },
+        "userId": { "type": "string", "description": "Target User ID" },
+        "title": { "type": "string", "description": "Notification title" },
+        "message": { "type": "string", "description": "Notification body" },
+        "type": { "type": "string", "description": "Type ('reward' | 'campaign' | 'system' | 'withdrawal')" },
+        "read": { "type": "boolean", "description": "Read flag" },
+        "timestamp": { "type": "string", "description": "ISO timestamp" },
+        "linkTab": { "type": "string", "description": "Optional navigation shortcut" }
+      }
+    },
+    "PlatformSettings": {
+      "collection": "settings",
+      "fields": {
+        "coinToUsdRate": { "type": "number", "description": "Coin to USD conversion rate" },
+        "minWithdrawalCoins": { "type": "number", "description": "Minimum coins needed to withdraw" },
+        "platformName": { "type": "string", "description": "Platform brand name" },
+        "allowNewRegistrations": { "type": "boolean", "description": "Whether registrations are open" },
+        "bonusForQuizCorrectAnswer": { "type": "number", "description": "Bonus coins for correct answers" }
+      }
+    },
+    "BrandInquiry": {
+      "collection": "brand_inquiries",
+      "fields": {
+        "id": { "type": "string", "description": "Unique inquiry ID" },
+        "brandName": { "type": "string", "description": "Name of brand" },
+        "brandLogo": { "type": "string", "description": "Optional brand logo URL" },
+        "productOrServiceName": { "type": "string", "description": "Product or service name to research" },
+        "methodology": { "type": "string", "description": "Market research methodology" },
+        "sampleSize": { "type": "number", "description": "Target sample size of respondents" },
+        "geographicRegion": { "type": "string", "description": "Target geographic scope or country" },
+        "targetDemographics": { "type": "object", "description": "Demographic criteria (age groups, gender, notes)" },
+        "contactInfo": { "type": "object", "description": "Brand contact information" },
+        "message": { "type": "string", "description": "Research goals and context" },
+        "estimatedPriceUsd": { "type": "number", "description": "Estimated pricing" },
+        "submittedAt": { "type": "string", "description": "ISO timestamp of submission" },
+        "status": { "type": "string", "description": "Inquiry status ('pending' | 'in_review' | 'contacted' | 'campaign_created' | 'closed')" },
+        "campaignCreatedId": { "type": "string", "description": "ID of campaign created from this inquiry" },
+        "adminNotes": { "type": "string", "description": "Optional notes from admin" }
+      }
+    },
+    "NewsletterSubscriber": {
+      "collection": "newsletter_subscribers",
+      "fields": {
+        "id": { "type": "string", "description": "Subscriber ID" },
+        "email": { "type": "string", "description": "Subscriber email address" },
+        "preferences": { "type": "object", "description": "Notification preferences (newSurveys, platformUpdates, weeklyDigest)" },
+        "subscribedAt": { "type": "string", "description": "ISO timestamp of subscription" },
+        "source": { "type": "string", "description": "Signup source (e.g. 'footer')" },
+        "status": { "type": "string", "description": "Status ('active' | 'unsubscribed')" },
+        "userId": { "type": "string", "description": "Optional associated user ID if authenticated" }
+      }
+    },
+    "ResearchArticle": {
+      "collection": "research_articles",
+      "fields": {
+        "id": { "type": "string", "description": "Article ID" },
+        "title": { "type": "string", "description": "Article title" },
+        "slug": { "type": "string", "description": "Unique URL slug" },
+        "brand_name": { "type": "string", "description": "Name of brand studied" },
+        "category": { "type": "string", "description": "Industry sector/category" },
+        "cover_image_url": { "type": "string", "description": "Cover photo URL" },
+        "excerpt": { "type": "string", "description": "Brief summary excerpt for cards" },
+        "body": { "type": "string", "description": "Formatted article body content" },
+        "sources_note": { "type": "string", "description": "Sources, sample size, and methodology citations" },
+        "status": { "type": "string", "description": "Publication status ('draft' | 'published')" },
+        "published_at": { "type": "string", "description": "ISO timestamp of publication" },
+        "created_at": { "type": "string", "description": "ISO timestamp of creation" },
+        "updated_at": { "type": "string", "description": "ISO timestamp of last update" }
+      }
+    }
+  }
+}

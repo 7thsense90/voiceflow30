@@ -1,0 +1,70 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Users Collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Campaigns Collection
+    match /campaigns/{campaignId} {
+      allow read, write: if true;
+    }
+
+    // Brands Collection
+    match /brands/{brandId} {
+      allow read, write: if true;
+    }
+
+    // Responses Collection (Surveys / feedback submitted)
+    match /responses/{responseId} {
+      allow read, write: if true;
+    }
+
+    // Transactions Collection
+    match /transactions/{transactionId} {
+      allow read, write: if true;
+    }
+
+    // Withdrawals Collection
+    match /withdrawals/{withdrawalId} {
+      allow read, write: if true;
+    }
+
+    // Notifications Collection
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Platform Settings
+    match /settings/{docId} {
+      allow read, write: if true;
+    }
+
+    // Admin audit logs / balance adjustments
+    match /balance_adjustments/{logId} {
+      allow read, write: if true;
+    }
+
+    // Brand Market Research Inquiries
+    match /brand_inquiries/{inquiryId} {
+      allow read, write: if true;
+    }
+
+    // Email Campaigns
+    match /email_campaigns/{campaignId} {
+      allow read, write: if true;
+    }
+
+    // Newsletter Subscribers
+    match /newsletter_subscribers/{subscriberId} {
+      allow read, write: if true;
+    }
+
+    // Brand Research Studies Articles
+    match /research_articles/{articleId} {
+      allow read, write: if true;
+    }
+  }
+}

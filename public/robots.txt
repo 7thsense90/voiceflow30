@@ -1,0 +1,40 @@
+# Robots.txt for Voice Flow 360
+# Directs search engines (Googlebot, Bingbot, etc.) to index crawlable public URLs
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Google-adstxt
+Allow: /
+
+User-agent: *
+Allow: /ads.txt
+Allow: /
+Allow: /about
+Allow: /360-earning
+Allow: /how-to-earn
+Allow: /for-brands
+Allow: /start-earning
+Allow: /surveys
+Allow: /quizzes
+Allow: /my-earnings
+Allow: /brands
+Allow: /brands/*
+Allow: /brand-insights
+Allow: /brand-insights/*
+Allow: /news
+Allow: /referrals
+Allow: /faq
+Allow: /privacy
+Allow: /terms
+Allow: /contact
+Allow: /sitemap-directory
+Allow: /sitemap.xml
+Allow: /sitemap
+
+# Restrict sensitive internal and admin consoles
+Disallow: /admin
+Disallow: /api/
+
+# XML Sitemap Location
+Sitemap: https://voiceflow360.com/sitemap.xml

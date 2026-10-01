@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+        try {
+          var obj = window;
+          var desc = null;
+          while (obj) {
+            desc = Object.getOwnPropertyDescriptor(obj, 'fetch');
+            if (desc) break;
+            obj = Object.getPrototypeOf(obj);
+          }
+          if (desc && desc.get && !desc.set && desc.configurable) {
+            Object.defineProperty(obj, 'fetch', {
+              get: desc.get,
+              set: function(val) { console.warn("Blocked fetch reassignment"); },
+              configurable: desc.configurable,
+              enumerable: desc.enumerable
+            });
+          } else if (desc && desc.get && !desc.set && !desc.configurable) {
+            // If we can't configure it, we can't fix it this way.
+            console.warn("fetch is not configurable");
+          }
+        } catch (e) {
+          console.error("Patch error", e);
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />

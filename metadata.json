@@ -1,0 +1,8 @@
+{
+  "name": "Voice Flow 360",
+  "description": "Voice Flow 360 - Verified consumer research platform. Be a part of brand research studies and earn rewards, backed by empirical market insights and structured consumer analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

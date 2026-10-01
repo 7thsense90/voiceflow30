@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+        try {
+          var desc = Object.getOwnPropertyDescriptor(window, 'fetch');
+          if (desc && desc.get && !desc.set && desc.configurable) {
+            Object.defineProperty(window, 'fetch', {
+              get: desc.get,
+              set: function(val) { console.warn("Blocked fetch reassignment"); },
+              configurable: desc.configurable,
+              enumerable: desc.enumerable
+            });
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
