@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { RAW_100_BRANDS, BrandMeta } from '../data/brandsData';
-import { FEATURED_BRAND_ARTICLES, getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
+import { getPublishedBrandArticles, getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
 import { AdSenseAd } from './AdSenseAd';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
 import { getUniqueBrandInsight, getUniqueBrandSentiment } from '../data/brandUniqueInsights';
@@ -200,9 +200,13 @@ export const BrandInsights: React.FC = () => {
 
   const totalAllResponses = responses.length;
 
-  // Split featured articles for blog layout
-  const leadArticle = FEATURED_BRAND_ARTICLES[0];
-  const secondaryArticles = FEATURED_BRAND_ARTICLES.slice(1, 4);
+  // Split the real, currently-published brand studies for the blog layout.
+  // This list only contains brands with enough real verified survey
+  // responses (see getPublishedBrandArticles) — it can be empty early on
+  // and grows automatically as more responses come in.
+  const publishedArticles = useMemo(() => getPublishedBrandArticles(), [responses]);
+  const leadArticle = publishedArticles[0];
+  const secondaryArticles = publishedArticles.slice(1, 4);
 
   return (
     <div className="min-h-screen bg-slate-50/70 pb-20 animate-fadeIn">
@@ -277,7 +281,7 @@ export const BrandInsights: React.FC = () => {
                 <span>In-Depth Articles</span>
               </div>
               <p className="text-xl font-black text-white mt-1">
-                {FEATURED_BRAND_ARTICLES.length} Published
+                {publishedArticles.length} Published
               </p>
               <p className="text-[11px] text-slate-400">1,000+ Word Editorial Studies</p>
             </div>

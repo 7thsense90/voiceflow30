@@ -4,7 +4,7 @@ import { SEOHead } from './SEOHead';
 import { Link } from './Link';
 import { Pagination } from './Pagination';
 import {
-  FEATURED_BRAND_ARTICLES,
+  getPublishedBrandArticles,
   getBrandArticle,
   hasBrandArticle,
   getBrandStudyPath,
@@ -96,8 +96,11 @@ export const BrandCaseStudiesView: React.FC = () => {
     const list: UnifiedCaseStudy[] = [];
     const seenIds = new Set<string>();
 
-    // 1. First add the 30 in-depth Brand SEO Case Studies
-    FEATURED_BRAND_ARTICLES.forEach((art) => {
+    // 1. Add every brand that currently has enough real, verified Voice Flow
+    // 360 survey responses to publish an honest study (see
+    // MIN_RESPONSES_FOR_STATS in realBrandStats.ts). This list grows on its
+    // own as more real responses come in — nothing here is hand-picked.
+    getPublishedBrandArticles().forEach((art) => {
       seenIds.add(art.brandId);
       const brandMeta = RAW_100_BRANDS.find((b) => b.id === art.brandId);
       list.push({

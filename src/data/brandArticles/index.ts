@@ -44,12 +44,13 @@ import {
 
 import {
   generateBrandSEOArticle,
+  getPublishedBrandArticles,
   findBrandBySlugOrId,
   slugifyBrandName,
 } from './dynamicGenerator';
 
 export * from './types';
-export { generateBrandSEOArticle, findBrandBySlugOrId, slugifyBrandName };
+export { generateBrandSEOArticle, getPublishedBrandArticles, findBrandBySlugOrId, slugifyBrandName };
 export {
   playstationArticle,
   nintendoArticle,
@@ -307,61 +308,44 @@ export function getBrandStudyPath(brandIdOrArticle: string | BrandSEOArticle): s
 
 /**
  * Resolves a BrandSEOArticle from a URL path, slug, or brand ID.
- * Supports featured pre-written studies and dynamically generates complete 1,000+ word studies
- * for all 100+ brands in the directory.
+ *
+ * NOTE: this intentionally never reads from BRAND_ARTICLES_MAP /
+ * FEATURED_BRAND_ARTICLES (the 30 hand-written articles). Those files still
+ * contain illustrative, non-real numbers and are kept only as legacy
+ * reference material — every brand, featured or not, is resolved the same
+ * honest way: real verified Voice Flow 360 survey data when there's enough
+ * of it (generateBrandSEOArticle / getRealBrandStats), otherwise no article
+ * at all rather than a fabricated one. BRAND_STUDY_PATHS / BRAND_STUDY_ALIASES
+ * are kept purely as human-friendly URL shortcuts (e.g. "sony-playstation"
+ * instead of the auto-slugified brand name) that resolve to the same real
+ * brand record.
  */
 export function findBrandArticleBySlugOrPath(param: string): BrandSEOArticle | undefined {
   if (!param) return undefined;
   const raw = param.trim().toLowerCase().replace(/^\/+/, '').replace(/\/+$/, '');
   const slug = raw.split('/').pop() || raw;
 
-  // Direct brandId match
-  if (BRAND_ARTICLES_MAP[slug]) {
-    return BRAND_ARTICLES_MAP[slug];
-  }
-  if (BRAND_ARTICLES_MAP[`br_${slug}`]) {
-    return BRAND_ARTICLES_MAP[`br_${slug}`];
-  }
-
-  // Alias lookup
-  if (BRAND_STUDY_ALIASES[slug] && BRAND_ARTICLES_MAP[BRAND_STUDY_ALIASES[slug]]) {
-    return BRAND_ARTICLES_MAP[BRAND_STUDY_ALIASES[slug]];
+  // Alias lookup -> brandId -> real brand record
+  const aliasedBrandId = BRAND_STUDY_ALIASES[slug];
+  if (aliasedBrandId) {
+    const brandMeta = findBrandBySlugOrId(aliasedBrandId);
+    if (brandMeta) {
+      return generateBrandSEOArticle(brandMeta);
+    }
   }
 
-  // Exact study path match
+  // Exact legacy study path match -> brandId -> real brand record
   for (const [bId, path] of Object.entries(BRAND_STUDY_PATHS)) {
     if (path.toLowerCase().endsWith(slug) || path.toLowerCase() === `/${raw}`) {
-      return BRAND_ARTICLES_MAP[bId];
+      const brandMeta = findBrandBySlugOrId(bId);
+      if (brandMeta) {
+        return generateBrandSEOArticle(brandMeta);
+      }
     }
   }
 
-  // Article slug property check
-  for (const article of FEATURED_BRAND_ARTICLES) {
-    if (article.slug.toLowerCase() === slug) {
-      return article;
-    }
-  }
-
-  // Fuzzy normalize (stripping suffixes like "-user-research-study")
-  const normalized = slug
-    .replace(/-user-research-study$/, '')
-    .replace(/-consumer-insights-market-analysis$/, '')
-    .replace(/-market-study$/, '')
-    .replace(/-/g, ' ');
-
-  for (const article of FEATURED_BRAND_ARTICLES) {
-    const cleanArtName = article.brandName.toLowerCase();
-    const cleanBrandId = article.brandId.replace(/^br_/, '').toLowerCase();
-    if (
-      cleanArtName.includes(normalized) ||
-      normalized.includes(cleanArtName) ||
-      slug.includes(cleanBrandId)
-    ) {
-      return article;
-    }
-  }
-
-  // Check all 100 brands from directory
+  // Check all 100 brands from directory (direct id, slugified name, or
+  // fuzzy name match — see findBrandBySlugOrId)
   const brandMeta = findBrandBySlugOrId(slug);
   if (brandMeta) {
     return generateBrandSEOArticle(brandMeta);
@@ -371,7 +355,11 @@ export function findBrandArticleBySlugOrPath(param: string): BrandSEOArticle | u
 }
 
 export function getBrandArticle(brandId: string): BrandSEOArticle | undefined {
-  return BRAND_ARTICLES_MAP[brandId] || findBrandArticleBySlugOrPath(brandId);
+  const brandMeta = findBrandBySlugOrId(brandId);
+  if (brandMeta) {
+    return generateBrandSEOArticle(brandMeta);
+  }
+  return findBrandArticleBySlugOrPath(brandId);
 }
 
 export function hasBrandArticle(brandId: string): boolean {

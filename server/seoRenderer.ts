@@ -12,7 +12,8 @@
 import {
   findBrandArticleBySlugOrPath,
   getBrandStudyPath,
-  FEATURED_BRAND_ARTICLES,
+  getPublishedBrandArticles,
+  findBrandBySlugOrId,
   BrandSEOArticle,
 } from '../src/data/brandArticles/index';
 import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
@@ -67,6 +68,14 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     const article = findBrandArticleBySlugOrPath(targetArticleSlug);
     if (article) {
       return renderBrandStudySeo(origin, article);
+    }
+    // The slug names a real brand that just doesn't have enough real survey
+    // responses yet for a published study. Render that brand's own detail
+    // page instead of silently falling through to the generic homepage
+    // content further below (mirrors the client-side route fix).
+    const knownBrand = findBrandBySlugOrId(targetArticleSlug);
+    if (knownBrand) {
+      return renderBrandDetailSeo(origin, knownBrand);
     }
   }
 
@@ -1228,6 +1237,7 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/sitemap-directory`;
   const title = 'HTML Sitemap & Platform Directory - Voice Flow 360';
   const description = 'Complete navigation hierarchy and index of all 147+ platform pages, survey drops, and brand studies on Voice Flow 360.';
+  const publishedBrandStudies = getPublishedBrandArticles();
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
@@ -1256,13 +1266,15 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
       <section class="space-y-4">
         <h2 class="text-xl font-bold text-slate-900">Verified Brand Intelligence Studies</h2>
         <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
-          ${FEATURED_BRAND_ARTICLES.map((art) => `
+          ${publishedBrandStudies.length > 0 ? publishedBrandStudies.map((art) => `
             <li>
               <a href="${getBrandStudyPath(art)}" class="text-purple-600 hover:underline">
                 ${escapeHtml(art.brandName)}: ${escapeHtml(art.metaTitle)}
               </a>
             </li>
-          `).join('')}
+          `).join('') : `
+            <li class="text-slate-500 italic">New verified studies are published automatically as real survey responses come in.</li>
+          `}
         </ul>
       </section>
     </div>
@@ -1323,6 +1335,7 @@ function renderBrandInsightsIndexSeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/brand-insights`;
   const title = 'Brand Insights & Real-Time Sentiment Analytics | Voice Flow 360';
   const description = 'Explore aggregate consumer sentiment metrics, survey satisfaction scores, and feedback benchmarks across industries.';
+  const publishedBrandStudies = getPublishedBrandArticles().slice(0, 10);
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-5xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
@@ -1332,8 +1345,9 @@ function renderBrandInsightsIndexSeo(origin: string): PageSeoResult {
       </header>
       <div class="space-y-4">
         <h2 class="text-xl font-bold text-slate-900">Featured Research Reports</h2>
+        ${publishedBrandStudies.length > 0 ? `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          ${FEATURED_BRAND_ARTICLES.slice(0, 10).map((art) => `
+          ${publishedBrandStudies.map((art) => `
             <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
               <h3 class="font-bold text-slate-900 text-base">
                 <a href="${getBrandStudyPath(art)}" class="hover:text-purple-600">${escapeHtml(art.brandName)}: ${escapeHtml(art.metaTitle)}</a>
@@ -1345,6 +1359,9 @@ function renderBrandInsightsIndexSeo(origin: string): PageSeoResult {
             </div>
           `).join('')}
         </div>
+        ` : `
+        <p class="text-sm text-slate-500 italic">New verified studies are published automatically as real survey responses accumulate for each brand. Check back soon.</p>
+        `}
       </div>
     </div>
   `;
@@ -1474,6 +1491,7 @@ function renderHomepageSeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/brand-case-studies`;
   const title = 'Brand Case Studies & Market Intelligence | Voice Flow 360';
   const description = 'Comprehensive consumer sentiment analyses, benchmark evaluations, and empirical case studies across leading global brands. Participate in studies and earn rewards.';
+  const homepageFeaturedStudies = getPublishedBrandArticles().slice(0, 6);
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-5xl mx-auto px-4 py-10 text-slate-800 font-sans space-y-12">
@@ -1513,7 +1531,7 @@ function renderHomepageSeo(origin: string): PageSeoResult {
         <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-2">
           <h2 class="text-lg font-bold text-slate-900">Published Research Studies</h2>
           <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Browse our comprehensive library of published consumer intelligence reports covering Sony, Nintendo, Steam, Apple, and more.
+            Browse our growing library of consumer intelligence reports, built entirely from verified Voice Flow 360 survey responses.
           </p>
         </div>
       </section>
@@ -1525,12 +1543,13 @@ function renderHomepageSeo(origin: string): PageSeoResult {
             <p class="text-xs sm:text-sm text-slate-500">In-depth empirical consumer studies based on verified panelist submissions.</p>
           </div>
           <a href="/brand-insights" class="text-xs font-bold text-purple-600 hover:underline">
-            View All 30+ Studies &rarr;
+            View Published Studies &rarr;
           </a>
         </div>
 
+        ${homepageFeaturedStudies.length > 0 ? `
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          ${FEATURED_BRAND_ARTICLES.slice(0, 6).map((art) => `
+          ${homepageFeaturedStudies.map((art) => `
             <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
               <span class="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">
                 ${escapeHtml(art.brandName)}
@@ -1548,6 +1567,9 @@ function renderHomepageSeo(origin: string): PageSeoResult {
             </div>
           `).join('')}
         </div>
+        ` : `
+        <p class="text-sm text-slate-500 italic">New verified brand studies are published automatically as real survey responses accumulate. Check back soon.</p>
+        `}
       </section>
     </div>
   `;

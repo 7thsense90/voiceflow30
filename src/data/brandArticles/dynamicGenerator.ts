@@ -245,6 +245,27 @@ Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${
 }
 
 /**
+ * Returns every brand study that currently has enough real, verified survey
+ * responses to publish (see MIN_RESPONSES_FOR_STATS) — i.e. the full,
+ * honest list of "live" case studies across all 100 brands, not just a
+ * fixed hand-picked subset. This is the single source of truth for any
+ * screen that lists or counts published case studies (the case-studies
+ * listing page, the brand-insights spotlight carousel, the sitemap). As
+ * more real responses come in for a brand, it starts appearing here
+ * automatically — nothing needs to be hand-edited or re-featured.
+ */
+export function getPublishedBrandArticles(): BrandSEOArticle[] {
+  const articles: BrandSEOArticle[] = [];
+  for (const brand of RAW_100_BRANDS) {
+    const article = generateBrandSEOArticle(brand);
+    if (article) {
+      articles.push(article);
+    }
+  }
+  return articles;
+}
+
+/**
  * Finds a brand in RAW_100_BRANDS by ID, name, or slug
  */
 export function findBrandBySlugOrId(identifier: string): BrandMeta | undefined {
