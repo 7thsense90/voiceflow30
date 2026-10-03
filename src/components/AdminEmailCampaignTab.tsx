@@ -183,11 +183,11 @@ export const AdminEmailCampaignTab: React.FC = () => {
                   headline: headline.trim() || 'Fresh Consumer Research Studies Waiting in Your Hub',
                   previewText: previewText.trim() || 'Exclusive brand feedback studies are live now with instant cashout credits.',
                   bodyContent: introMessage.trim(),
-                  actionUrl: 'https://voiceflow360.com/surveys',
-                  actionText: ctaText.trim() || 'Take Surveys & Claim Coins',
-                  bonusCoins: bonusCoins > 0 ? bonusCoins : 50,
-                  badge: bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Opportunity',
-                  subheadline: previewText.trim() || 'Matched Research Opportunities & Instant Credits',
+                  actionUrl: templateType === 'monthly_earning_credited' ? 'https://voiceflow360.com/earnings' : 'https://voiceflow360.com/surveys',
+                  actionText: ctaText.trim() || (templateType === 'monthly_earning_credited' ? 'View Redeemable Wallet & Cash Out' : 'Take Surveys & Claim Coins'),
+                  bonusCoins: bonusCoins > 0 ? bonusCoins : (templateType === 'monthly_earning_credited' ? 0 : 50),
+                  badge: templateType === 'monthly_earning_credited' ? 'Wallet Credited' : (bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Opportunity'),
+                  subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Instant Credits'),
                   featuredSurveys: featuredSurveysList.map((s) => ({
                     title: s.title,
                     category: s.category,
@@ -422,6 +422,17 @@ export const AdminEmailCampaignTab: React.FC = () => {
         setBonusCoins(25);
         break;
 
+      case 'monthly_earning_credited':
+        setSubject('💰 Your Monthly Survey Earnings Have Been Added to Your Wallet!');
+        setPreviewText('Good news! Your monthly survey earnings and verified rewards have been transferred to your redeemable balance.');
+        setHeadline('Monthly Earnings Added to Your Wallet');
+        setIntroMessage(
+          'Great news! Your monthly survey rewards and verified panel participation balance have been reviewed and successfully credited to your Redeemable Wallet. You can now request your payout via Bank Transfer, PayPal, or Crypto directly from your dashboard once your redeemable balance reaches $20 (2,000 coins).'
+        );
+        setCtaText('View Redeemable Wallet & Cash Out');
+        setBonusCoins(0);
+        break;
+
       case 're_engagement':
         setSubject(`👋 We Miss You! We Saved ${coins} Coins in Surveys For You`);
         setPreviewText('Come back and complete quick conversational feedback surveys with an extra bonus.');
@@ -506,10 +517,10 @@ export const AdminEmailCampaignTab: React.FC = () => {
             subject: subject.trim(),
             htmlContent: introMessage.trim(),
             campaignTitle: headline.trim(),
-            actionUrl: 'https://voiceflow360.com/surveys',
-            actionText: ctaText.trim() || 'View Available Surveys',
-            badge: bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Research Alert',
-            subheadline: previewText.trim() || 'Matched Research Opportunities & Instant Credits',
+            actionUrl: templateType === 'monthly_earning_credited' ? 'https://voiceflow360.com/earnings' : 'https://voiceflow360.com/surveys',
+            actionText: ctaText.trim() || (templateType === 'monthly_earning_credited' ? 'View Redeemable Wallet & Cash Out' : 'View Available Surveys'),
+            badge: templateType === 'monthly_earning_credited' ? 'Wallet Credited' : (bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Research Alert'),
+            subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Instant Credits'),
             bonusCoins: bonusCoins > 0 ? bonusCoins : undefined,
             featuredSurveys: featuredSurveysList.map((s) => ({
               title: s.title,
@@ -1074,6 +1085,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
                 {[
                   { id: 'new_surveys_alert', label: '🚀 New Survey Alert', desc: 'High urgency launch' },
                   { id: 'high_reward_spotlight', label: '⭐ High-Reward Spotlight', desc: 'Premium payouts' },
+                  { id: 'monthly_earning_credited', label: '💰 Monthly Earnings Credited', desc: 'Added to wallet' },
                   { id: 'weekly_digest', label: '📬 Weekly Digest', desc: 'Roundup & balance check' },
                   { id: 're_engagement', label: '👋 We Miss You', desc: 'Reactivate members' },
                   { id: 'custom_announcement', label: '✍️ Custom Letter', desc: 'Full custom draft' },
@@ -1470,6 +1482,31 @@ export const AdminEmailCampaignTab: React.FC = () => {
                           Complete within 24 hours to unlock your extra ${(bonusCoins / 100).toFixed(2)} USD bonus credit.
                         </div>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Monthly Earning Wallet Credited Highlight Card */}
+                  {templateType === 'monthly_earning_credited' && (
+                    <div className="p-3.5 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/90 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black">
+                            <Coins className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700 block">
+                              Wallet Status: Verified &amp; Credited
+                            </span>
+                            <h5 className="font-extrabold text-slate-900 text-xs">Monthly Survey Earnings Transferred</h5>
+                          </div>
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-200/80 text-emerald-900 font-extrabold text-[10px]">
+                          100% Settled
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        Your survey responses have been audited. Your net rewards are transferred to your Redeemable Balance. Reach <strong>2,000 Coins ($20.00)</strong> to unlock withdrawal via Bank Transfer, PayPal, or Crypto.
+                      </p>
                     </div>
                   )}
 

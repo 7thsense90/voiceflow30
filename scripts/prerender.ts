@@ -16,7 +16,7 @@ import path from 'path';
 import { injectSeoAndContent } from '../server/seoRenderer';
 import { APP_ROUTES } from '../src/utils/routes';
 import { RAW_100_BRANDS } from '../src/data/brandsData';
-import { FEATURED_BRAND_ARTICLES, getBrandStudyPath } from '../src/data/brandArticles';
+import { FEATURED_BRAND_ARTICLES, getBrandStudyPath } from '../src/data/brandArticles/index';
 
 async function runPrerender() {
   const distDir = path.resolve(process.cwd(), 'dist');

@@ -107,13 +107,13 @@ interface AppContextType {
   deleteBrand: (id: string) => void;
   syncAllBrands: () => Promise<void>;
   toggleResponseVisibility: (id: string) => void;
-  toastMessage: { text: string; type: 'success' | 'error' | 'info' } | null;
+  toastMessage: { text: string; type: 'success' | 'error' | 'info' | 'warning' } | null;
   isDbConnected: boolean;
   isFirestoreSynced: boolean;
   
   // Navigation
   setCurrentView: (view: string, pushHistory?: boolean, brandId?: string | null, customPath?: string) => void;
-  showToast: (text: string, type?: 'success' | 'error' | 'info') => void;
+  showToast: (text: string, type?: 'success' | 'error' | 'info' | 'warning') => void;
   
   // Auth
   login: (email: string, password?: string) => { success: boolean; error?: string };
@@ -372,7 +372,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [activeChatCampaign, setActiveChatCampaign] = useState<Campaign | null>(null);
   const [currentView, setCurrentViewState] = useState<string>(() => initialRoute.view);
-  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' | 'warning' } | null>(null);
   const [isDbConnected, setIsDbConnected] = useState<boolean>(true);
   const [isFirestoreSynced, setIsFirestoreSynced] = useState<boolean>(false);
 
@@ -706,7 +706,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })()
     : null;
 
-  const showToast = (text: string, type: 'success' | 'error' | 'info' = 'success') => {
+  const showToast = (text: string, type: 'success' | 'error' | 'info' | 'warning' = 'success') => {
     setToastMessage({ text, type });
     setTimeout(() => {
       setToastMessage((prev) => (prev?.text === text ? null : prev));

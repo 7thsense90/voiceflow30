@@ -288,7 +288,8 @@ export type EmailTemplateType =
   | 'high_reward_spotlight'
   | 'weekly_digest'
   | 're_engagement'
-  | 'custom_announcement';
+  | 'custom_announcement'
+  | 'monthly_earning_credited';
 
 export interface EmailCampaignStats {
   totalRecipients: number;

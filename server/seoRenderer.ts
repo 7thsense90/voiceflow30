@@ -14,7 +14,7 @@ import {
   getBrandStudyPath,
   FEATURED_BRAND_ARTICLES,
   BrandSEOArticle,
-} from '../src/data/brandArticles';
+} from '../src/data/brandArticles/index';
 import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
 import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
 import { ResearchArticle } from '../src/types';
@@ -1041,19 +1041,66 @@ function renderFaqPageSeo(origin: string): PageSeoResult {
 function renderPrivacyPageSeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/privacy`;
   const title = 'Privacy Policy & Google AdSense Disclosures - Voice Flow 360';
-  const description = 'Our commitment to protecting your personal data, survey anonymity, and cookie preferences in compliance with GDPR, CCPA, and AdSense policies.';
+  const description = 'Our commitment to protecting your personal data, survey anonymity, and cookie preferences in compliance with GDPR, CCPA, and Google AdSense partner policies.';
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Privacy Policy &amp; Data Protection</h1>
-        <p class="text-slate-600 text-sm">Transparent policies governing data collection, survey response privacy, and advertising cookies.</p>
+        <p class="text-slate-600 text-sm">Transparent policies governing data collection, survey response privacy, and advertising cookies in compliance with global standards.</p>
       </header>
-      <section class="space-y-4 text-sm text-slate-700 leading-relaxed">
-        <h2 class="text-lg font-bold text-slate-900">1. Information We Collect</h2>
-        <p>We collect voluntary demographic data to match you with relevant market studies. Survey responses are anonymized before aggregation into brand intelligence reports.</p>
-        <h2 class="text-lg font-bold text-slate-900">2. Google AdSense &amp; Third-Party Cookies</h2>
-        <p>We partner with Google AdSense to display advertisements. Google uses cookies (such as the DoubleClick cookie) to serve ads based on your visits to this and other websites.</p>
+      <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">1. Information We Collect</h2>
+          <p>When you use Voice Flow 360, we collect personal information such as your name, email address, demographic preferences (for survey targeting), and payment or wallet details to facilitate coin reward redemptions. We also collect usage data, device telemetry, and browser information to maintain system security, detect bot fraud, and optimize survey matching.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">2. How We Use Your Information</h2>
+          <p>We use your information to provide, maintain, and improve our services, process payout transactions, prevent fraud, send system updates, and deliver authentic market research to brand partners in an aggregated, anonymized format.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">3. Data Sharing and Disclosure</h2>
+          <p>We do not sell your personal data. We only share information with trusted third-party service providers (such as cloud hosting infrastructure and payout processors) strictly as required to operate our services.</p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-3">
+          <h2 class="text-lg font-bold text-slate-900">4. Google AdSense &amp; Third-Party Advertising Policy</h2>
+          <p>Voice Flow 360 works with third-party vendors and ad networks, notably <strong>Google AdSense</strong> (Publisher ID: <code>ca-pub-2513423020167554</code>), to display advertisements across our digital property. Please review the following important terms regarding advertising practices:</p>
+          <ul class="list-disc pl-6 space-y-2 text-slate-600">
+            <li><strong>Third-Party Vendor Cookies:</strong> Third-party vendors, including Google, use cookies and similar identifiers to serve ads based on a user's prior visits to Voice Flow 360 or other websites on the Internet.</li>
+            <li><strong>Personalized Advertising:</strong> Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visits to our site and/or other sites across the World Wide Web.</li>
+            <li><strong>Opting Out of Personalized Advertising:</strong> Users may opt out of personalized advertising at any time by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-purple-600 underline">Google Ads Settings</a>.</li>
+            <li><strong>Third-Party Opt-Out Portals:</strong> You can also opt out of participating third-party ad networks and vendors' use of cookies for personalized advertising by visiting the <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener noreferrer" class="font-semibold text-purple-600 underline">Digital Advertising Alliance (www.aboutads.info)</a> or the <a href="https://optout.networkadvertising.org" target="_blank" rel="noopener noreferrer" class="font-semibold text-purple-600 underline">Network Advertising Initiative (NAI) Opt-Out Tool</a>.</li>
+            <li><strong>How Google Uses Information:</strong> For more information on how Google collects and uses information when you visit sites that use Google AdSense, please visit <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" class="font-semibold text-purple-600 underline">How Google uses information from sites or apps that use our services</a>.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">5. Cookies and Tracking Technologies</h2>
+          <p>We use cookies, web beacons, and local storage to store session preferences, secure account sessions, analyze site performance, and serve relevant advertisements. You can configure your browser to decline all cookies or to alert you when a cookie is sent.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">6. European Economic Area (EEA) &amp; UK User Rights (GDPR)</h2>
+          <p>In accordance with the European Union General Data Protection Regulation (GDPR) and Google's EU User Consent Policy, users located in the EEA and the UK are presented with choices regarding cookie usage and personalized ads. You have the right to access, rectify, port, or erase your data, and withdraw consent at any time.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">7. California Privacy Rights (CCPA / CPRA)</h2>
+          <p>Under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), California residents have the right to know what personal information is collected, request deletion of their personal information, and opt out of the sale or sharing of their personal information for cross-context behavioral advertising. Voice Flow 360 does not sell personal information for monetary consideration.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">8. Children's Online Privacy Protection (COPPA)</h2>
+          <p>Voice Flow 360 is intended strictly for users who are at least 18 years of age (or the legal age of majority in their jurisdiction). We do not knowingly collect personal information from children under 13.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">9. Contact Information &amp; Data Protection Officer</h2>
+          <p>If you have questions regarding this Privacy Policy or wish to exercise your privacy rights, contact our Data Protection Officer at <a href="mailto:privacy@voiceflow360.com" class="font-semibold text-purple-600">privacy@voiceflow360.com</a> or <a href="mailto:support@voiceflow360.com" class="font-semibold text-purple-600">support@voiceflow360.com</a>.</p>
+        </div>
       </section>
     </div>
   `;
@@ -1080,11 +1127,38 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Terms of Service</h1>
-        <p class="text-slate-600 text-sm">Legal conditions governing panel usage and account conduct.</p>
+        <p class="text-slate-600 text-sm">Legal conditions governing panel usage, research participation, and account conduct.</p>
       </header>
-      <section class="space-y-4 text-sm text-slate-700 leading-relaxed">
-        <h2 class="text-lg font-bold text-slate-900">Account Eligibility &amp; Authenticity</h2>
-        <p>Panelists must provide honest, authentic opinions. Automated bot scripts, VPN fraud, and fraudulent profile data will result in account disqualification.</p>
+      <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">1. Acceptance of Terms</h2>
+          <p>By accessing and using Voice Flow 360, you accept and agree to be bound by these Terms of Service. If you do not agree, you must not use our platform.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">2. User Eligibility</h2>
+          <p>You must be at least 18 years old or the age of majority in your jurisdiction to participate in surveys, contribute feedback, and redeem platform rewards.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">3. Earning and Redeeming Rewards</h2>
+          <p>Coins earned through surveys, quizzes, and referrals have no cash value until explicitly redeemed through an approved payout method (such as Bank Transfer, PayPal, or Crypto). A minimum balance of 2,000 coins ($20.00) is required for withdrawal requests. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated bots, or violation of these terms.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">4. Prohibited Conduct &amp; Anti-Fraud Safeguards</h2>
+          <p>You agree not to use automated scripts, multiple accounts from the same household or IP address, or false demographic information to artificially inflate your rewards. Violation will result in immediate account suspension and forfeiture of all coins.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">5. Intellectual Property &amp; Research Output</h2>
+          <p>All brand research reports, consumer sentiment analyses, and site design are the proprietary intellectual property of Voice Flow 360 and its partners. Anonymized survey responses are compiled into published industry reports.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">6. Contact for Legal Inquiries</h2>
+          <p>For questions regarding these terms, please contact <a href="mailto:legal@voiceflow360.com" class="font-semibold text-purple-600">legal@voiceflow360.com</a> or <a href="mailto:support@voiceflow360.com" class="font-semibold text-purple-600">support@voiceflow360.com</a>.</p>
+        </div>
       </section>
     </div>
   `;
@@ -1111,11 +1185,28 @@ function renderContactPageSeo(origin: string): PageSeoResult {
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Contact Voice Flow 360</h1>
-        <p class="text-slate-600 text-sm">We are here to assist participants and prospective enterprise research partners.</p>
+        <p class="text-slate-600 text-sm">We are here to assist participants, researchers, and prospective enterprise partners.</p>
       </header>
-      <section class="space-y-3 text-sm text-slate-700">
-        <p><strong>Member Support Email:</strong> <a href="mailto:support@voiceflow360.com" class="text-purple-600 font-semibold">support@voiceflow360.com</a></p>
-        <p><strong>Enterprise Brand Partnerships:</strong> <a href="mailto:partners@voiceflow360.com" class="text-purple-600 font-semibold">partners@voiceflow360.com</a></p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+        <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">General Inquiries</h3>
+          <p class="text-xs text-slate-500 mb-2">Platform questions &amp; general assistance</p>
+          <a href="mailto:contact@voiceflow360.com" class="text-xs font-bold text-purple-700 hover:text-purple-900 underline">contact@voiceflow360.com</a>
+        </div>
+        <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">Support &amp; Rewards</h3>
+          <p class="text-xs text-slate-500 mb-2">Payouts, coins &amp; account queries</p>
+          <a href="mailto:support@voiceflow360.com" class="text-xs font-bold text-emerald-700 hover:text-emerald-900 underline">support@voiceflow360.com</a>
+        </div>
+        <div class="p-5 rounded-2xl bg-blue-50/60 border border-blue-100">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">Brand Partnerships</h3>
+          <p class="text-xs text-slate-500 mb-2">Enterprise studies &amp; research commissioning</p>
+          <a href="mailto:partners@voiceflow360.com" class="text-xs font-bold text-blue-700 hover:text-blue-900 underline">partners@voiceflow360.com</a>
+        </div>
+      </div>
+      <section class="space-y-3 text-sm text-slate-700 pt-2 border-t border-slate-200">
+        <h2 class="text-base font-bold text-slate-900">Operational Inquiries &amp; Response Times</h2>
+        <p>Our global support team typically responds to inquiries within 24 to 48 business hours. For immediate account assistance or withdrawal status, please log in to your account and review your Earnings Statement.</p>
       </section>
     </div>
   `;
