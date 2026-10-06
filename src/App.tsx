@@ -176,7 +176,9 @@ const MainAppContent: React.FC = () => {
     if (
       currentView === 'rewards-and-withdrawals' ||
       currentView === 'rewards-withdrawals' ||
-      currentView === 'payout-policy'
+      currentView === 'payout-policy' ||
+      currentView === 'rewards-policy' ||
+      currentView === 'rewards'
     ) {
       return <RewardsAndWithdrawals />;
     }
@@ -204,7 +206,7 @@ const MainAppContent: React.FC = () => {
       return <SurveysView />;
     }
 
-    if (currentView === 'earnings' || currentView === 'my-earnings' || currentView === 'rewards') {
+    if (currentView === 'earnings' || currentView === 'my-earnings' || currentView === 'wallet') {
       return <CustomerEarningsView />;
     }
     if (currentView === 'profile') return <ProfileView />;

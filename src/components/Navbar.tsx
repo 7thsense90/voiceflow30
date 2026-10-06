@@ -251,9 +251,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
             </Link>
             <Link
               id="desktop-nav-rewards"
-              to="/rewards-and-withdrawals"
+              to="/rewards"
               className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
-                currentView === 'rewards-and-withdrawals' ? 'text-purple-700 font-bold bg-purple-50' : ''
+                currentView === 'rewards' || currentView === 'rewards-and-withdrawals' ? 'text-purple-700 font-bold bg-purple-50' : ''
               }`}
             >
               Rewards
@@ -726,10 +726,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
 
                   <Link
                     id="side-nav-rewards-withdrawals"
-                    to="/rewards-and-withdrawals"
+                    to="/rewards"
                     onClick={() => setIsSidebarDrawerOpen(false)}
                     className={`w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-3 ${
-                      currentView === 'rewards-and-withdrawals'
+                      currentView === 'rewards' || currentView === 'rewards-and-withdrawals'
                         ? 'text-purple-700 bg-purple-50 font-black shadow-xs'
                         : 'text-slate-700 hover:bg-white hover:text-slate-900'
                     }`}

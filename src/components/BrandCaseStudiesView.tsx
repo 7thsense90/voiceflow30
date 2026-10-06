@@ -55,13 +55,13 @@ interface UnifiedCaseStudy {
   readTimeMinutes: number;
   publishedDate: string;
   isDeepDive: boolean;
-  studyType: 'Deep-Dive Case Study' | 'Empirical Benchmark' | 'Consumer Sentiment Audit';
+  studyType: 'Editorial Analysis' | 'Empirical Study' | 'Consumer Sentiment Audit';
   articlePath: string;
   highlights?: string[];
 }
 
 export const BrandCaseStudiesView: React.FC = () => {
-  const { researchArticles, navigateToResearchArticle, setCurrentView, currentUser } = useApp();
+  const { researchArticles, navigateToResearchArticle, setCurrentView, currentUser, responses } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -96,13 +96,23 @@ export const BrandCaseStudiesView: React.FC = () => {
     const list: UnifiedCaseStudy[] = [];
     const seenIds = new Set<string>();
 
-    // 1. Add every brand that currently has enough real, verified Voice Flow
-    // 360 survey responses to publish an honest study (see
-    // MIN_RESPONSES_FOR_STATS in realBrandStats.ts). This list grows on its
-    // own as more real responses come in — nothing here is hand-picked.
+    // 1. Source-based brand articles: Labeled Editorial Analysis, with stats strictly from real records
     getPublishedBrandArticles().forEach((art) => {
       seenIds.add(art.brandId);
       const brandMeta = RAW_100_BRANDS.find((b) => b.id === art.brandId);
+      const brandResps = responses.filter((r) => r.brandId === art.brandId && !r.isHidden);
+      let totalRating = 0;
+      let ratingCount = 0;
+      brandResps.forEach((r) => {
+        r.answers.forEach((ans) => {
+          if (typeof ans.answer === 'number' && ans.answer >= 1 && ans.answer <= 5) {
+            totalRating += ans.answer;
+            ratingCount++;
+          }
+        });
+      });
+      const calcRating = ratingCount > 0 ? Number((totalRating / ratingCount).toFixed(1)) : 0;
+
       list.push({
         id: art.brandId,
         brandId: art.brandId,
@@ -113,12 +123,12 @@ export const BrandCaseStudiesView: React.FC = () => {
         coverImage: brandMeta?.logo || 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&auto=format&fit=crop&q=80',
         category: brandMeta?.category || 'brands',
         sectorName: brandMeta?.sector || 'Market Research',
-        rating: Number(((art.keyMetrics.customerSatisfactionScore || 92) / 20).toFixed(1)),
-        totalResponses: art.keyMetrics.verifiedResponsesAnalyzed || 1500,
+        rating: calcRating,
+        totalResponses: brandResps.length,
         readTimeMinutes: art.readingTimeMinutes || 6,
         publishedDate: art.lastUpdated || art.publishDate || 'September 2026',
         isDeepDive: true,
-        studyType: 'Deep-Dive Case Study',
+        studyType: 'Editorial Analysis',
         articlePath: getBrandStudyPath(art),
         highlights: art.suggestedImprovements?.immediatePriorities?.slice(0, 2),
       });
@@ -143,8 +153,8 @@ export const BrandCaseStudiesView: React.FC = () => {
             coverImage: ra.cover_image_url,
             category: ra.category,
             sectorName: ra.category,
-            rating: 4.7,
-            totalResponses: 1450,
+            rating: 0,
+            totalResponses: ra.valid_responses_count || 0,
             readTimeMinutes: readTime,
             publishedDate: ra.published_at
               ? new Date(ra.published_at).toLocaleDateString('en-US', {
@@ -153,14 +163,14 @@ export const BrandCaseStudiesView: React.FC = () => {
                 })
               : 'Recent',
             isDeepDive: true,
-            studyType: 'Empirical Benchmark',
+            studyType: ra.valid_responses_count ? 'Empirical Study' : 'Editorial Analysis',
             articlePath: `/brand-research-studies/${ra.slug}`,
           });
         }
       });
 
     return list;
-  }, [researchArticles]);
+  }, [researchArticles, responses]);
 
   // Sector categories definition with icons and normalized mapping
   const sectorCategories = useMemo(() => {
@@ -739,10 +749,14 @@ export const BrandCaseStudiesView: React.FC = () => {
                         {spotlightStudy.readTimeMinutes} min read
                       </span>
                       <span>&bull;</span>
-                      <span>{spotlightStudy.totalResponses.toLocaleString()} verified responses</span>
+                      <span>
+                        {spotlightStudy.totalResponses > 0
+                          ? `${spotlightStudy.totalResponses.toLocaleString()} verified responses`
+                          : 'Market Analysis'}
+                      </span>
                     </div>
                     <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                      <span>Read Full Study</span>
+                      <span>Read Analysis</span>
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
@@ -806,10 +820,12 @@ export const BrandCaseStudiesView: React.FC = () => {
                             <Clock className="w-3 h-3 text-slate-300" />
                             <span>{study.readTimeMinutes} min read</span>
                           </div>
-                          <div className="flex items-center gap-1 bg-amber-400/90 text-slate-950 px-2 py-0.5 rounded-md text-[10px] font-black">
-                            <Star className="w-2.5 h-2.5 fill-slate-950 text-slate-950" />
-                            <span>{study.rating.toFixed(1)}</span>
-                          </div>
+                          {study.rating > 0 && (
+                            <div className="flex items-center gap-1 bg-amber-400/90 text-slate-950 px-2 py-0.5 rounded-md text-[10px] font-black">
+                              <Star className="w-2.5 h-2.5 fill-slate-950 text-slate-950" />
+                              <span>{study.rating.toFixed(1)}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -835,10 +851,16 @@ export const BrandCaseStudiesView: React.FC = () => {
                     <div className="p-5 pt-0">
                       <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-700 group-hover:text-purple-900">
                         <span className="text-[11px] text-slate-400 font-normal">
-                          {study.totalResponses.toLocaleString()} Responses
+                          {study.totalResponses > 0
+                            ? `${study.totalResponses.toLocaleString()} Responses`
+                            : 'Overview'}
                         </span>
                         <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>Read Study</span>
+                          <span>
+                            {study.studyType === 'Empirical Study'
+                              ? 'Read Empirical Study'
+                              : 'Read Editorial Analysis'}
+                          </span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </div>
                       </div>

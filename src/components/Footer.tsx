@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
               <div className="pt-2 flex flex-wrap items-center gap-3 text-[11px]">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 text-slate-300 font-medium">
                   <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>256-Bit Encrypted</span>
+                  <span>Secure HTTPS/TLS</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 text-slate-300 font-medium">
                   <Globe2 className="w-3.5 h-3.5 text-sky-400" />

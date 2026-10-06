@@ -30,6 +30,7 @@ import {
   X,
   Layers,
   BarChart2,
+  ShieldCheck,
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -87,7 +88,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
   const [participantGeography, setParticipantGeography] = useState('');
   const [participantDemographics, setParticipantDemographics] = useState('');
   const [sampleLimitations, setSampleLimitations] = useState('');
-  const [reviewerName, setReviewerName] = useState('Voice Flow 360 Review Board');
+  const [reviewerName, setReviewerName] = useState('Voice Flow 360 Editorial Desk');
   const [reviewNotes, setReviewNotes] = useState('');
   const [studyTypeClassification, setStudyTypeClassification] = useState<'independent' | 'commissioned'>('independent');
   const [isIllustrativeDemo, setIsIllustrativeDemo] = useState(false);
@@ -137,7 +138,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
     setParticipantGeography('');
     setParticipantDemographics('');
     setSampleLimitations('');
-    setReviewerName('Voice Flow 360 Review Board');
+    setReviewerName('Voice Flow 360 Editorial Desk');
     setReviewNotes('');
     setStudyTypeClassification('independent');
     setIsIllustrativeDemo(false);
@@ -168,7 +169,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
     setParticipantGeography(article.participant_geography || '');
     setParticipantDemographics(article.participant_demographics || '');
     setSampleLimitations(article.sample_limitations || '');
-    setReviewerName(article.reviewer_name || 'Voice Flow 360 Review Board');
+    setReviewerName(article.reviewer_name || 'Voice Flow 360 Editorial Desk');
     setReviewNotes(article.review_notes || '');
     setStudyTypeClassification(article.study_type_classification || 'independent');
     setIsIllustrativeDemo(article.is_illustrative_demo || false);
@@ -185,7 +186,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
       status: newStatus,
       published_at: isPublishing ? (article.published_at || now) : article.published_at,
       reviewed_at: isPublishing ? now : article.reviewed_at,
-      reviewer_name: isPublishing ? (article.reviewer_name || 'Voice Flow 360 Review Board') : article.reviewer_name,
+      reviewer_name: isPublishing ? (article.reviewer_name || 'Voice Flow 360 Editorial Desk') : article.reviewer_name,
     });
     if (res.success) {
       showToast(`Study status updated to ${newStatus.replace('_', ' ').toUpperCase()}`, 'success');

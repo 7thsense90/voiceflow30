@@ -96,14 +96,9 @@ export const BrandInsights: React.FC = () => {
         });
       });
 
-      const benchmark = getBrandBenchmarkMetric(brand.id, brand.name);
-      const empiricalProfile = getBrandEmpiricalProfile(brand.id, brand.name, sector);
-
-      // Authentic, calibrated star rating matching verified consumer evaluations
-      const avgStar = starsCount > 0 ? (totalStars / starsCount).toFixed(1) : benchmark.targetRating.toFixed(1);
-      const sentimentScore = benchmark.csatScore || empiricalProfile.csatScore;
-      const npsScore = benchmark.npsScore || empiricalProfile.npsScore;
-      const sampleSize = benchmark.sampleSize || empiricalProfile.sampleSize;
+      // Calculate authentic metrics strictly from real records
+      const avgStar = starsCount > 0 ? (totalStars / starsCount).toFixed(1) : null;
+      const realResponseCount = brandResponses.length;
       const topInsight = getUniqueBrandInsight(
         brand.id,
         brand.name,
@@ -146,11 +141,9 @@ export const BrandInsights: React.FC = () => {
 
       return {
         brand: enrichedBrand,
-        brandResponsesCount: brandResponses.length || 20,
+        brandResponsesCount: realResponseCount,
         avgStar,
-        sentimentScore,
-        npsScore,
-        sampleSize,
+        realResponseCount,
         topInsight,
         keySentiment,
         offeringLabel,
@@ -491,11 +484,8 @@ export const BrandInsights: React.FC = () => {
           {filteredBrands.map((item) => {
             const {
               brand,
-              brandResponsesCount,
+              realResponseCount,
               avgStar,
-              sentimentScore,
-              npsScore,
-              sampleSize,
               topInsight,
               keySentiment,
               offeringLabel,
@@ -527,13 +517,16 @@ export const BrandInsights: React.FC = () => {
                     </div>
 
                     <div className="text-right shrink-0">
-                      <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-50/80 border border-amber-200/60 justify-end">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
-                        <span className="text-xs font-black text-slate-900 tracking-tight font-mono">{avgStar}</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mt-1">
-                        {sentimentScore}% CSAT
-                      </span>
+                      {avgStar ? (
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-50/80 border border-amber-200/60 justify-end">
+                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
+                          <span className="text-xs font-black text-slate-900 tracking-tight font-mono">{avgStar}</span>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">
+                          Survey Active
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -550,19 +543,17 @@ export const BrandInsights: React.FC = () => {
                     <span className="text-slate-800 font-bold truncate">{brand.keyProduct}</span>
                   </div>
 
-                  {/* Empirical Benchmark Triad */}
-                  <div className="grid grid-cols-3 gap-2">
+                  {/* Real Metrics Row */}
+                  <div className="grid grid-cols-2 gap-2">
                     <div className="bg-slate-50/80 rounded-xl p-2 border border-slate-100 text-center">
-                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">NPS</span>
-                      <span className="text-xs font-black text-slate-800">+{npsScore}</span>
+                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">Responses</span>
+                      <span className="text-xs font-black text-slate-800">
+                        {realResponseCount > 0 ? `${realResponseCount} Verified` : '0 (Active)'}
+                      </span>
                     </div>
                     <div className="bg-slate-50/80 rounded-xl p-2 border border-slate-100 text-center">
-                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">CSAT</span>
-                      <span className="text-xs font-black text-emerald-600">{sentimentScore}%</span>
-                    </div>
-                    <div className="bg-slate-50/80 rounded-xl p-2 border border-slate-100 text-center">
-                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">Sample</span>
-                      <span className="text-xs font-black text-slate-800">{sampleSize.toLocaleString()}</span>
+                      <span className="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">Honorarium</span>
+                      <span className="text-xs font-black text-emerald-600">100+ Coins</span>
                     </div>
                   </div>
 
@@ -575,10 +566,10 @@ export const BrandInsights: React.FC = () => {
                       <div className="flex items-center justify-between text-[11px] font-bold text-purple-900 mb-1.5">
                         <div className="flex items-center gap-1.5">
                           <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                          <span className="font-semibold tracking-tight">Verified Consumer Evaluation</span>
+                          <span className="font-semibold tracking-tight">Consumer Evaluation</span>
                         </div>
                         <span className="text-[10px] font-bold text-purple-700/90 bg-purple-100/70 px-1.5 py-0.5 rounded-md">
-                          {sampleSize.toLocaleString()} panelists
+                          {realResponseCount > 0 ? `${realResponseCount} records` : 'Survey Open'}
                         </span>
                       </div>
                       <p className="text-xs text-slate-700 leading-relaxed italic font-normal line-clamp-3">
@@ -596,7 +587,7 @@ export const BrandInsights: React.FC = () => {
                       className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs text-center"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>Read Market Research Study</span>
+                      <span>Read Editorial Analysis</span>
                     </Link>
                   ) : (
                     <Link
@@ -612,7 +603,7 @@ export const BrandInsights: React.FC = () => {
                       to={`/brands/${brand.id}`}
                       className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold text-xs transition-colors cursor-pointer text-center block truncate"
                     >
-                      Panel Data ({sampleSize.toLocaleString()})
+                      View Responses ({realResponseCount})
                     </Link>
 
                     <Link

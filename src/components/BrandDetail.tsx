@@ -49,9 +49,52 @@ export const BrandDetail: React.FC = () => {
     (r) => (r.brandId === brand.id || (brandCampaign && r.campaignId === brandCampaign.id)) && !r.isHidden
   );
   const article = getBrandArticle(brand.id);
-  const empiricalProfile = useMemo(() => {
-    return getBrandEmpiricalProfile(brand.id, brand.name, brand.sector || brand.category);
-  }, [brand.id, brand.name, brand.sector, brand.category]);
+
+  // Compute stats strictly from real records
+  const realStats = useMemo(() => {
+    if (brandResponses.length === 0) {
+      return {
+        hasData: false,
+        count: 0,
+        avgRating: null,
+        csat: null,
+        nps: null,
+      };
+    }
+    let totalRating = 0;
+    let ratingCount = 0;
+    let highRatings = 0;
+    let promoters = 0;
+    let detractors = 0;
+    let npsCount = 0;
+
+    brandResponses.forEach((r) => {
+      r.answers.forEach((ans) => {
+        if (typeof ans.answer === 'number' && ans.answer >= 1 && ans.answer <= 5) {
+          totalRating += ans.answer;
+          ratingCount++;
+          if (ans.answer >= 4) highRatings++;
+        }
+        if (typeof ans.answer === 'number' && ans.answer >= 0 && ans.answer <= 10) {
+          npsCount++;
+          if (ans.answer >= 9) promoters++;
+          else if (ans.answer <= 6) detractors++;
+        }
+      });
+    });
+
+    const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
+    const csat = ratingCount > 0 ? Math.round((highRatings / ratingCount) * 100) : null;
+    const nps = npsCount > 0 ? Math.round(((promoters - detractors) / npsCount) * 100) : null;
+
+    return {
+      hasData: true,
+      count: brandResponses.length,
+      avgRating,
+      csat,
+      nps,
+    };
+  }, [brandResponses]);
 
   // Derive insights from the responses
   const insights = useMemo(() => {
@@ -88,23 +131,10 @@ export const BrandDetail: React.FC = () => {
       });
     });
 
-    const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : empiricalProfile.dimensionRatings.productReliability.toFixed(1);
-
-    if (likes.length === 0) {
-      likes.push(...empiricalProfile.satisfactionDrivers.slice(0, 3));
-    }
-    if (improvements.length === 0) {
-      improvements.push(...empiricalProfile.consumerFrictionPoints.slice(0, 3));
-    }
-    if (suggestions.length === 0) {
-      suggestions.push(
-        'Introduce community loyalty rewards and faster regional localization.',
-        'Expand cross-platform sync capabilities.'
-      );
-    }
+    const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
 
     return { avgRating, likes, improvements, suggestions };
-  }, [brandResponses, brand.name, empiricalProfile]);
+  }, [brandResponses]);
 
   const filteredResponses = brandResponses.filter(
     (r) =>
@@ -131,11 +161,15 @@ export const BrandDetail: React.FC = () => {
           '@type': 'Product',
           name: brand.name,
           description: `Consumer sentiment and verified feedback surveys for ${brand.name}.`,
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: insights.avgRating,
-            reviewCount: brandResponses.length || 20,
-          },
+          ...(insights.avgRating
+            ? {
+                aggregateRating: {
+                  '@type': 'AggregateRating',
+                  ratingValue: insights.avgRating,
+                  reviewCount: brandResponses.length,
+                },
+              }
+            : {}),
         }}
       />
       {/* Back button */}
@@ -194,9 +228,11 @@ export const BrandDetail: React.FC = () => {
           <div className="text-center p-3 bg-amber-50/70 rounded-2xl border border-amber-100 min-w-[100px]">
             <div className="text-xl font-black text-slate-900 flex items-center justify-center gap-1">
               <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-              {insights.avgRating}
+              {insights.avgRating ?? '—'}
             </div>
-            <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wide">Avg Rating</div>
+            <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wide">
+              {insights.avgRating ? 'Avg Rating' : 'No ratings yet'}
+            </div>
           </div>
 
           <div className="text-center p-3 bg-purple-50/70 rounded-2xl border border-purple-100 min-w-[100px]">
@@ -264,13 +300,13 @@ export const BrandDetail: React.FC = () => {
             <div className="bg-gradient-to-r from-purple-900 to-indigo-900 text-white rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 inline-block">
-                  Featured Research Report
+                  Featured Editorial Analysis
                 </span>
                 <h3 className="text-lg font-black text-white">
-                  Market Intelligence &amp; Consumer Study on {brand.name}
+                  Editorial Analysis &amp; Market Intelligence on {brand.name}
                 </h3>
                 <p className="text-xs text-purple-200 max-w-xl">
-                  Full demographic breakdown, geographic segregation, SWOT analysis matrix, and strategic growth recommendations.
+                  Comprehensive market landscape overview, product portfolio evaluation, and strategic consumer sentiment analysis.
                 </p>
               </div>
               <Link
@@ -278,134 +314,82 @@ export const BrandDetail: React.FC = () => {
                 className="px-4 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-xl transition-all shrink-0 flex items-center gap-1.5 cursor-pointer no-underline"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Read Full Research Study ↗</span>
+                <span>Read Editorial Analysis ↗</span>
               </Link>
             </div>
           )}
 
-          {/* Empirical Research Study Dashboard Card */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-wider">
-                    Empirical Study
-                  </span>
-                  <span className="text-xs text-slate-500 font-medium">
-                    {empiricalProfile.studyTimeframe}
-                  </span>
+          {/* Genuine Empirical Survey Research: Rendered ONLY when calculated from real records */}
+          {realStats.hasData ? (
+            <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-wider">
+                      Empirical Study
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">
+                      Live Panel Records
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900">
+                    {brand.name} Empirical Consumer Benchmark Audit
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Calculated from {realStats.count} real verified response{realStats.count === 1 ? '' : 's'}
+                  </p>
                 </div>
-                <h3 className="text-xl font-black text-slate-900">
-                  {brand.name} Empirical Consumer Benchmark Audit
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Verified sample of {empiricalProfile.sampleSize.toLocaleString()} respondents • {empiricalProfile.confidenceInterval}
-                </p>
-              </div>
 
-              <div className="flex items-center gap-2">
-                <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                  <div className="text-xs font-bold text-slate-500">CSAT Score</div>
-                  <div className="text-base font-black text-emerald-600">{empiricalProfile.csatScore}%</div>
-                </div>
-                <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                  <div className="text-xs font-bold text-slate-500">NPS Rating</div>
-                  <div className="text-base font-black text-purple-600">+{empiricalProfile.npsScore}</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Qualitative Executive Assessment */}
-            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 text-slate-700 text-xs sm:text-sm leading-relaxed space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900 text-xs uppercase tracking-wide">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Executive Market Assessment</span>
-              </div>
-              <p>{empiricalProfile.executiveAnalysis}</p>
-            </div>
-
-            {/* Four Empirical Dimensions Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 rounded-2xl border border-slate-200/80 bg-white">
-                <div className="text-xs text-slate-500 font-medium mb-1">Product Reliability</div>
-                <div className="text-2xl font-black text-slate-900">
-                  {empiricalProfile.dimensionRatings.productReliability} <span className="text-xs font-bold text-slate-400">/ 5.0</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div
-                    className="bg-emerald-500 h-full rounded-full"
-                    style={{ width: `${(empiricalProfile.dimensionRatings.productReliability / 5) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl border border-slate-200/80 bg-white">
-                <div className="text-xs text-slate-500 font-medium mb-1">Value for Price</div>
-                <div className="text-2xl font-black text-slate-900">
-                  {empiricalProfile.dimensionRatings.valueForPrice} <span className="text-xs font-bold text-slate-400">/ 5.0</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div
-                    className="bg-blue-500 h-full rounded-full"
-                    style={{ width: `${(empiricalProfile.dimensionRatings.valueForPrice / 5) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl border border-slate-200/80 bg-white">
-                <div className="text-xs text-slate-500 font-medium mb-1">Customer Support</div>
-                <div className="text-2xl font-black text-slate-900">
-                  {empiricalProfile.dimensionRatings.customerSupport} <span className="text-xs font-bold text-slate-400">/ 5.0</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div
-                    className="bg-amber-500 h-full rounded-full"
-                    style={{ width: `${(empiricalProfile.dimensionRatings.customerSupport / 5) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl border border-slate-200/80 bg-white">
-                <div className="text-xs text-slate-500 font-medium mb-1">Ecosystem Loyalty</div>
-                <div className="text-2xl font-black text-slate-900">
-                  {empiricalProfile.dimensionRatings.ecosystemStickiness} <span className="text-xs font-bold text-slate-400">/ 5.0</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div
-                    className="bg-purple-500 h-full rounded-full"
-                    style={{ width: `${(empiricalProfile.dimensionRatings.ecosystemStickiness / 5) * 100}%` }}
-                  />
+                <div className="flex items-center gap-2">
+                  {realStats.avgRating && (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">Average Rating</div>
+                      <div className="text-base font-black text-amber-500">{realStats.avgRating} ★</div>
+                    </div>
+                  )}
+                  {realStats.csat !== null && (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">CSAT Score</div>
+                      <div className="text-base font-black text-emerald-600">{realStats.csat}%</div>
+                    </div>
+                  )}
+                  {realStats.nps !== null && (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">NPS Rating</div>
+                      <div className="text-base font-black text-purple-600">
+                        {realStats.nps > 0 ? '+' : ''}{realStats.nps}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-
-            {/* Sentiment Breakdown Bar */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-              <div className="flex justify-between text-xs font-bold text-slate-700">
-                <span>Verified Panel Sentiment Distribution</span>
-                <span className="text-slate-500">
-                  {empiricalProfile.sentimentDistribution.positive}% Pos • {empiricalProfile.sentimentDistribution.neutral}% Neu • {empiricalProfile.sentimentDistribution.critical}% Crit
+          ) : (
+            <div className="bg-slate-50 rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-4">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-wider">
+                  Survey Status: Active &bull; Open for Panelists
                 </span>
               </div>
-              <div className="w-full h-3 rounded-full bg-slate-200 flex overflow-hidden">
-                <div
-                  className="bg-emerald-500 h-full transition-all"
-                  style={{ width: `${empiricalProfile.sentimentDistribution.positive}%` }}
-                  title="Positive"
-                />
-                <div
-                  className="bg-amber-400 h-full transition-all"
-                  style={{ width: `${empiricalProfile.sentimentDistribution.neutral}%` }}
-                  title="Neutral"
-                />
-                <div
-                  className="bg-rose-500 h-full transition-all"
-                  style={{ width: `${empiricalProfile.sentimentDistribution.critical}%` }}
-                  title="Critical"
-                />
-              </div>
+              <h3 className="text-xl font-black text-slate-900">
+                {brand.name} Verified Panel Evaluation
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+                We display response counts and ratings only when calculated from real records. No verified survey responses have been submitted for {brand.name} yet. Complete our conversational study to record the first evaluation and earn coin honorariums!
+              </p>
+              {brandCampaign && (
+                <div className="pt-2">
+                  <button
+                    onClick={() => startChat(brandCampaign)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4 text-amber-300" />
+                    <span>Start Survey &amp; Earn {brandCampaign.coinsReward} Coins</span>
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-emerald-50/60 rounded-3xl border border-emerald-100 p-6 space-y-4">
@@ -414,14 +398,20 @@ export const BrandDetail: React.FC = () => {
               <span>What Customers Praise</span>
             </h3>
             <ul className="space-y-3">
-              {insights.likes.map((item, i) => (
-                <li
-                  key={i}
-                  className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-emerald-500 before:absolute before:left-0 before:top-2"
-                >
-                  "{item}"
+              {insights.likes.length > 0 ? (
+                insights.likes.map((item, i) => (
+                  <li
+                    key={i}
+                    className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-emerald-500 before:absolute before:left-0 before:top-2"
+                  >
+                    "{item}"
+                  </li>
+                ))
+              ) : (
+                <li className="text-xs text-slate-500 italic">
+                  No verified praises recorded yet from completed panel surveys.
                 </li>
-              ))}
+              )}
             </ul>
           </div>
 
@@ -431,14 +421,20 @@ export const BrandDetail: React.FC = () => {
               <span>Areas for Optimization</span>
             </h3>
             <ul className="space-y-3">
-              {insights.improvements.map((item, i) => (
-                <li
-                  key={i}
-                  className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-rose-500 before:absolute before:left-0 before:top-2"
-                >
-                  "{item}"
+              {insights.improvements.length > 0 ? (
+                insights.improvements.map((item, i) => (
+                  <li
+                    key={i}
+                    className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-rose-500 before:absolute before:left-0 before:top-2"
+                  >
+                    "{item}"
+                  </li>
+                ))
+              ) : (
+                <li className="text-xs text-slate-500 italic">
+                  No consumer friction points recorded yet from completed panel surveys.
                 </li>
-              ))}
+              )}
             </ul>
           </div>
 
@@ -448,14 +444,20 @@ export const BrandDetail: React.FC = () => {
               <span>Customer Feature Requests</span>
             </h3>
             <ul className="space-y-3">
-              {insights.suggestions.map((item, i) => (
-                <li
-                  key={i}
-                  className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-amber-500 before:absolute before:left-0 before:top-2"
-                >
-                  "{item}"
+              {insights.suggestions.length > 0 ? (
+                insights.suggestions.map((item, i) => (
+                  <li
+                    key={i}
+                    className="text-xs text-slate-700 leading-relaxed pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-amber-500 before:absolute before:left-0 before:top-2"
+                  >
+                    "{item}"
+                  </li>
+                ))
+              ) : (
+                <li className="text-xs text-slate-500 italic">
+                  No feature suggestions recorded yet from completed panel surveys.
                 </li>
-              ))}
+              )}
             </ul>
           </div>
         </div>

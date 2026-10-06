@@ -100,7 +100,7 @@ export const NewsUpdates: React.FC = () => {
       details: [
         'Zero impact on genuine conversational survey takers',
         'Sub-second payout risk verifications without withholding user balances',
-        'End-to-end encrypted survey session payload transmission',
+        'Secure TLS/HTTPS transport encryption for survey submissions',
       ],
     },
   ];

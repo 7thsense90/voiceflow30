@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Cookie, ShieldCheck, X, Check, Settings2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import {
+  saveCookieConsent,
+  getStoredCookieConsent,
+  syncGoogleConsentMode,
+} from '../utils/cookieConsent';
 
 export const CookieConsentBanner: React.FC = () => {
   const { setCurrentView } = useApp();
@@ -14,48 +19,34 @@ export const CookieConsentBanner: React.FC = () => {
 
   useEffect(() => {
     // Check if user has already made a cookie choice
-    const savedConsent = localStorage.getItem('vf360_cookie_consent');
+    const savedConsent = getStoredCookieConsent();
     if (!savedConsent) {
       // Delay slightly for smooth entry
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 900);
       return () => clearTimeout(timer);
+    } else {
+      // Ensure Google Consent Mode is synchronized with stored choice
+      syncGoogleConsentMode(savedConsent.advertising, savedConsent.analytics);
     }
   }, []);
 
   const handleAcceptAll = () => {
-    const consent = {
-      essential: true,
-      analytics: true,
-      advertising: true,
-      timestamp: new Date().toISOString(),
-      choice: 'accept_all',
-    };
-    localStorage.setItem('vf360_cookie_consent', JSON.stringify(consent));
+    saveCookieConsent({ analytics: true, advertising: true }, 'accept_all');
     setIsVisible(false);
   };
 
   const handleRejectNonEssential = () => {
-    const consent = {
-      essential: true,
-      analytics: false,
-      advertising: false,
-      timestamp: new Date().toISOString(),
-      choice: 'essential_only',
-    };
-    localStorage.setItem('vf360_cookie_consent', JSON.stringify(consent));
+    saveCookieConsent({ analytics: false, advertising: false }, 'essential_only');
     setIsVisible(false);
   };
 
   const handleSaveCustom = () => {
-    const consent = {
-      ...preferences,
-      essential: true,
-      timestamp: new Date().toISOString(),
-      choice: 'custom',
-    };
-    localStorage.setItem('vf360_cookie_consent', JSON.stringify(consent));
+    saveCookieConsent(
+      { analytics: preferences.analytics, advertising: preferences.advertising },
+      'custom'
+    );
     setIsVisible(false);
     setShowPreferences(false);
   };

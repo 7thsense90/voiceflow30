@@ -90,6 +90,27 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://voiceflow360.com/" />
 
+    <!-- Google Consent Mode v2 Setup (Enforces Real Cookie Banner Advertising Control) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      (function() {
+        var rawConsent = null;
+        try { rawConsent = localStorage.getItem('vf360_cookie_consent'); } catch(_) {}
+        var parsed = null;
+        try { if (rawConsent) parsed = JSON.parse(rawConsent); } catch(_) {}
+        var adGranted = (parsed && parsed.advertising === true) ? 'granted' : 'denied';
+        var analyticsGranted = (parsed && parsed.analytics === true) ? 'granted' : 'denied';
+        gtag('consent', 'default', {
+          'ad_storage': adGranted,
+          'ad_user_data': adGranted,
+          'ad_personalization': adGranted,
+          'analytics_storage': analyticsGranted,
+          'wait_for_update': 500
+        });
+      })();
+    </script>
+
     <!-- Google AdSense Account Verification & Script Tag -->
     <meta name="google-adsense-account" content="ca-pub-2513423020167554" />
     <meta name="google-adsense-account" content="ca-pub-9382580390401269" />

@@ -31,7 +31,7 @@ export const RESEARCH_METHODOLOGY_ARTICLES: EducationalArticle[] = [
     category: 'Survey Methodology',
     readTime: '6 min read',
     author: 'Voice Flow 360 Research Standards Team',
-    authorRole: 'Methodology & Data Integrity Board',
+    authorRole: 'Methodology & Research Standards Desk',
     publishedDate: '2026-02-15',
     lastUpdated: '2026-03-20',
     summary: 'A comprehensive technical overview of how conversational survey engines administer questions, adapt prompts to qualitative responses, and preserve standardization across heterogeneous consumer panels.',

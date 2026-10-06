@@ -144,8 +144,12 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     case '/contact':
       return renderContactPageSeo(origin);
 
+    case '/rewards':
+    case '/rewards/':
     case '/rewards-and-withdrawals':
     case '/rewards-withdrawals':
+    case '/payout-policy':
+    case '/rewards-policy':
       return renderRewardsAndWithdrawalsSeo(origin);
 
     case '/research-methodology':
@@ -557,7 +561,7 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
       <article class="space-y-8">
         <header class="border-b border-slate-200 pb-6 space-y-3">
           <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full uppercase tracking-wider">
-            Verified Market Research Case Study &bull; Voice Flow 360
+            Editorial Analysis &bull; Voice Flow 360
           </div>
           <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
             ${escapeHtml(article.metaTitle)}
@@ -570,9 +574,16 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
             <span>&bull;</span>
             <span><strong>Published:</strong> ${escapeHtml(article.publishDate)}</span>
             <span>&bull;</span>
-            <span><strong>Verified Sample Size:</strong> ${article.keyMetrics.verifiedResponsesAnalyzed.toLocaleString()} Participants</span>
+            <span><strong>Analysis Type:</strong> Editorial Analysis</span>
           </div>
         </header>
+
+        <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-2 text-xs text-slate-600 leading-relaxed">
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Editorial Analysis &amp; Sourcing Disclosure</h3>
+          <p>
+            This article is an <strong>Editorial Analysis</strong> prepared by the Voice Flow 360 Industry Intelligence Desk synthesizing public corporate filings, technical performance benchmarks, and secondary market signals. "Empirical Study" classifications and panel-methodology disclosures are strictly reserved for genuine survey research conducted with verified respondents on our live platform.
+          </p>
+        </section>
 
         <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
           <h2 class="text-xl font-bold text-slate-900">Key Verified Intelligence &amp; Performance KPIs</h2>
@@ -1089,7 +1100,9 @@ function renderPrivacyPageSeo(origin: string): PageSeoResult {
 
         <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-3">
           <h2 class="text-lg font-bold text-slate-900">4. Google AdSense &amp; Third-Party Advertising Policy</h2>
-          <p>Voice Flow 360 works with third-party vendors and ad networks, notably <strong>Google AdSense</strong> (Publisher ID: <code>ca-pub-2513423020167554</code>), to display advertisements across our digital property. Please review the following important terms regarding advertising practices:</p>
+          <p>Voice Flow 360 intends to use Google AdSense to display advertisements once the website is approved and advertising is enabled. Advertisements will appear only on eligible public articles and research content pages.</p>
+          <p>Advertisements will not be displayed within customer dashboards, survey sessions, wallets, withdrawal pages or administrative areas. Participant rewards are earned for eligible, accepted survey responses and are not awarded for viewing, clicking or otherwise interacting with advertisements.</p>
+          <p>The following disclosures explain how advertising cookies and related technologies may be used when advertising is enabled:</p>
           <ul class="list-disc pl-6 space-y-2 text-slate-600">
             <li><strong>Third-Party Vendor Cookies:</strong> Third-party vendors, including Google, use cookies and similar identifiers to serve ads based on a user's prior visits to Voice Flow 360 or other websites on the Internet.</li>
             <li><strong>Personalized Advertising:</strong> Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visits to our site and/or other sites across the World Wide Web.</li>
@@ -1263,17 +1276,27 @@ function renderRewardsAndWithdrawalsSeo(origin: string): PageSeoResult {
 
       <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <strong class="text-slate-900 block text-sm mb-1">Fixed Conversion</strong>
-          <p class="text-slate-600">100 Coins = $1.00 USD fixed ratio. Rewards are displayed upfront before beginning any study.</p>
+          <strong class="text-slate-900 block text-sm mb-1">Fixed Conversion Rate</strong>
+          <p class="text-slate-600"><strong>100 Coins = $1.00 USD</strong> fixed ratio ($0.01 USD per coin). No algorithmic dilution or hidden conversion haircuts.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <strong class="text-slate-900 block text-sm mb-1">Response Acceptance</strong>
-          <p class="text-slate-600">Only eligible, thoughtful, non-duplicate responses are accepted. Quality checks filter low-effort submissions.</p>
+          <strong class="text-slate-900 block text-sm mb-1">Withdrawal Threshold</strong>
+          <p class="text-slate-600"><strong>2,000 Coins ($20.00 USD)</strong> minimum cashout across all disbursement rails.</p>
         </div>
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <strong class="text-slate-900 block text-sm mb-1">Disbursement Rails</strong>
-          <p class="text-slate-600">Withdrawals available via Bank Wire, PayPal, and Crypto once reaching the minimum balance.</p>
+          <strong class="text-slate-900 block text-sm mb-1">Zero Platform Fees</strong>
+          <p class="text-slate-600"><strong>$0.00 platform fee</strong> on Bank Transfers (ACH / SEPA / Wire); standard miner fee on Cryptocurrency (USDT / BTC).</p>
         </div>
+      </section>
+
+      <section class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <h2 class="text-base font-bold text-slate-900">Supported Disbursement Rails &amp; Conditions</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Bank Transfer (ACH / SEPA / Wire):</strong> Minimum 2,000 Coins ($20.00 USD), $0.00 platform fee, processed in 2–5 business days following monthly review.</li>
+          <li><strong>Cryptocurrency (USDT / BTC):</strong> Minimum 2,000 Coins ($20.00 USD), network gas/miner fee only, processed in 24–48 hours following monthly review.</li>
+          <li><strong>Monthly Quality Audit Cycle:</strong> Survey earnings enter Pending Review upon completion. On the 1st of every month, audited and approved coins automatically transition to your Redeemable Wallet for disbursement.</li>
+          <li><strong>Account Activity Condition:</strong> Earned coins do not expire as long as your account participates in at least one survey or activity within any 12-month period.</li>
+        </ul>
       </section>
 
       <section class="space-y-4 text-sm text-slate-700 leading-relaxed">

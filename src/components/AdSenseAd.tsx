@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { checkAdPlacementAllowed } from '../utils/adPolicy';
+import { hasAdvertisingConsent, CONSENT_EVENT_NAME } from '../utils/cookieConsent';
 
 interface AdSenseAdProps {
   slot?: string;
@@ -20,9 +21,25 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
 }) => {
   const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
   const allowCheck = checkAdPlacementAllowed(currentPath, undefined, articleStatus);
+  const [hasConsent, setHasConsent] = useState<boolean>(() => hasAdvertisingConsent());
+
+  // Listen to cookie consent updates in real time
+  useEffect(() => {
+    const handleConsentChange = () => {
+      setHasConsent(hasAdvertisingConsent());
+    };
+
+    window.addEventListener(CONSENT_EVENT_NAME, handleConsentChange);
+    window.addEventListener('storage', handleConsentChange);
+
+    return () => {
+      window.removeEventListener(CONSENT_EVENT_NAME, handleConsentChange);
+      window.removeEventListener('storage', handleConsentChange);
+    };
+  }, []);
 
   useEffect(() => {
-    if (allowCheck.isAllowed && typeof window !== 'undefined') {
+    if (allowCheck.isAllowed && hasConsent && typeof window !== 'undefined') {
       try {
         const adsbygoogle = (window as unknown as { adsbygoogle?: unknown[] }).adsbygoogle;
         if (adsbygoogle) {
@@ -33,10 +50,22 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
         console.debug('AdSense unit note:', err);
       }
     }
-  }, [allowCheck.isAllowed]);
+  }, [allowCheck.isAllowed, hasConsent]);
 
   if (!allowCheck.isAllowed) {
     return null;
+  }
+
+  // If user declined advertising cookies, do not load or push Google AdSense ads
+  if (!hasConsent) {
+    return (
+      <div className={`my-8 p-4 bg-slate-50/70 border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 ${className}`}>
+        <span className="font-semibold text-slate-500">Sponsored Intelligence Area</span>
+        <p className="text-[11px] text-slate-400 mt-0.5">
+          Advertising cookies declined — no tracking or personalized ads loaded.
+        </p>
+      </div>
+    );
   }
 
   return (

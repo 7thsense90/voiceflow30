@@ -279,7 +279,15 @@ export const PublicProductReviews: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => {
             const productReviewsList = getProductReviews(product.id);
-            const totalReviewCount = product.reviewCount + productReviewsList.length;
+            const hasReviews = productReviewsList.length > 0;
+            const calculatedRating = hasReviews
+              ? (productReviewsList.reduce((sum, r) => sum + r.rating, 0) / productReviewsList.length).toFixed(1)
+              : null;
+            const calculatedSatisfaction = hasReviews
+              ? Math.round(
+                  (productReviewsList.filter((r) => r.rating >= 4).length / productReviewsList.length) * 100
+                )
+              : null;
 
             return (
               <div
@@ -315,11 +323,13 @@ export const PublicProductReviews: React.FC = () => {
                       <span className="text-[10px] font-extrabold text-purple-700">USD</span>
                     </div>
 
-                    {/* Satisfaction Indicator */}
-                    <div className="absolute bottom-3 right-3 bg-emerald-950/80 backdrop-blur-md text-emerald-200 text-xs font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 flex items-center gap-1">
-                      <ThumbsUp className="w-3 h-3 text-emerald-400" />
-                      <span>{product.satisfactionRate}% Satisfied</span>
-                    </div>
+                    {/* Real Satisfaction Indicator */}
+                    {calculatedSatisfaction !== null && (
+                      <div className="absolute bottom-3 right-3 bg-emerald-950/80 backdrop-blur-md text-emerald-200 text-xs font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 flex items-center gap-1">
+                        <ThumbsUp className="w-3 h-3 text-emerald-400" />
+                        <span>{calculatedSatisfaction}% Positive</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Body Content */}
@@ -327,11 +337,17 @@ export const PublicProductReviews: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                         <span className="font-semibold">{product.categoryLabel}</span>
-                        <div className="flex items-center gap-1 text-amber-500 font-bold">
-                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                          <span>{product.rating}</span>
-                          <span className="text-slate-400 font-normal">({totalReviewCount})</span>
-                        </div>
+                        {calculatedRating ? (
+                          <div className="flex items-center gap-1 text-amber-500 font-bold">
+                            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                            <span>{calculatedRating}</span>
+                            <span className="text-slate-400 font-normal">({productReviewsList.length})</span>
+                          </div>
+                        ) : (
+                          <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider">
+                            No reviews yet
+                          </span>
+                        )}
                       </div>
                       <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
                         {product.name}
@@ -437,9 +453,20 @@ export const PublicProductReviews: React.FC = () => {
                   <span className="text-lg sm:text-xl font-black text-amber-300">
                     ${activeProduct.priceUSD.toLocaleString()} USD
                   </span>
-                  <span className="text-xs text-purple-200">
-                    &bull; {activeProduct.satisfactionRate}% Customer Satisfaction
-                  </span>
+                  {getProductReviews(activeProduct.id).length > 0 ? (
+                    <span className="text-xs text-purple-200">
+                      &bull;{' '}
+                      {(
+                        getProductReviews(activeProduct.id).reduce((s, r) => s + r.rating, 0) /
+                        getProductReviews(activeProduct.id).length
+                      ).toFixed(1)}{' '}
+                      ★ ({getProductReviews(activeProduct.id).length} Verified Reviews)
+                    </span>
+                  ) : (
+                    <span className="text-xs text-purple-200">
+                      &bull; Open for Verified Reviews
+                    </span>
+                  )}
                 </div>
               </div>
 

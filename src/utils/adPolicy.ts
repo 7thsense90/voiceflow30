@@ -36,24 +36,43 @@ export function checkAdPlacementAllowed(
   const cleanPath = (pathname || '').toLowerCase().trim();
   const cleanView = (viewName || '').toLowerCase().trim();
 
-  // 1. Hard exclusions - Never allow ads on sensitive transactional or interactive flows
+  // 1. Hard exclusions - Never allow ads on customer dashboards, survey sessions, wallets, withdrawal pages or administrative areas
   const forbiddenViews = [
-    'login',
-    'register',
-    'auth',
+    // Customer Dashboards
     'dashboard',
+    'customer-dashboard',
+    'user-dashboard',
     'start-earning',
-    'earnings',
-    'my-earnings',
-    'rewards',
-    'withdraw',
-    'withdrawal',
+
+    // Survey Sessions & Interactive Questionnaires
     'chat',
     'survey-chat',
     'surveys',
     'quizzes',
-    'profile',
+    'activities',
+
+    // Wallets & Withdrawal Pages
+    'wallet',
+    'earnings',
+    'my-earnings',
+    'rewards',
+    'rewards-and-withdrawals',
+    'rewards-withdrawals',
+    'withdraw',
+    'withdrawal',
+    'payout',
+    'cashout',
+
+    // Administrative Areas
     'admin',
+    'admin-dashboard',
+    'admin-research-studies',
+
+    // Authentication & Sensitive Settings
+    'login',
+    'register',
+    'auth',
+    'profile',
     'referrals',
     'invite',
     'contact',
@@ -62,25 +81,31 @@ export function checkAdPlacementAllowed(
   if (forbiddenViews.includes(cleanView)) {
     return {
       isAllowed: false,
-      reason: `Ads strictly prohibited on user transactional or interactive view: ${cleanView}`,
+      reason: `Ads strictly prohibited on user transactional, interactive or administrative view: ${cleanView}`,
     };
   }
 
-  // Path-based exclusions
+  // Path-based exclusions (enforces: customer dashboards, survey sessions, wallets, withdrawal pages, administrative areas)
   if (
+    cleanPath.includes('/dashboard') ||
+    cleanPath.includes('/start-earning') ||
+    cleanPath.includes('/chat') ||
+    cleanPath.includes('/survey') ||
+    cleanPath.includes('/quizzes') ||
+    cleanPath.includes('/wallet') ||
+    cleanPath.includes('/earnings') ||
+    cleanPath.includes('/my-earnings') ||
+    cleanPath.includes('/rewards') ||
+    cleanPath.includes('/withdraw') ||
+    cleanPath.includes('/payout') ||
+    cleanPath.includes('/admin') ||
     cleanPath.includes('/login') ||
     cleanPath.includes('/register') ||
-    cleanPath.includes('/my-earnings') ||
-    cleanPath.includes('/earnings') ||
-    cleanPath.includes('/surveys') ||
-    cleanPath.includes('/chat') ||
-    cleanPath.includes('/admin') ||
-    cleanPath.includes('/profile') ||
-    cleanPath.includes('/rewards-and-withdrawals')
+    cleanPath.includes('/profile')
   ) {
     return {
       isAllowed: false,
-      reason: `Ads prohibited on path: ${cleanPath}`,
+      reason: `Ads strictly prohibited on protected, transactional, wallet or administrative path: ${cleanPath}`,
     };
   }
 

@@ -30,7 +30,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
     isAlreadySubscribed?: boolean;
   } | null>(null);
 
-  const totalSubscribersCount = 48500 + newsletterSubscribers.length;
+  const verifiedSubscribersCount = newsletterSubscribers.length;
 
   const handleTogglePref = (key: keyof NewsletterPreferences) => {
     setPreferences((prev) => {
@@ -173,9 +173,15 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                   <Bell className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
                   <span>Stay Informed</span>
                 </span>
-                <span className="text-xs text-slate-400 font-medium">
-                  • {totalSubscribersCount.toLocaleString()}+ Members Subscribed
-                </span>
+                {verifiedSubscribersCount > 0 ? (
+                  <span className="text-xs text-slate-400 font-medium">
+                    • {verifiedSubscribersCount.toLocaleString()} {verifiedSubscribersCount === 1 ? 'Subscriber' : 'Subscribers'} Registered
+                  </span>
+                ) : (
+                  <span className="text-xs text-slate-400 font-medium">
+                    • Free Email Alert Service
+                  </span>
+                )}
               </div>
 
               <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">

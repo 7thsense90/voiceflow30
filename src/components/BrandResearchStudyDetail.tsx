@@ -447,7 +447,7 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
                   Auditor / Reviewer
                 </span>
                 <p className="text-slate-600">
-                  {article.reviewer_name || 'Voice Flow 360 Editorial & Methodology Review Board'}
+                  {article.reviewer_name || 'Voice Flow 360 Editorial Desk'}
                 </p>
               </div>
               <div className="text-right">

@@ -20,6 +20,7 @@ import {
   BadgeAlert,
   Mail,
   RefreshCw,
+  Eye,
 } from 'lucide-react';
 
 export const RewardsAndWithdrawals: React.FC = () => {
@@ -293,12 +294,20 @@ export const RewardsAndWithdrawals: React.FC = () => {
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             {currentUser ? (
-              <button
-                onClick={() => setCurrentView('surveys')}
-                className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-md transition-all cursor-pointer"
-              >
-                Browse Available Studies
-              </button>
+              <>
+                <button
+                  onClick={() => setCurrentView('surveys')}
+                  className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+                >
+                  Browse Available Studies
+                </button>
+                <button
+                  onClick={() => setCurrentView('earnings')}
+                  className="px-6 py-3 bg-white text-purple-950 font-black rounded-xl text-xs sm:text-sm shadow-md transition-all cursor-pointer hover:bg-purple-50"
+                >
+                  Go to My Earnings Wallet
+                </button>
+              </>
             ) : (
               <button
                 onClick={() => setCurrentView('register')}

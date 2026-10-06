@@ -208,6 +208,14 @@ export const APP_ROUTES: RouteItem[] = [
     priority: 0.9,
   },
   {
+    path: '/rewards',
+    view: 'rewards-and-withdrawals',
+    title: 'Rewards & Withdrawals Policy - Transparent Consumer Compensation | Voice Flow 360',
+    description: 'Transparent guide to Voice Flow 360 participant compensation: conversion rates, acceptance criteria, thresholds, payment rails, and dispute policies.',
+    changefreq: 'weekly',
+    priority: 0.85,
+  },
+  {
     path: '/rewards-and-withdrawals',
     view: 'rewards-and-withdrawals',
     title: 'Rewards & Withdrawals Policy - Transparent Consumer Compensation | Voice Flow 360',
@@ -342,7 +350,7 @@ export function parseRoute(pathname: string): ParsedRoute {
   if (cleanPath === '/quizzes') {
     return { view: 'quizzes' };
   }
-  if (cleanPath === '/my-earnings' || cleanPath === '/earnings' || cleanPath === '/rewards') {
+  if (cleanPath === '/my-earnings' || cleanPath === '/earnings' || cleanPath === '/wallet') {
     return { view: 'earnings' };
   }
   if (cleanPath === '/brands' || cleanPath === '/brands/') {
@@ -383,6 +391,8 @@ export function parseRoute(pathname: string): ParsedRoute {
     return { view: 'contact' };
   }
   if (
+    cleanPath === '/rewards' ||
+    cleanPath === '/rewards/' ||
     cleanPath === '/rewards-and-withdrawals' ||
     cleanPath === '/rewards-withdrawals' ||
     cleanPath === '/payout-policy' ||
@@ -470,7 +480,7 @@ export function getPathForView(view: string, brandId?: string | null): string {
       return '/quizzes';
     case 'earnings':
     case 'my-earnings':
-    case 'rewards':
+    case 'wallet':
       return '/my-earnings';
     case 'brand-directory':
       return '/brands';
@@ -499,9 +509,11 @@ export function getPathForView(view: string, brandId?: string | null): string {
       return '/terms';
     case 'contact':
       return '/contact';
+    case 'rewards':
     case 'rewards-and-withdrawals':
     case 'rewards-withdrawals':
-      return '/rewards-and-withdrawals';
+    case 'payout-policy':
+      return '/rewards';
     case 'research-methodology':
     case 'methodology':
       return '/research-methodology';

@@ -62,10 +62,7 @@ export const BrandDirectory: React.FC = () => {
       });
 
       const sec = rawMeta?.sector || brand.category;
-      const benchmark = getBrandBenchmarkMetric(brand.id, brand.name);
-      const empiricalProfile = getBrandEmpiricalProfile(brand.id, brand.name, sec);
-      const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : benchmark.targetRating.toFixed(1);
-      const sampleSize = benchmark.sampleSize || empiricalProfile.sampleSize;
+      const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
       const keySentiment = getUniqueBrandSentiment(brand.id, sec);
       const uniqueInsight = BRAND_UNIQUE_INSIGHTS_MAP[brand.id];
       const studyUrl = getBrandStudyPath(brand.id);
@@ -74,15 +71,13 @@ export const BrandDirectory: React.FC = () => {
         brand,
         rawMeta,
         brandCampaign,
-        responsesCount: brandResponses.length || 20,
-        sampleSize,
+        responsesCount: brandResponses.length,
         keySentiment,
         avgRating,
-        numericRating: parseFloat(avgRating),
-        csatScore: benchmark.csatScore || empiricalProfile.csatScore,
+        numericRating: avgRating ? parseFloat(avgRating) : 0,
         studyUrl,
-        leadQuote: uniqueInsight?.insightQuote || empiricalProfile.executiveAnalysis || brand.description,
-        keyDrivers: uniqueInsight?.satisfactionDrivers || empiricalProfile.satisfactionDrivers?.slice(0, 2) || [],
+        leadQuote: uniqueInsight?.insightQuote || brand.description,
+        keyDrivers: uniqueInsight?.satisfactionDrivers || [],
       };
     });
   }, [brands, campaigns, responses]);
@@ -110,7 +105,7 @@ export const BrandDirectory: React.FC = () => {
     if (activeSort === 'rating') {
       result.sort((a, b) => b.numericRating - a.numericRating);
     } else if (activeSort === 'reviews') {
-      result.sort((a, b) => b.sampleSize - a.sampleSize);
+      result.sort((a, b) => b.responsesCount - a.responsesCount);
     } else if (activeSort === 'name') {
       result.sort((a, b) => a.brand.name.localeCompare(b.brand.name));
     }
@@ -310,14 +305,22 @@ export const BrandDirectory: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-3 pt-3 border-t border-white/10">
-                      <div className="flex items-center gap-1.5 text-amber-400 font-black text-sm">
-                        <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                        <span>{heroArticle.avgRating} / 5.0</span>
-                      </div>
-                      <span className="text-white/30">•</span>
-                      <span className="text-xs text-slate-300 font-medium">
-                        {heroArticle.sampleSize.toLocaleString()} Verified Evaluations
-                      </span>
+                      {heroArticle.responsesCount > 0 ? (
+                        <>
+                          <div className="flex items-center gap-1.5 text-amber-400 font-black text-sm">
+                            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                            <span>{heroArticle.avgRating} / 5.0</span>
+                          </div>
+                          <span className="text-white/30">•</span>
+                          <span className="text-xs text-slate-300 font-medium">
+                            {heroArticle.responsesCount} Verified {heroArticle.responsesCount === 1 ? 'Response' : 'Responses'}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-xs text-purple-300 font-semibold">
+                          Active Survey • Open for Panelists
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -395,10 +398,9 @@ export const BrandDirectory: React.FC = () => {
               ({
                 brand,
                 rawMeta,
-                sampleSize,
+                responsesCount,
                 keySentiment,
                 avgRating,
-                csatScore,
                 studyUrl,
                 leadQuote,
               }) => {
@@ -414,10 +416,16 @@ export const BrandDirectory: React.FC = () => {
                           {rawMeta?.sector || brand.category.replace('_', ' ')}
                         </span>
 
-                        <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-600 bg-amber-50/90 px-2 py-0.5 rounded-md border border-amber-200/60 shrink-0">
-                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                          <span className="font-mono text-slate-900">{avgRating}</span>
-                        </div>
+                        {avgRating ? (
+                          <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-600 bg-amber-50/90 px-2 py-0.5 rounded-md border border-amber-200/60 shrink-0">
+                            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                            <span className="font-mono text-slate-900">{avgRating}</span>
+                          </div>
+                        ) : (
+                          <span className="text-[11px] font-semibold text-slate-400">
+                            Survey Open
+                          </span>
+                        )}
                       </div>
 
                       {/* Brand identity */}
@@ -461,16 +469,29 @@ export const BrandDirectory: React.FC = () => {
                         {leadQuote}
                       </p>
 
-                      {/* Research Metrics Row */}
+                      {/* Research Metrics Row: Calculated from Real Records Only */}
                       <div className="pt-2 flex items-center justify-between text-[11px] text-slate-500 font-medium border-t border-slate-100">
-                        <span className="inline-flex items-center gap-1">
-                          <Users className="w-3 h-3 text-slate-400" />
-                          <span>{sampleSize.toLocaleString()} Evaluations</span>
-                        </span>
-                        <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                          <span>{csatScore}% CSAT</span>
-                        </span>
+                        {responsesCount > 0 ? (
+                          <>
+                            <span className="inline-flex items-center gap-1 text-purple-700 font-semibold">
+                              <Users className="w-3 h-3 text-purple-600" />
+                              <span>{responsesCount} Verified {responsesCount === 1 ? 'Response' : 'Responses'}</span>
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                              <span>Live Panel Audit</span>
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="inline-flex items-center gap-1 text-slate-400">
+                              <span>Survey Active</span>
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-purple-600 font-semibold">
+                              <span>Open for Evaluations</span>
+                            </span>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -487,7 +508,7 @@ export const BrandDirectory: React.FC = () => {
                         to={studyUrl}
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 hover:text-purple-900 transition-colors group/link"
                       >
-                        <span>Read Study</span>
+                        <span>Editorial Analysis</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
                       </Link>
                     </div>

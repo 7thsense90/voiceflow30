@@ -281,7 +281,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
           </Link>
           <span className="text-slate-300">/</span>
           <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-lg border border-purple-200/70">
-            User Research Study
+            Editorial Analysis
           </span>
         </div>
 
@@ -315,11 +315,11 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
         <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
           <span className="px-3 py-1 rounded-full bg-purple-100 text-purple-800 border border-purple-200 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-            <span>1,000+ Word In-Depth Market Study</span>
+            <span>In-Depth Market Review</span>
           </span>
-          <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Peer-Audited Empirical Study</span>
+          <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200 flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-purple-600" />
+            <span>Editorial Analysis</span>
           </span>
           <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 flex items-center gap-1">
             <Clock className="w-3.5 h-3.5 text-slate-500" />
@@ -410,23 +410,23 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
         </div>
 
         <div className="p-3 bg-amber-50/50 rounded-2xl border border-amber-100">
-          <div className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Verified Panel</div>
-          <div className="text-3xl font-black text-amber-950">{article.keyMetrics.verifiedResponsesAnalyzed}</div>
-          <div className="text-[10px] font-semibold text-amber-700 mt-0.5">Voice Flow 360 Users</div>
+          <div className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Analysis Type</div>
+          <div className="text-xl sm:text-2xl font-black text-amber-950 mt-1">Editorial</div>
+          <div className="text-[10px] font-semibold text-amber-700 mt-0.5">Market Synthesis Desk</div>
         </div>
       </section>
 
-      {/* Panel Methodology & Attribution Disclosure */}
+      {/* Editorial Analysis Methodology & Attribution Disclosure */}
       <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 text-xs text-slate-600 space-y-1.5 leading-relaxed">
         <div className="flex items-center gap-2 font-bold text-slate-900">
           <ShieldCheck className="w-4 h-4 text-purple-600" />
-          <span>Panelist Research Attribution &amp; Empirical Methodology</span>
+          <span>Editorial Analysis &amp; Sourcing Disclosure</span>
         </div>
         <p>
-          <strong>Dataset Source:</strong> Aggregated from Voice Flow 360 double-blind consumer research studies (N={article.keyMetrics.verifiedResponsesAnalyzed} verified panelist respondents). Metric calculations reflect standardized 5-point CSAT surveys and 11-point Net Promoter (NPS) distributions.
+          <strong>Methodology &amp; Scope:</strong> This article is an <strong>Editorial Analysis</strong> prepared by the Voice Flow 360 Industry Intelligence Desk. It synthesizes publicly available corporate filings, technical performance benchmarks, industry telemetry, and secondary market signals.
         </p>
         <p className="text-[11px] text-slate-500">
-          <strong>Independent Research Notice:</strong> Voice Flow 360 conducts independent market research. All trademarks, company names, and logos are properties of their respective holders and are cited under nominative fair use for public sentiment analysis.
+          <strong>Methodology Separation Notice:</strong> In accordance with our research transparency standards, "Empirical Study" classifications and panel-methodology disclosures are strictly reserved for genuine survey research conducted with verified respondents on our live platform.
         </p>
       </div>
 

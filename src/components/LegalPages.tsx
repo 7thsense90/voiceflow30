@@ -49,7 +49,13 @@ export const PrivacyPolicy: React.FC = () => (
     
     <h3>4. Google AdSense &amp; Third-Party Advertising Policy</h3>
     <p>
-      Voice Flow 360 works with third-party vendors and ad networks, notably <strong>Google AdSense</strong> (Publisher ID: <code>ca-pub-2513423020167554</code>), to display advertisements across our digital property. Please review the following important terms regarding advertising practices:
+      Voice Flow 360 intends to use Google AdSense to display advertisements once the website is approved and advertising is enabled. Advertisements will appear only on eligible public articles and research content pages.
+    </p>
+    <p>
+      Advertisements will not be displayed within customer dashboards, survey sessions, wallets, withdrawal pages or administrative areas. Participant rewards are earned for eligible, accepted survey responses and are not awarded for viewing, clicking or otherwise interacting with advertisements.
+    </p>
+    <p>
+      The following disclosures explain how advertising cookies and related technologies may be used when advertising is enabled:
     </p>
     <ul className="list-disc pl-6 space-y-2 text-slate-600">
       <li>
