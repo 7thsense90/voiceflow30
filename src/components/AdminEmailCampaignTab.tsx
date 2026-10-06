@@ -427,7 +427,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
         setPreviewText('Good news! Your monthly survey earnings and verified rewards have been transferred to your redeemable balance.');
         setHeadline('Monthly Earnings Added to Your Wallet');
         setIntroMessage(
-          'Great news! Your monthly survey rewards and verified panel participation balance have been reviewed and successfully credited to your Redeemable Wallet. You can now request your payout via Bank Transfer, PayPal, or Crypto directly from your dashboard once your redeemable balance reaches $20 (2,000 coins).'
+          'Great news! Your monthly survey rewards and verified panel participation balance have been reviewed and successfully credited to your Redeemable Wallet. You can now request your payout via Direct Bank Transfer or Cryptocurrency directly from your dashboard once your redeemable balance reaches $20 (2,000 coins).'
         );
         setCtaText('View Redeemable Wallet & Cash Out');
         setBonusCoins(0);
@@ -1505,7 +1505,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
                         </span>
                       </div>
                       <p className="text-[11px] text-slate-600 leading-relaxed">
-                        Your survey responses have been audited. Your net rewards are transferred to your Redeemable Balance. Reach <strong>2,000 Coins ($20.00)</strong> to unlock withdrawal via Bank Transfer, PayPal, or Crypto.
+                        Your survey responses have been audited. Your net rewards are transferred to your Redeemable Balance. Reach <strong>2,000 Coins ($20.00)</strong> to unlock withdrawal via Direct Bank Transfer or Cryptocurrency.
                       </p>
                     </div>
                   )}

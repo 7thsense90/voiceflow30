@@ -70,10 +70,12 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (article) {
       return renderBrandStudySeo(origin, article);
     }
-    // The slug names a real brand that just doesn't have enough real survey
-    // responses yet for a published study. Render that brand's own detail
-    // page instead of silently falling through to the generic homepage
-    // content further below (mirrors the client-side route fix).
+    const ra = INITIAL_RESEARCH_ARTICLES.find(
+      (a) => a.slug.toLowerCase() === targetArticleSlug.toLowerCase() || a.id.toLowerCase() === targetArticleSlug.toLowerCase()
+    );
+    if (ra) {
+      return renderBrandResearchStudyArticleSeo(origin, ra);
+    }
     const knownBrand = findBrandBySlugOrId(targetArticleSlug);
     if (knownBrand) {
       return renderBrandDetailSeo(origin, knownBrand);
@@ -90,6 +92,10 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     );
     if (article) {
       return renderBrandResearchStudyArticleSeo(origin, article);
+    }
+    const brandArticle = findBrandArticleBySlugOrPath(slug);
+    if (brandArticle) {
+      return renderBrandStudySeo(origin, brandArticle);
     }
   }
 
@@ -466,16 +472,63 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
           ${bodyHtml}
         </section>
 
-        ${
-          article.sources_note
-            ? `
-          <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-2">
-            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Sources &amp; Research Methodology</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">${escapeHtml(article.sources_note)}</p>
-          </section>
-        `
-            : ''
-        }
+        ${(() => {
+          const isEmpiricalSurvey = Boolean(
+            article.valid_responses_count && article.valid_responses_count > 0 && !article.is_illustrative_demo
+          );
+
+          if (isEmpiricalSurvey) {
+            return `
+              <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                  <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Empirical Survey Methodology &amp; Data Integrity Disclosure</h3>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Verified Empirical Survey</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700">
+                  ${article.research_question ? `<div class="sm:col-span-2"><strong>Primary Research Question:</strong> ${escapeHtml(article.research_question)}</div>` : ''}
+                  <div><strong>Fieldwork Dates:</strong> ${escapeHtml(article.fieldwork_dates || 'Verified platform research period')}</div>
+                  <div><strong>Verified Sample Size (n):</strong> ${article.valid_responses_count?.toLocaleString()} valid, accepted responses</div>
+                  <div><strong>Recruitment Method:</strong> ${escapeHtml(article.recruitment_method || 'Opt-in conversational survey panel with double-blind qualification')}</div>
+                  <div><strong>Geographic Scope:</strong> ${escapeHtml(article.participant_geography || 'North America & Western Europe (multi-country panel)')}</div>
+                  ${article.participant_demographics ? `<div class="sm:col-span-2"><strong>Participant Demographics:</strong> ${escapeHtml(article.participant_demographics)}</div>` : ''}
+                  <div class="sm:col-span-2 bg-white p-3 rounded-xl border border-slate-200">
+                    <strong>Sample Limitations &amp; Potential Bias:</strong> ${escapeHtml(article.sample_limitations || 'Convenience sample derived from opted-in panel respondents. Percentages reflect sample responses and are not generalized as representative of the entire population without demographic weighting.')}
+                  </div>
+                  <div><strong>Auditor / Reviewer:</strong> ${escapeHtml(article.reviewer_name || 'Voice Flow 360 Research Standards Desk')}</div>
+                  <div><strong>Classification:</strong> ${article.study_type_classification === 'commissioned' ? 'Commissioned Enterprise Study' : 'Independent Research (Uncommissioned)'}</div>
+                </div>
+              </section>
+            `;
+          }
+
+          return `
+            <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Editorial Methodology, Sources &amp; Transparency Disclosure</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-200">Source-Based Editorial Analysis</span>
+              </div>
+              <div class="space-y-3 text-xs text-slate-700 leading-relaxed">
+                <div>
+                  <strong>Editorial Method:</strong> Synthesized by the Voice Flow 360 Industry Intelligence Desk through secondary research: evaluating public financial disclosures, technical benchmarks, corporate announcements, and third-party consumer sentiment telemetry.
+                </div>
+                <div>
+                  <strong>Author &amp; Reviewer:</strong> Voice Flow 360 Industry Intelligence Desk &bull; Audited by Voice Flow 360 Research Standards Desk
+                </div>
+                <div>
+                  <strong>Primary Linked Sources &amp; Public References:</strong>
+                  <ul class="list-disc pl-5 mt-1 space-y-1">
+                    <li><a href="https://www.google.com/finance?q=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">SEC &amp; Financial Disclosures (${escapeHtml(article.brand_name)})</a></li>
+                    <li><a href="https://www.statista.com/search/?q=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Industry Benchmark Telemetry</a></li>
+                    <li><a href="https://www.trustpilot.com/search?query=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Public Customer Feedback Signals</a></li>
+                  </ul>
+                </div>
+                <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-950">
+                  <strong>Editorial Limitations:</strong> This publication is an editorial desk synthesis based on secondary sources, not a direct respondent probability survey. Fieldwork dates, recruitment procedures, and panel sample sizes are excluded from editorial analyses because no primary panel was fielded for this report.
+                </div>
+              </div>
+            </section>
+          `;
+        })()}
 
         <!-- Ad Placement Zone: Bottom Leaderboard Slot -->
         <div class="ad-unit-zone ad-bottom-slot my-6 p-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 text-center text-xs text-slate-400 font-mono" data-ad-zone="brand-research-detail-bottom">
@@ -578,11 +631,30 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
           </div>
         </header>
 
-        <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-2 text-xs text-slate-600 leading-relaxed">
-          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Editorial Analysis &amp; Sourcing Disclosure</h3>
-          <p>
-            This article is an <strong>Editorial Analysis</strong> prepared by the Voice Flow 360 Industry Intelligence Desk synthesizing public corporate filings, technical performance benchmarks, and secondary market signals. "Empirical Study" classifications and panel-methodology disclosures are strictly reserved for genuine survey research conducted with verified respondents on our live platform.
-          </p>
+        <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4 text-xs text-slate-700 leading-relaxed">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Editorial Methodology, Sources &amp; Transparency Disclosure</h3>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-200">Source-Based Editorial Analysis</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <strong>Editorial Method:</strong> Synthesized by the Voice Flow 360 Industry Intelligence Desk through secondary research: evaluating public financial disclosures, technical benchmarks, corporate announcements, and third-party consumer sentiment telemetry.
+            </div>
+            <div>
+              <strong>Author:</strong> ${escapeHtml(article.author.name)} (${escapeHtml(article.author.role)}) &bull; <strong>Reviewed &amp; Audited by:</strong> Voice Flow 360 Research Standards Desk
+            </div>
+            <div>
+              <strong>Primary Linked Sources &amp; Public References:</strong>
+              <ul class="list-disc pl-5 mt-1 space-y-1">
+                <li><a href="https://www.google.com/finance?q=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">SEC &amp; Financial Filings (${escapeHtml(article.brandName)})</a></li>
+                <li><a href="https://www.statista.com/search/?q=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Industry Telemetry &amp; Market Share Data</a></li>
+                <li><a href="https://www.trustpilot.com/search?query=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Public Consumer Reviews &amp; Feedback Indexes</a></li>
+              </ul>
+            </div>
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-950">
+              <strong>Editorial Limitations &amp; Separation Notice:</strong> This publication is an editorial desk synthesis based on secondary sources, not a direct respondent probability survey. Fieldwork dates, recruitment procedures, and panel sample sizes are excluded from editorial analyses because no primary panel was fielded for this report. Empirical study classifications and panel methodologies are strictly reserved for genuine survey studies supported by actual respondent data.
+            </div>
+          </div>
         </section>
 
         <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
@@ -612,7 +684,7 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
           <h3 class="text-lg font-semibold text-purple-900">Flagship Line: ${escapeHtml(article.productsServicesReview.flagshipProduct)}</h3>
           <p class="text-slate-700 leading-relaxed">${escapeHtml(article.productsServicesReview.summary)}</p>
           <div class="space-y-2">
-            <h4 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Key Strengths Highlighted by Survey Respondents:</h4>
+            <h4 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Key Strengths Highlighted in Public Consumer Reviews &amp; Market Analysis:</h4>
             <ul class="list-disc pl-5 space-y-1 text-slate-700 text-sm">
               ${article.productsServicesReview.keyStrengths.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}
             </ul>
@@ -652,7 +724,7 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
         <section class="space-y-4">
           <h2 class="text-2xl font-bold text-slate-900">Demographic &amp; Regional Sentiment Distribution</h2>
           <p class="text-slate-700 text-sm leading-relaxed">
-            Market research surveys indicate dominant consumer volume across <strong>${escapeHtml(article.geographicSegregation.dominantTerritory)}</strong>, with the most rapid adoption growth occurring in <strong>${escapeHtml(article.geographicSegregation.fastestGrowingRegion)}</strong>.
+            Secondary market research and industry reports indicate dominant market presence across <strong>${escapeHtml(article.geographicSegregation.dominantTerritory)}</strong>, with the most rapid adoption growth occurring in <strong>${escapeHtml(article.geographicSegregation.fastestGrowingRegion)}</strong>.
           </p>
           <ul class="list-disc pl-5 space-y-1 text-sm text-slate-700">
             ${article.geographicSegregation.regions.map((r) => `<li><strong>${escapeHtml(r.region)}:</strong> ${r.sharePercentage}% market share (Growth: ${escapeHtml(r.growthTrend)})</li>`).join('')}
@@ -920,7 +992,7 @@ function renderHowToEarnPageSeo(origin: string): PageSeoResult {
 
         <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <h2 class="text-lg font-bold text-slate-900">Step 4: Honorarium Credit & Flexible Disbursement</h2>
-          <p class="text-sm text-slate-600">Verified research credits accrue in your panelist account. Disburse credits as electronic gift vouchers ($5.00 min), PayPal transfers ($5.00 min), or international bank wire ($100.00 min).</p>
+          <p class="text-sm text-slate-600">Verified research credits accrue in your panelist account. On the 1st of each month, reviewed earnings move to your Redeemable Wallet. Disburse earnings via Direct Bank Transfer or Cryptocurrency once your balance reaches the standardized 2,000 credits ($20.00 USD) threshold with zero platform fees.</p>
         </div>
       </section>
     </div>
@@ -1177,7 +1249,7 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
 
         <div>
           <h2 class="text-lg font-bold text-slate-900 mb-1.5">3. Earning and Redeeming Rewards</h2>
-          <p>Coins earned through surveys, quizzes, and referrals have no cash value until explicitly redeemed through an approved payout method (such as Bank Transfer, PayPal, or Crypto). A minimum balance of 2,000 coins ($20.00) is required for withdrawal requests. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated bots, or violation of these terms.</p>
+          <p>Coins earned through completed, accepted surveys undergo monthly quality reviews before transferring to your Redeemable Wallet on the 1st of each calendar month. Redemptions require reaching our standardized minimum threshold of 2,000 Coins ($20.00 USD) and are disbursed via our authorized payment rails: Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC). All redemptions are subject to the published Rewards &amp; Withdrawals Policy. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated scripts, contradictory answers, or violation of these terms.</p>
         </div>
 
         <div>
@@ -1186,12 +1258,17 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-slate-900 mb-1.5">5. Intellectual Property &amp; Research Output</h2>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">5. Modifications to Service &amp; Fixed Conversion Ratio Guarantee</h2>
+          <p>We reserve the right to modify platform operational features, available survey campaigns, and technical infrastructure. However, in accordance with our published Rewards &amp; Withdrawals Policy, all already-earned and credited coins maintain our published fixed conversion ratio of <strong>100 Coins = $1.00 USD ($0.01 per coin)</strong>. Any prospective modifications to minimum payout thresholds or disbursement rails will be announced with at least 30 days&apos; advance notice to active participants, ensuring no retroactive devaluation of accrued rewards.</p>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">6. Intellectual Property &amp; Research Output</h2>
           <p>All brand research reports, consumer sentiment analyses, and site design are the proprietary intellectual property of Voice Flow 360 and its partners. Anonymized survey responses are compiled into published industry reports.</p>
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-slate-900 mb-1.5">6. Contact for Legal Inquiries</h2>
+          <h2 class="text-lg font-bold text-slate-900 mb-1.5">7. Contact for Legal Inquiries</h2>
           <p>For questions regarding these terms, please contact <a href="mailto:legal@voiceflow360.com" class="font-semibold text-purple-600">legal@voiceflow360.com</a> or <a href="mailto:support@voiceflow360.com" class="font-semibold text-purple-600">support@voiceflow360.com</a>.</p>
         </div>
       </section>

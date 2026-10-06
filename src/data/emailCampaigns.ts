@@ -37,7 +37,7 @@ export const INITIAL_EMAIL_CAMPAIGNS: EmailCampaign[] = [
     recipientSample: ['elena.r@gmail.com', 'david.k@protonmail.com'],
     featuredSurveyIds: ['c4', 'c5'],
     headline: 'High-Value Conversational Survey Spotlight',
-    introMessage: 'We have reserved a guaranteed survey slot for your profile. Complete this 5-minute study to earn premium coins redeemable for PayPal cash or instant gift cards.',
+    introMessage: 'We have reserved a guaranteed survey slot for your profile. Complete this 5-minute study to earn premium coins redeemable for Direct Bank Transfer or Cryptocurrency.',
     ctaText: 'Access Premium Study',
     sendInAppNotification: true,
     status: 'sent',

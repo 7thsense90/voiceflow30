@@ -271,22 +271,34 @@ export function parseRoute(pathname: string): ParsedRoute {
         view: 'brand-study',
         brandId: matchedArticle.brandId,
         articleSlug: matchedArticle.slug,
-        studyPath: getBrandStudyPath(matchedArticle),
+        studyPath: cleanPath,
       };
     }
   }
 
-  const studyDirectMatch = cleanPath.match(/^\/brand-insights\/([a-zA-Z0-9_-]+)$/);
-  if (studyDirectMatch) {
-    const matchedArticle = findBrandArticleBySlugOrPath(studyDirectMatch[1]);
-    if (matchedArticle) {
+  // 1b. Check for individual article URLs: /brand-research-studies/:slug, /brand-insights/:slug, /brand-study/:slug
+  const individualArticleMatch = cleanPath.match(/^\/(?:brand-research-studies|brand-insights|brand-study)\/([a-zA-Z0-9_-]+)$/);
+  if (
+    individualArticleMatch &&
+    individualArticleMatch[1] !== 'brand-research-studies' &&
+    individualArticleMatch[1] !== 'brand-insights' &&
+    individualArticleMatch[1] !== 'brand-case-studies'
+  ) {
+    const slug = individualArticleMatch[1];
+    const matchedBrandArticle = findBrandArticleBySlugOrPath(slug);
+    if (matchedBrandArticle) {
       return {
         view: 'brand-study',
-        brandId: matchedArticle.brandId,
-        articleSlug: matchedArticle.slug,
-        studyPath: getBrandStudyPath(matchedArticle),
+        brandId: matchedBrandArticle.brandId,
+        articleSlug: matchedBrandArticle.slug,
+        studyPath: cleanPath,
       };
     }
+    return {
+      view: 'brand-research-study-detail',
+      articleSlug: slug,
+      studyPath: cleanPath,
+    };
   }
 
   // 2. Specific brand detail URL: /brands/:brandId
@@ -435,6 +447,7 @@ export function parseRoute(pathname: string): ParsedRoute {
     return {
       view: 'brand-research-study-detail',
       articleSlug: brandResearchMatch[1],
+      studyPath: `/brand-research-studies/${brandResearchMatch[1]}`,
     };
   }
 
@@ -443,15 +456,50 @@ export function parseRoute(pathname: string): ParsedRoute {
 }
 
 /**
- * Returns canonical path corresponding to view and optional brand ID
+ * Returns canonical path corresponding to view and optional brand ID or article slug
  */
-export function getPathForView(view: string, brandId?: string | null): string {
+export function getPathForView(
+  view: string,
+  brandId?: string | null,
+  articleSlug?: string | null
+): string {
   if (view === 'brand-study') {
-    return brandId ? getBrandStudyPath(brandId) : '/brand-case-studies';
+    if (articleSlug) {
+      return articleSlug.startsWith('/brand-insights/')
+        ? articleSlug
+        : `/brand-insights/${articleSlug}`;
+    }
+    if (brandId) {
+      return getBrandStudyPath(brandId);
+    }
+    if (
+      typeof window !== 'undefined' &&
+      (window.location.pathname.startsWith('/brand-insights/') ||
+        window.location.pathname.startsWith('/brand-study/'))
+    ) {
+      return window.location.pathname;
+    }
+    return '/brand-case-studies';
   }
 
   if (view === 'brand-detail' && brandId) {
     return `/brands/${brandId}`;
+  }
+
+  if (view === 'brand-research-study-detail') {
+    if (articleSlug) {
+      return `/brand-research-studies/${articleSlug}`;
+    }
+    if (
+      typeof window !== 'undefined' &&
+      window.location.pathname.startsWith('/brand-research-studies/')
+    ) {
+      const match = window.location.pathname.match(/^\/brand-research-studies\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1] && match[1] !== 'brand-research-studies') {
+        return `/brand-research-studies/${match[1]}`;
+      }
+    }
+    return '/brand-research-studies';
   }
 
   switch (view) {
@@ -530,7 +578,7 @@ export function getPathForView(view: string, brandId?: string | null): string {
     case 'brand-research-studies':
       return '/brand-research-studies';
     case 'brand-research-study-detail':
-      return '/brand-research-studies';
+      return articleSlug ? `/brand-research-studies/${articleSlug}` : '/brand-research-studies';
     default:
       return '/brand-case-studies';
   }

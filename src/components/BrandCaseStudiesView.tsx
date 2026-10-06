@@ -638,10 +638,10 @@ export const BrandCaseStudiesView: React.FC = () => {
               </button>
             </div>
 
-            {/* Research Independence Note */}
+            {/* Research Independence & Standards Note */}
             <div className="p-3 bg-slate-100 rounded-xl border border-slate-200/80 text-[11px] text-slate-500 leading-relaxed">
               <ShieldCheck className="w-4 h-4 text-emerald-600 inline mr-1" />
-              <strong>Empirical Standard:</strong> All case studies reflect verified panel telemetry. Zero corporate sponsorships.
+              <strong>Transparency Standard:</strong> Case studies clearly distinguish between source-based editorial analyses and primary empirical survey panels.
             </div>
           </aside>
 

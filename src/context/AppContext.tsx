@@ -389,7 +389,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     if (pushHistory && typeof window !== 'undefined') {
       const activeBrand = brandId !== undefined ? brandId : selectedBrandId;
-      const targetPath = customPath || getPathForView(view, activeBrand);
+      const targetPath = customPath || getPathForView(view, activeBrand, selectedArticleSlug);
       if (window.location.pathname !== targetPath) {
         window.history.pushState({ view, brandId: activeBrand }, '', targetPath);
       }
@@ -420,14 +420,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Ensure initial entry has matching state and clean, normalized canonical path
     const initial = parseRoute(window.location.pathname);
-    const cleanCanonicalPath = initial.studyPath || getPathForView(initial.view, initial.brandId);
+    const isIndividualArticleUrl =
+      window.location.pathname.startsWith('/brand-research-studies/') ||
+      window.location.pathname.startsWith('/brand-insights/') ||
+      window.location.pathname.startsWith('/brand-study/') ||
+      window.location.pathname.includes('/user-research-study');
 
-    // If the browser URL contains double slashes or duplicate /brand-insights/ prefix,
-    // seamlessly normalize it in the address bar without reloading
-    if (cleanCanonicalPath && cleanCanonicalPath !== '/' && window.location.pathname !== cleanCanonicalPath) {
-      window.history.replaceState({ view: initial.view, brandId: initial.brandId }, '', cleanCanonicalPath);
+    if (isIndividualArticleUrl) {
+      // Each article must keep its own permanent URL — never downgrade to a general listing
+      window.history.replaceState(
+        { view: initial.view, brandId: initial.brandId, articleSlug: initial.articleSlug },
+        '',
+        window.location.pathname
+      );
     } else {
-      window.history.replaceState({ view: initial.view, brandId: initial.brandId }, '', window.location.pathname);
+      const cleanCanonicalPath =
+        initial.studyPath || getPathForView(initial.view, initial.brandId, initial.articleSlug);
+
+      if (
+        cleanCanonicalPath &&
+        cleanCanonicalPath !== '/' &&
+        window.location.pathname !== cleanCanonicalPath
+      ) {
+        window.history.replaceState({ view: initial.view, brandId: initial.brandId }, '', cleanCanonicalPath);
+      } else {
+        window.history.replaceState({ view: initial.view, brandId: initial.brandId }, '', window.location.pathname);
+      }
     }
 
     const handlePopState = () => {

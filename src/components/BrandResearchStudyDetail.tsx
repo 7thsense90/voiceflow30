@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { AdSenseAd } from './AdSenseAd';
+import { SEOHead } from './SEOHead';
 import {
   BookOpen,
   Calendar,
@@ -31,7 +32,14 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
     showToast,
   } = useApp();
 
-  const activeSlug = propSlug || selectedArticleSlug;
+  const activeSlug =
+    propSlug ||
+    selectedArticleSlug ||
+    (typeof window !== 'undefined'
+      ? (window.location.pathname.match(/^\/brand-research-studies\/([a-zA-Z0-9_-]+)/)?.[1] ||
+         window.location.pathname.split('/').pop() ||
+         '')
+      : '');
 
   // Find the target article
   const rawArticle = useMemo(() => {
@@ -230,6 +238,35 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
 
   return (
     <div className="min-h-screen bg-white pb-24">
+      <SEOHead
+        title={article.title}
+        description={article.excerpt}
+        canonicalPath={`/brand-research-studies/${article.slug}`}
+        ogType="article"
+        ogImage={article.cover_image_url}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.title,
+          description: article.excerpt,
+          image: article.cover_image_url,
+          datePublished: article.published_at || article.created_at,
+          dateModified: article.updated_at || article.published_at || article.created_at,
+          author: {
+            '@type': 'Organization',
+            name: 'Voice Flow 360 Research Team',
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Voice Flow 360',
+          },
+          about: {
+            '@type': 'Brand',
+            name: article.brand_name,
+          },
+        }}
+      />
+
       {/* Top Editorial Breadcrumb & Navigation Bar */}
       <div className="bg-slate-900 text-white border-b border-slate-800 py-4 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -349,124 +386,211 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
         </div>
 
         {/* Comprehensive Research Transparency & Methodology Audit Box */}
-        <section className="my-10 p-6 sm:p-8 bg-slate-50 rounded-3xl border border-slate-200/90 shadow-2xs space-y-6">
-          <div className="flex items-center justify-between flex-wrap gap-2 pb-4 border-b border-slate-200">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
-                <FileText className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-base font-black text-slate-900 tracking-tight">
-                  Research Transparency &amp; Methodology Disclosure
-                </h3>
-                <p className="text-xs text-slate-500">
-                  Published in accordance with Voice Flow 360 Empirical Research Standards
-                </p>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
-              Editorial Review Approved
-            </span>
-          </div>
+        {(() => {
+          const isEmpiricalSurvey = Boolean(
+            article.valid_responses_count && article.valid_responses_count > 0 && !article.is_illustrative_demo
+          );
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            {article.research_question && (
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 md:col-span-2">
-                <span className="font-bold text-slate-800 uppercase tracking-wider block mb-1">
-                  Primary Research Question
-                </span>
-                <p className="text-slate-700 leading-relaxed font-medium">
-                  {article.research_question}
-                </p>
-              </div>
-            )}
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
-              <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                Fieldwork Dates
-              </span>
-              <p className="text-slate-600">
-                {article.fieldwork_dates || 'First-quarter 2026 verification period'}
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
-              <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                Verified Sample Size (n)
-              </span>
-              <p className="text-slate-600">
-                {article.valid_responses_count
-                  ? `${article.valid_responses_count.toLocaleString()} valid, accepted responses`
-                  : 'Multi-respondent verified panel'}
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
-              <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                Recruitment Method
-              </span>
-              <p className="text-slate-600">
-                {article.recruitment_method || 'Opt-in verified consumer research panel with double-blind qualification'}
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
-              <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                Geographic Scope
-              </span>
-              <p className="text-slate-600">
-                {article.participant_geography || 'North America & Western Europe (multi-country panel)'}
-              </p>
-            </div>
-
-            {article.participant_demographics && (
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2">
-                <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                  Participant Characteristics
-                </span>
-                <p className="text-slate-600">
-                  {article.participant_demographics}
-                </p>
-              </div>
-            )}
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2">
-              <span className="font-bold text-amber-800 uppercase tracking-wider block">
-                Sample Limitations &amp; Potential Bias
-              </span>
-              <p className="text-slate-600 leading-relaxed">
-                {article.sample_limitations ||
-                  'Convenience sample derived from opted-in panel respondents. Percentages reflect sample responses and are not generalized as representative of the entire population without demographic weighting.'}
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2 flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                  Auditor / Reviewer
-                </span>
-                <p className="text-slate-600">
-                  {article.reviewer_name || 'Voice Flow 360 Editorial Desk'}
-                </p>
-              </div>
-              <div className="text-right">
-                <span className="font-bold text-slate-800 uppercase tracking-wider block">
-                  Research Classification
-                </span>
-                <span className="text-slate-600 font-semibold">
-                  {article.study_type_classification === 'commissioned' ? 'Commissioned Enterprise Study' : 'Independent Research (Uncommissioned)'}
+          return (
+            <section className="my-10 p-6 sm:p-8 bg-slate-50 rounded-3xl border border-slate-200/90 shadow-2xs space-y-6">
+              <div className="flex items-center justify-between flex-wrap gap-2 pb-4 border-b border-slate-200">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 tracking-tight">
+                      {isEmpiricalSurvey
+                        ? 'Empirical Survey Methodology & Data Integrity Disclosure'
+                        : 'Editorial Analysis & Sourcing Methodology Disclosure'}
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Published in accordance with Voice Flow 360 Research Transparency Standards
+                    </p>
+                  </div>
+                </div>
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
+                  isEmpiricalSurvey
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-amber-100 text-amber-900 border border-amber-200'
+                }`}>
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  {isEmpiricalSurvey ? 'Verified Empirical Survey' : 'Source-Based Editorial Analysis'}
                 </span>
               </div>
-            </div>
-          </div>
 
-          {article.sources_note && (
-            <div className="pt-3 border-t border-slate-200 text-xs text-slate-500 leading-relaxed">
-              <strong>Source Note:</strong> {article.sources_note}
-            </div>
-          )}
-        </section>
+              {isEmpiricalSurvey ? (
+                /* Genuine survey study with actual panel data */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  {article.research_question && (
+                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 md:col-span-2">
+                      <span className="font-bold text-slate-800 uppercase tracking-wider block mb-1">
+                        Primary Research Question
+                      </span>
+                      <p className="text-slate-700 leading-relaxed font-medium">
+                        {article.research_question}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Fieldwork Dates
+                    </span>
+                    <p className="text-slate-600">
+                      {article.fieldwork_dates || 'Verified platform research period'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Verified Sample Size (n)
+                    </span>
+                    <p className="text-slate-600 font-semibold text-purple-700">
+                      {article.valid_responses_count?.toLocaleString()} valid, accepted responses
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Recruitment Method
+                    </span>
+                    <p className="text-slate-600">
+                      {article.recruitment_method || 'Opt-in conversational survey panel with double-blind qualification'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Geographic Scope
+                    </span>
+                    <p className="text-slate-600">
+                      {article.participant_geography || 'Target panel geographic distribution'}
+                    </p>
+                  </div>
+
+                  {article.participant_demographics && (
+                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2">
+                      <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                        Participant Characteristics
+                      </span>
+                      <p className="text-slate-600">
+                        {article.participant_demographics}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2">
+                    <span className="font-bold text-amber-800 uppercase tracking-wider block">
+                      Sample Limitations &amp; Potential Bias
+                    </span>
+                    <p className="text-slate-600 leading-relaxed">
+                      {article.sample_limitations ||
+                        'Convenience sample derived from opted-in panel respondents. Percentages reflect sample responses and are not generalized as representative of the entire population without demographic weighting.'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                        Auditor / Reviewer
+                      </span>
+                      <p className="text-slate-600">
+                        {article.reviewer_name || 'Voice Flow 360 Research Standards Desk'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                        Research Classification
+                      </span>
+                      <span className="text-slate-600 font-semibold">
+                        {article.study_type_classification === 'commissioned' ? 'Commissioned Enterprise Study' : 'Independent Research (Uncommissioned)'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Source-based editorial article: NO panel sample, recruitment, geographic-scope, or fieldwork claims */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Editorial Method
+                    </span>
+                    <p className="text-slate-600 leading-relaxed">
+                      Secondary market synthesis, financial telemetry, product teardowns, and sentiment indexing compiled by Voice Flow 360 editorial desk.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Author &amp; Reviewer
+                    </span>
+                    <p className="text-slate-600 leading-relaxed">
+                      <strong>Author:</strong> Voice Flow 360 Industry Intelligence Desk<br />
+                      <strong>Reviewer:</strong> {article.reviewer_name || 'Voice Flow 360 Research Standards Desk'}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1.5 md:col-span-2">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Primary Linked Sources &amp; Public References
+                    </span>
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                      <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <a
+                          href={`https://www.google.com/finance?q=${encodeURIComponent(article.brand_name)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-700 hover:text-purple-900 font-medium truncate"
+                        >
+                          SEC &amp; Financial Disclosures
+                        </a>
+                      </li>
+                      <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <a
+                          href={`https://www.statista.com/search/?q=${encodeURIComponent(article.brand_name)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-700 hover:text-purple-900 font-medium truncate"
+                        >
+                          Industry Benchmark Telemetry
+                        </a>
+                      </li>
+                      <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <a
+                          href={`https://www.trustpilot.com/search?query=${encodeURIComponent(article.brand_name)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-700 hover:text-purple-900 font-medium truncate"
+                        >
+                          Public Customer Feedback Signals
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1 md:col-span-2">
+                    <span className="font-bold text-amber-900 uppercase tracking-wider block">
+                      Editorial Limitations &amp; Scope
+                    </span>
+                    <p className="text-amber-950 leading-relaxed">
+                      Editorial synthesis based on publicly available market filings, corporate disclosures, and secondary benchmarking. This article does not use a direct respondent survey panel; fieldwork dates, panel recruitment, and convenience sample counts are excluded. Empirical study classifications are reserved strictly for genuine survey research conducted with verified respondents.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {article.sources_note && (
+                <div className="pt-3 border-t border-slate-200 text-xs text-slate-500 leading-relaxed">
+                  <strong>Source Note:</strong> {article.sources_note}
+                </div>
+              )}
+            </section>
+          );
+        })()}
 
         {/* Mandatory Persistent Footer Disclaimer */}
         <div className="my-10 p-5 bg-amber-50/70 border border-amber-200/80 rounded-2xl text-center">

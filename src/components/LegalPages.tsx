@@ -117,13 +117,17 @@ export const TermsOfService: React.FC = () => (
     <p>You must be at least 18 years old or the age of majority in your jurisdiction to participate in surveys and redeem rewards on our platform.</p>
     
     <h3>3. Earning and Redeeming Rewards</h3>
-    <p>Coins earned through surveys and referrals have no cash value until explicitly redeemed through an approved payout method. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, bots, or violation of these terms.</p>
+    <p>
+      Coins earned through completed, accepted surveys undergo monthly quality reviews before transferring to your Redeemable Wallet on the 1st of each calendar month. Redemptions require reaching our standardized minimum threshold of 2,000 Coins ($20.00 USD) and are disbursed via our authorized payment rails: Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC). All redemptions are subject to the published Rewards &amp; Withdrawals Policy. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated scripts, contradictory answers, or violation of these terms.
+    </p>
     
     <h3>4. Prohibited Conduct</h3>
     <p>You agree not to use automated scripts, multiple accounts, or false information to artificially inflate your rewards. Violation will result in immediate account suspension and forfeiture of all coins.</p>
     
-    <h3>5. Modifications to Service</h3>
-    <p>We reserve the right to modify or discontinue any part of the service, including reward values and payout thresholds, at any time without prior notice. Contact <a href="mailto:legal@voiceflow360.com" className="font-semibold text-purple-600">legal@voiceflow360.com</a> for legal inquiries.</p>
+    <h3>5. Modifications to Service &amp; Fixed Conversion Ratio Guarantee</h3>
+    <p>
+      We reserve the right to modify platform operational features, available survey campaigns, and technical infrastructure. However, in accordance with our published Rewards &amp; Withdrawals Policy, all already-earned and credited coins maintain our published fixed conversion ratio of <strong>100 Coins = $1.00 USD ($0.01 per coin)</strong>. Any prospective modifications to minimum payout thresholds or disbursement rails will be announced with at least 30 days&apos; advance notice to active participants, ensuring no retroactive devaluation of accrued rewards. Contact <a href="mailto:legal@voiceflow360.com" className="font-semibold text-purple-600">legal@voiceflow360.com</a> for legal inquiries.
+    </p>
     
     <p className="text-sm text-slate-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
   </PageWrapper>
@@ -139,7 +143,7 @@ export const AboutUs: React.FC = () => (
     <p>We believe that your opinion is valuable and should be rewarded fairly. Our mission is to make providing feedback as easy and conversational as chatting with a friend, while helping brands build better products.</p>
     
     <h3>How It Works</h3>
-    <p>Instead of traditional, boring web forms, we use a conversational chat interface. You simply chat with our automated system to answer questions about products, services, and brands. For every completed campaign, you earn coins that can be redeemed for real cash or gift cards.</p>
+    <p>Instead of traditional, boring web forms, we use a conversational chat interface. You simply chat with our automated system to answer questions about products, services, and brands. For every completed and accepted campaign, you earn coins that can be redeemed for cash via Direct Bank Transfer or Cryptocurrency once reaching our standardized $20 (2,000 Coins) threshold.</p>
     
     <h3>For Brands</h3>
     <p>We provide brands with high-quality, actionable insights through AI-powered conversational surveys. Our engaging format results in higher completion rates and more authentic feedback from a diverse audience.</p>

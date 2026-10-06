@@ -136,7 +136,7 @@ ${brand.description}
 Every figure on this page is computed directly from completed Voice Flow 360 chat-based surveys — real respondents answering real questions about ${brand.name}. This page updates as more responses come in; it does not use estimated, modeled, or placeholder data.
 
 ### How can I participate in ${brand.name} surveys and earn rewards?
-Registered Voice Flow 360 users can complete ${brand.name} feedback campaigns directly from their dashboard, earning redeemable coins exchangeable for cash payouts, PayPal transfers, and digital gift cards.
+Registered Voice Flow 360 users can complete ${brand.name} feedback campaigns directly from their dashboard, earning redeemable coins exchangeable for cash payouts via Direct Bank Transfer or Cryptocurrency once reaching the standardized 2,000 Coins ($20.00 USD) threshold following monthly quality reviews on the 1st of each month.
 
 ### What is the current Net Promoter Score (NPS) for ${brand.name}?
 Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${brand.name}'s Net Promoter Score is **${nps >= 0 ? '+' : ''}${nps}**. This will be updated automatically as more responses are collected.
@@ -230,7 +230,7 @@ Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${
       },
       {
         question: `Can I earn coins and cash rewards by giving feedback on ${brand.name}?`,
-        answer: `Yes — registered Voice Flow 360 members can take official ${brand.name} feedback campaigns to earn coins that can be cashed out via PayPal, bank transfer, or digital gift cards.`,
+        answer: `Yes — registered Voice Flow 360 members can take official ${brand.name} feedback campaigns to earn coins that can be cashed out via Direct Bank Transfer or Cryptocurrency once reaching the standardized 2,000 Coins ($20.00 USD) threshold following monthly quality reviews on the 1st of each month.`,
       },
       {
         question: `What is ${brand.name}'s current Net Promoter Score?`,

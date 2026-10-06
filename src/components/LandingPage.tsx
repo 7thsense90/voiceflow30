@@ -119,7 +119,7 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>PayPal &amp; Bank Redemptions</span>
+                  <span>Bank Transfer &amp; Crypto Rails</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -264,7 +264,7 @@ export const LandingPage: React.FC = () => {
               </div>
               <h3 className="text-base font-bold text-slate-900">Receive Research Honorariums</h3>
               <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                Points accumulate in your verified account as you complete studies. Redeem for PayPal transfers, direct bank deposits, or major retail gift cards.
+                Points accumulate in your verified account as you complete studies. On the 1st of each month, reviewed earnings move to your Redeemable Wallet. Redeem via Direct Bank Transfer or Cryptocurrency once your balance reaches the 2,000 coins ($20.00 USD) threshold.
               </p>
             </div>
           </div>

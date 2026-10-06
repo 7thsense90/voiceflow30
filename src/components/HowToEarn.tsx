@@ -67,8 +67,8 @@ export const HowToEarn: React.FC = () => {
     },
     {
       step: '04',
-      title: 'Honorarium Credit & Flexible Disbursement',
-      description: 'Verified research credits accrue in your panelist account. Disburse credits as electronic gift vouchers (500 credits min), PayPal transfers (500 credits min), or international bank wire (10,000 credits min). Participate in studies and earn rewards.',
+      title: 'Honorarium Credit & Standardized Disbursement',
+      description: 'Verified research credits accrue in your panelist account. On the 1st of each month, reviewed earnings move to your Redeemable Wallet. Disburse earnings via Direct Bank Transfer or Cryptocurrency once your balance reaches the 2,000 credits ($20.00 USD) threshold.',
       icon: CreditCard,
       color: 'bg-emerald-600',
     },
@@ -79,7 +79,7 @@ export const HowToEarn: React.FC = () => {
       title: 'In-Depth Brand Studies',
       reward: '100 - 300 Credits',
       time: '4 - 8 Minutes',
-      desc: 'Comprehensive market evaluations exploring product features, customer satisfaction (CSAT), and brand positioning for Fortune 500 enterprises.',
+      desc: 'Comprehensive market evaluations exploring product features, customer satisfaction (CSAT), and brand positioning for leading consumer enterprises.',
       icon: Building2,
       accent: 'border-purple-200 bg-purple-50/40 text-purple-700',
     },
@@ -149,7 +149,7 @@ export const HowToEarn: React.FC = () => {
         name: 'What are the minimum disbursement thresholds?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Panelists can redeem research credits starting at 500 credits for electronic gift vouchers or PayPal transfers. Direct bank wire transfers carry a 10,000 credits minimum threshold due to international interbank processing standards. Participate in studies and earn rewards.',
+          text: 'Panelists can redeem research credits starting at 2,000 credits ($20.00 USD) via Direct Bank Transfer (ACH, SEPA, Wire) or Cryptocurrency (USDT, BTC) following monthly quality audits on the 1st of each month. Participate in studies and earn rewards.',
         },
       },
       {
@@ -426,9 +426,9 @@ export const HowToEarn: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           {[
-            { name: 'Electronic Gift Vouchers', min: '500 Credits Min', desc: 'Amazon, Target, Walmart digital codes delivered securely to your verified email address.' },
-            { name: 'PayPal Electronic Transfer', min: '500 Credits Min', desc: 'Direct electronic transfer to verified PayPal accounts.' },
-            { name: 'International Bank Wire (ACH)', min: '10,000 Credits Min', desc: 'Direct banking transfer subject to correspondent banking fees and interbank standards.' },
+            { name: 'Bank Transfer (ACH / SEPA / Wire)', min: '2,000 Credits ($20.00) Min', desc: 'Direct electronic deposit to verified accounts across 40+ countries with $0 platform fees.' },
+            { name: 'Cryptocurrency (USDT / BTC)', min: '2,000 Credits ($20.00) Min', desc: 'Secure transfer to verified crypto wallets subject only to standard blockchain network fees.' },
+            { name: 'Monthly Audit & Transfer Cycle', min: '1st of Every Month', desc: 'Survey coins are audited for quality during the month and unlock in your Redeemable Wallet on the 1st.' },
           ].map((m, idx) => (
             <div key={idx} className="bg-white/5 rounded-2xl p-5 border border-white/10 space-y-2 text-left">
               <div className="text-sm font-bold text-white">{m.name}</div>

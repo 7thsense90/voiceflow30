@@ -711,7 +711,7 @@ export function buildBrandedEmailHtml(params: {
 
       <!-- Trust & Instant Settlement Callout -->
       <div style="margin-top: 24px; padding: 14px 18px; background-color: #f8fafc; border-left: 4px solid #4f46e5; border-radius: 10px; font-size: 12px; color: #475569; line-height: 1.55;">
-        <strong style="color: #0f172a;">Voice Flow 360 Guarantee:</strong> Rewards credit instantly to your Redeemable Wallet upon questionnaire submission. Payouts are redeemable directly for cash via PayPal, Bank Transfer, or Gift Card vouchers.
+        <strong style="color: #0f172a;">Voice Flow 360 Guarantee:</strong> Rewards transfer to your Redeemable Wallet on the 1st of each month following quality audits. Payouts are redeemable directly via Direct Bank Transfer or Cryptocurrency at a 2,000 Coins ($20.00 USD) minimum threshold.
       </div>
     </div>
 

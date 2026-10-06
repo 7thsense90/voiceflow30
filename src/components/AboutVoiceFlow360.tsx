@@ -33,13 +33,13 @@ export const AboutVoiceFlow360: React.FC = () => {
     },
     {
       title: 'Empirical Rigor',
-      description: 'Every analysis and benchmark is grounded in representative consumer datasets, ensuring statistically validated brand insights.',
+      description: 'Our research studies are built on verified opt-in respondent panels and transparent convenience samples, with clear sample sizes, methodology disclosures, and explicit limitations stated upfront.',
       icon: Award,
       tag: 'Verified Data',
     },
     {
-      title: 'Enterprise-Grade Intelligence',
-      description: 'We transform genuine human feedback into structured sentiment insights for Fortune 500 companies and emerging innovators.',
+      title: 'Market Intelligence Desk',
+      description: 'We transform genuine human feedback into structured sentiment insights, helping product teams, market analysts, and independent researchers evaluate consumer trends.',
       icon: Cpu,
       tag: '360° Insights',
     },
@@ -53,8 +53,8 @@ export const AboutVoiceFlow360: React.FC = () => {
 
   const milestones = [
     { year: '2023', title: 'Platform Genesis', desc: 'Voice Flow 360 launched with 5 pilot consumer brands and 1,000 community testers.' },
-    { year: '2024', title: 'Global Multi-Language Engine', desc: 'Expanded conversational survey nodes across 42 countries with instant localized payouts.' },
-    { year: '2025', title: 'AI Sentiment Synthesis', desc: 'Integrated real-time semantic analysis to reward deep qualitative user responses.' },
+    { year: '2024', title: 'Global Multi-Language Engine', desc: 'Expanded conversational survey infrastructure across multiple international regions with standardized monthly review cycles and secure payment rails.' },
+    { year: '2025', title: 'Semantic Quality Auditing', desc: 'Integrated real-time semantic analysis to verify response attentiveness and filter automated filler.' },
     { year: '2026', title: 'Voice Flow 360 Ecosystem', desc: 'Introduced empirical research study publication workflow, public product reviews, and transparent audit cycles.' },
   ];
 
@@ -130,13 +130,13 @@ export const AboutVoiceFlow360: React.FC = () => {
           </p>
 
           <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-            When you respond to a Voice Flow 360 survey, you are participating in a guided, conversational experience that respects your time, values your unique context, and pays you immediately.
+            When you respond to a Voice Flow 360 survey, you are participating in a guided, conversational experience that respects your time, values your unique context, and awards auditable research honorarium credits for accepted, verified survey completions.
           </p>
 
           <div className="space-y-2.5 pt-2">
             {[
-              'Zero upfront signup requirements — start answering and earning right now',
-              'Fair coin conversions with instant cashout via PayPal, Bank, Crypto & Gift Cards',
+              'Simple registration — answer conversational surveys and earn research coins upon completed quality review',
+              'Fixed coin conversion (100 Coins = $1.00 USD) with monthly audited payouts via Direct Bank Transfer & Cryptocurrency at a 2,000 Coins ($20.00) minimum threshold',
               'Direct influence on products from global brands before they hit the market',
               'Real-time transparency on survey reward pools and daily multiplier bonuses',
             ].map((item, idx) => (
@@ -184,9 +184,9 @@ export const AboutVoiceFlow360: React.FC = () => {
                 3
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 text-sm">Instant Micro-Rewards &amp; Action</h4>
+                <h4 className="font-bold text-slate-900 text-sm">Audited Research Honorariums</h4>
                 <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                  Coins hit your digital wallet instantly upon completion, while brands receive aggregated insights to refine products.
+                  Earned coins enter Pending Review for automated and human quality audits, transferring to your Redeemable Wallet on the 1st of each month.
                 </p>
               </div>
             </div>
@@ -201,7 +201,7 @@ export const AboutVoiceFlow360: React.FC = () => {
             Why Voice Flow 360 Leads The Industry
           </h2>
           <p className="text-slate-500 text-sm">
-            Engineered from the ground up for speed, engagement, and reliable payouts.
+            Engineered from the ground up for thoughtful dialogue, data integrity, and transparent monthly payouts.
           </p>
         </div>
 

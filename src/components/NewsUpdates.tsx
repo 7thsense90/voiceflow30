@@ -60,7 +60,7 @@ export const NewsUpdates: React.FC = () => {
       iconColor: 'bg-emerald-600',
       readTime: '3 min read',
       summary:
-        'Last month was our biggest reward distribution to date! Over 18,200 cashout requests were successfully fulfilled across PayPal, Direct Bank Transfer, USDT Crypto, and Amazon Gift Cards.',
+        'Last month was our biggest reward distribution to date! Over 18,200 cashout requests were successfully fulfilled across Direct Bank Transfer and Cryptocurrency rails with zero platform fees.',
       details: [
         'Average withdrawal processing speed reduced to under 4 hours',
         'Zero redemption fees on all standard coin transfers',

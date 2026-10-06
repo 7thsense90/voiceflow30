@@ -216,7 +216,7 @@ export const RESEARCH_METHODOLOGY_ARTICLES: EducationalArticle[] = [
           'Platform coins convert at a fixed, unvarying ratio: 100 Coins = $1.00 USD. Users maintain clear visibility into their balance lifecycle:',
           '1. Pending Coins: Accrued immediately upon questionnaire completion while automated quality checks verify response coherence.',
           '2. Available Balance: Confirmed credits eligible for redemption once the minimum withdrawal threshold is reached.',
-          '3. Withdrawn Balance: Historical disbursements processed via authorized payout rails (Bank Transfer, PayPal, or Crypto).',
+          '3. Withdrawn Balance: Historical disbursements processed via authorized payout rails (Direct Bank Transfer or Cryptocurrency).',
         ],
       },
       {

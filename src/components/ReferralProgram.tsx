@@ -453,7 +453,7 @@ export const ReferralProgram: React.FC = () => {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 bg-purple-50/60 p-4 rounded-2xl border border-purple-100">
             <div className="flex items-center gap-2 text-xs text-purple-950">
               <ShieldCheck className="w-4 h-4 text-purple-700 shrink-0" />
-              <span>Referral earnings can be withdrawn to PayPal, crypto, or gift cards.</span>
+              <span>Referral earnings can be withdrawn via Direct Bank Transfer or Cryptocurrency once reaching $20.</span>
             </div>
             {isAuthenticated ? (
               <button
@@ -517,7 +517,7 @@ export const ReferralProgram: React.FC = () => {
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <span>
-                  <strong>Redemption &amp; Payout:</strong> Referral coins are fully redeemable for PayPal, crypto, bank transfer, or gift cards subject to standard platform rules.
+                  <strong>Redemption &amp; Payout:</strong> Referral coins are fully redeemable via Direct Bank Transfer or Cryptocurrency once reaching the standardized 2,000 Coins ($20.00 USD) threshold.
                 </span>
               </li>
             </ul>

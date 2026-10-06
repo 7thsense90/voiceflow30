@@ -78,7 +78,7 @@ const FAQ_ITEMS: FAQItem[] = [
     shortAnswer: 'No. Your coins never expire as long as your account remains active.',
     detailedAnswer: [
       'Your earned coins belong to you and never expire due to arbitrary calendar deadlines.',
-      'To keep an account active, simply log in at least once every 180 days. You can accumulate coins at your own pace until you are ready to redeem your target gift card or cashout amount.',
+      'To keep an account active, simply log in at least once every 12 months. You can accumulate coins at your own pace until you are ready to redeem your target cashout amount via Direct Bank Transfer or Cryptocurrency.',
     ],
   },
 
@@ -106,34 +106,34 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'What is the minimum redemption threshold?',
-    shortAnswer: 'Minimum redemption is 10,000 Coins for Bank Transfers and standard wallets, and only 500 Coins via Crypto.',
+    shortAnswer: 'Minimum redemption is 2,000 Coins ($20.00 USD) for both Bank Transfer and Cryptocurrency.',
     detailedAnswer: [
-      'To make redemptions easy to understand, we price thresholds in transparent reward coin quantities:',
-      '• Bank Transfer & Digital Wallets: Minimum redemption is 10,000 Coins. As per international and country banking policies, direct bank wires, ACH, and SEPA require minimum thresholds to eliminate intermediary banking fees.',
-      '• Cryptocurrency (USDT): Minimum redemption is only 500 Coins. If you prefer micro-redemptions without waiting for the banking threshold, you can withdraw directly in USDT to your TRC20 or ERC20 wallet.',
+      'To provide an honest, verifiable compensation process with zero platform fees, our minimum withdrawal threshold is standardized across all rails: 2,000 Coins ($20.00 USD).',
+      '• Direct Bank Transfer (ACH / SEPA / Wire): Minimum cashout is 2,000 Coins ($20.00 USD) with $0 platform fee.',
+      '• Cryptocurrency (USDT / BTC): Minimum cashout is 2,000 Coins ($20.00 USD) with standard network miner fee.',
     ],
     keyTakeaways: [
-      'Bank Transfer & Wallets: 10,000 Coins Minimum (Country Bank Policy compliant)',
-      'Crypto (USDT): 500 Coins Minimum (Instant Micro-Redemption)',
-      'Participate in studies and earn rewards with transparent conversion',
+      '2,000 Coins ($20.00 USD) unified cashout threshold',
+      'Direct Bank Transfer and Cryptocurrency supported',
+      'Zero platform fee deducted from your payout',
     ],
-    highlightBadge: 'Min 10,000 Bank / 500 Crypto',
+    highlightBadge: 'Min 2,000 Coins ($20.00)',
   },
   {
     id: 'bank-policy',
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
-    question: 'Why does Bank Transfer require a minimum balance over 10,000 Coins?',
-    shortAnswer: 'Country banking policies require transactions above minimum thresholds to process direct wire/ACH transfers with zero fees.',
+    question: 'What are the withdrawal processing requirements?',
+    shortAnswer: 'Earnings are audited during the month and move to your Redeemable Wallet on the 1st of each month. Redemptions require a minimum of 2,000 Coins ($20.00 USD).',
     detailedAnswer: [
-      'International and regional banking regulations impose flat transaction handling surcharges on cross-border ACH, SEPA, and wire disbursements.',
-      'To ensure members never pay banking fees or have their hard-earned rewards eaten up by wire charges, Voice Flow 360 requires a minimum redeemable balance of 10,000 Coins for all direct bank disbursements.',
-      'If you have a smaller balance and wish to redeem immediately, you can redeem starting from just 500 Coins using Crypto (USDT).',
+      'Completed survey earnings enter Pending Review where automated quality checks and human reviews verify answer integrity.',
+      'On the 1st of every month, all approved earnings automatically transfer to your Redeemable Wallet.',
+      'Once in your Redeemable Wallet, you can request a cashout via Bank Transfer or Cryptocurrency as soon as your balance reaches 2,000 Coins ($20.00 USD).',
     ],
     keyTakeaways: [
-      'Complies with national and international banking regulations',
-      'Zero wire or processing fees deducted from your payout',
-      'Crypto available as a 500 Coin low-threshold alternative',
+      'Monthly review cycle: transfers on 1st of each month',
+      '2,000 Coins ($20.00 USD) threshold unlocks withdrawal',
+      'Zero platform fees on Bank Transfer disbursements',
     ],
   },
   {
@@ -141,18 +141,17 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'What payout methods are supported?',
-    shortAnswer: 'Direct Bank Transfer, PayPal, USDT Crypto, and Digital Gift Cards.',
+    shortAnswer: 'Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC).',
     detailedAnswer: [
-      'We support versatile disbursement channels tailored to your country:',
-      '• Direct Bank Transfer: Direct deposit via ACH, SEPA, or domestic wire to your verified bank account (Minimum 10,000 Coins).',
-      '• PayPal: Fast electronic transfer directly to your PayPal account (Minimum 10,000 Coins).',
-      '• Cryptocurrency (USDT): Fast stablecoin payouts on TRC20 or ERC20 networks (Minimum 500 Coins).',
-      '• Digital Gift Cards: Amazon, Apple, and retail vouchers (Minimum 10,000 Coins).',
+      'We support reliable, operational payment rails for verified participants:',
+      '• Direct Bank Transfer: Direct electronic deposit via ACH, SEPA, or domestic/international wire to your verified bank account (Minimum 2,000 Coins / $20.00 USD).',
+      '• Cryptocurrency (USDT / BTC): Fast transfer directly to your verified cryptocurrency wallet address (Minimum 2,000 Coins / $20.00 USD).',
+      'We do not promise speculative, unverified payout rails. Only operational bank and crypto channels are provided.',
     ],
     keyTakeaways: [
-      'Bank Transfer: ACH, SEPA, Wire (10,000 Coins min)',
-      'Crypto: USDT on TRC20 / ERC20 (500 Coins min)',
-      'PayPal & Amazon Gift Cards (10,000 Coins min)',
+      'Bank Transfer: ACH, SEPA, Wire (2,000 Coins / $20 min)',
+      'Crypto: USDT / BTC (2,000 Coins / $20 min)',
+      'Zero platform fees on bank transfers',
     ],
   },
   {
@@ -344,7 +343,7 @@ export const FAQ: React.FC = () => {
   }, []);
 
   const calculatedCredits = Math.floor(calcCoins / 100);
-  const paypalCardsCount = Math.floor(calcCoins / 500);
+  const calculatedUsd = (calcCoins / 100).toFixed(2);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10 animate-fadeIn text-slate-900">
@@ -357,7 +356,8 @@ export const FAQ: React.FC = () => {
           'survey payout threshold',
           'how much are coins worth',
           'survey eligibility requirements',
-          'paypal cashout minimum',
+          'bank transfer cashout minimum',
+          'crypto withdrawal threshold',
           '12 hour survey limit',
           'earn money survey questions',
         ]}
@@ -375,7 +375,7 @@ export const FAQ: React.FC = () => {
           Frequently Asked Questions
         </h1>
         <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-          Clear, transparent rules regarding our reward coins valuation, 1st-of-the-month wallet review cycle, and 10,000 Coins Bank Transfer (500 Coins Crypto) minimum policies. Participate in studies and earn rewards.
+          Clear, transparent rules regarding our reward coins valuation, 1st-of-the-month wallet review cycle, and standardized 2,000 Coins ($20.00 USD) minimum cashout policy across all payment rails. Participate in studies and earn rewards.
         </p>
       </div>
 
@@ -387,8 +387,8 @@ export const FAQ: React.FC = () => {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Conversion Rate</p>
-            <p className="text-xl font-extrabold text-slate-900">100 Coins = 1 Unit</p>
-            <p className="text-xs text-slate-500">10 pts per coin</p>
+            <p className="text-xl font-extrabold text-slate-900">100 Coins = $1.00 USD</p>
+            <p className="text-xs text-slate-500">Fixed $0.01 per coin ratio</p>
           </div>
         </div>
 
@@ -409,8 +409,8 @@ export const FAQ: React.FC = () => {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Minimum Redemption</p>
-            <p className="text-xl font-extrabold text-slate-900">Min 10k Bank / 500 Crypto</p>
-            <p className="text-xs text-emerald-600 font-semibold">Country bank policy compliant</p>
+            <p className="text-xl font-extrabold text-slate-900">Min 2,000 Coins ($20)</p>
+            <p className="text-xs text-emerald-600 font-semibold">Bank Transfer &amp; Crypto</p>
           </div>
         </div>
       </div>
@@ -456,30 +456,30 @@ export const FAQ: React.FC = () => {
               className="w-full h-2.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400"
             />
             <div className="flex justify-between text-[11px] text-slate-400">
-              <span>500 coins (Crypto min)</span>
+              <span>500 coins</span>
+              <span>2,000 coins (Min cashout)</span>
               <span>5,000 coins</span>
-              <span>10,000 coins (Bank min)</span>
-              <span>20,000 coins</span>
+              <span>10,000 coins</span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">Bank Transfer (Min 10,000)</span>
-              <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 10000 ? 'text-emerald-400' : 'text-amber-300'}`}>
-                {calcCoins >= 10000 ? 'Eligible to Redeem' : `Needs ${(10000 - calcCoins).toLocaleString()} more`}
+              <span className="text-[11px] text-slate-300 block">Bank Transfer (Min 2,000)</span>
+              <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 2000 ? 'text-emerald-400' : 'text-amber-300'}`}>
+                {calcCoins >= 2000 ? 'Eligible ($20+)' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">Crypto USDT (Min 500)</span>
-              <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 500 ? 'text-emerald-400' : 'text-amber-300'}`}>
-                {calcCoins >= 500 ? 'Eligible to Redeem' : `Needs ${(500 - calcCoins).toLocaleString()} more`}
+              <span className="text-[11px] text-slate-300 block">Crypto USDT (Min 2,000)</span>
+              <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 2000 ? 'text-emerald-400' : 'text-amber-300'}`}>
+                {calcCoins >= 2000 ? 'Eligible ($20+)' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">PayPal &amp; Wallets (Min 10,000)</span>
-              <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 10000 ? 'text-emerald-400' : 'text-amber-300'}`}>
-                {calcCoins >= 10000 ? 'Eligible to Redeem' : `Needs ${(10000 - calcCoins).toLocaleString()} more`}
+              <span className="text-[11px] text-slate-300 block">Estimated USD Value</span>
+              <span className="text-xs sm:text-sm font-bold text-amber-300 block mt-1">
+                ${calculatedUsd} USD
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
@@ -499,7 +499,7 @@ export const FAQ: React.FC = () => {
           <input
             id="faq-search-input"
             type="text"
-            placeholder="Search questions (e.g., '100 coins', 'payout threshold', '12 hours', 'paypal', 'age limit')..."
+            placeholder="Search questions (e.g., '100 coins', 'payout threshold', 'bank transfer', '1st of month', 'age limit')..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all text-slate-900 placeholder:text-slate-400"
@@ -664,7 +664,7 @@ export const FAQ: React.FC = () => {
           <div>
             <h3 className="text-base font-bold text-slate-900">Participate in studies and earn rewards</h3>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Browse dozens of active brand research studies, contribute your insights for up to 250 coins per study, and redeem rewards with a low 500 coin threshold. Participate in studies and earn rewards.
+              Browse dozens of active brand research studies, contribute your insights for up to 250 coins per study, and redeem rewards with our standardized 2,000 coin ($20.00 USD) threshold. Participate in studies and earn rewards.
             </p>
           </div>
           <button

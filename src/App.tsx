@@ -17,7 +17,7 @@ import { BrandDetail } from './components/BrandDetail';
 import { NewsUpdates } from './components/NewsUpdates';
 import { BrandInsights } from './components/BrandInsights';
 import { BrandSEOArticleView } from './components/BrandSEOArticleView';
-import { getBrandArticle } from './data/brandArticles';
+import { getBrandArticle, findBrandArticleBySlugOrPath } from './data/brandArticles';
 import { BrandResearchStudiesIndex } from './components/BrandResearchStudiesIndex';
 import { BrandResearchStudyDetail } from './components/BrandResearchStudyDetail';
 import { AboutVoiceFlow360 } from './components/AboutVoiceFlow360';
@@ -38,7 +38,7 @@ import { Footer } from './components/Footer';
 import { Link } from './components/Link';
 
 const MainAppContent: React.FC = () => {
-  const { currentUser, currentView, activeChatCampaign, setCurrentView, selectedBrandId } = useApp();
+  const { currentUser, currentView, activeChatCampaign, setCurrentView, selectedBrandId, selectedArticleSlug } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const isChat = currentView === 'chat' && activeChatCampaign;
@@ -115,7 +115,16 @@ const MainAppContent: React.FC = () => {
     }
 
     if (currentView === 'brand-study') {
-      const article = selectedBrandId ? getBrandArticle(selectedBrandId) : null;
+      let article = selectedBrandId ? getBrandArticle(selectedBrandId) : null;
+      if (!article && selectedArticleSlug) {
+        article = findBrandArticleBySlugOrPath(selectedArticleSlug) || null;
+      }
+      if (!article && typeof window !== 'undefined') {
+        const slugFromUrl = window.location.pathname.split('/').pop() || '';
+        if (slugFromUrl) {
+          article = findBrandArticleBySlugOrPath(slugFromUrl) || null;
+        }
+      }
       if (article) {
         return (
           <BrandSEOArticleView
