@@ -17,6 +17,7 @@ import {
   BrandSEOArticle,
 } from '../src/data/brandArticles/index';
 import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
+import { LAUNCHED_PRODUCTS } from '../src/data/productReviewsData';
 import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
 import { ResearchArticle } from '../src/types';
 
@@ -143,6 +144,13 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     case '/contact':
       return renderContactPageSeo(origin);
 
+    case '/rewards-and-withdrawals':
+    case '/rewards-withdrawals':
+      return renderRewardsAndWithdrawalsSeo(origin);
+
+    case '/research-methodology':
+      return renderResearchMethodologySeo(origin);
+
     case '/sitemap-directory':
     case '/sitemap.html':
       return renderSitemapDirectorySeo(origin);
@@ -159,6 +167,11 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     case '/news':
     case '/news-updates':
       return renderNewsPageSeo(origin);
+
+    case '/product-reviews':
+    case '/public-product-reviews':
+    case '/products':
+      return renderPublicProductReviewsSeo(origin);
 
     case '/referrals':
     case '/referral-program':
@@ -746,8 +759,8 @@ function renderBrandDetailSeo(origin: string, brand: BrandMeta): PageSeoResult {
  */
 function renderAboutPageSeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/about`;
-  const title = 'About Voice Flow 360 - The Conversational Feedback Ecosystem';
-  const description = 'Learn how Voice Flow 360 connects 185,000+ respondents with 450+ global brands for fair, instant consumer compensation and verified market research.';
+  const title = 'About Voice Flow 360 - Consumer Market Research & Brand Intelligence';
+  const description = 'Learn how Voice Flow 360 connects everyday consumers with global brands for transparent consumer compensation and verified market research.';
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
@@ -772,19 +785,19 @@ function renderAboutPageSeo(origin: string): PageSeoResult {
 
       <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-          <div class="text-2xl font-black text-purple-600 mb-1">185,000+</div>
-          <div class="font-bold text-slate-900 text-sm">Active Panelists</div>
-          <div class="text-xs text-slate-500 mt-1">Verified survey participants across 45 countries providing authentic feedback.</div>
+          <div class="text-2xl font-black text-purple-600 mb-1">Active Panel</div>
+          <div class="font-bold text-slate-900 text-sm">Consumer Panelists</div>
+          <div class="text-xs text-slate-500 mt-1">Opted-in survey participants contributing authentic opinions on consumer brands.</div>
         </div>
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-          <div class="text-2xl font-black text-indigo-600 mb-1">450+</div>
-          <div class="font-bold text-slate-900 text-sm">Partner Brands</div>
-          <div class="text-xs text-slate-500 mt-1">Global enterprises utilizing our sentiment datasets to guide product roadmaps.</div>
+          <div class="text-2xl font-black text-indigo-600 mb-1">100+ Brands</div>
+          <div class="font-bold text-slate-900 text-sm">Cataloged Brands</div>
+          <div class="text-xs text-slate-500 mt-1">Leading consumer brands featured across public research studies and sentiment benchmarks.</div>
         </div>
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-          <div class="text-2xl font-black text-emerald-600 mb-1">100% Verified</div>
-          <div class="font-bold text-slate-900 text-sm">Quality Audits</div>
-          <div class="text-xs text-slate-500 mt-1">AI and human quality screening to prevent automated spam and low-effort responses.</div>
+          <div class="text-2xl font-black text-emerald-600 mb-1">Audited Data</div>
+          <div class="font-bold text-slate-900 text-sm">Quality Screening</div>
+          <div class="text-xs text-slate-500 mt-1">Our quality checks help identify suspicious, duplicate or inconsistent responses.</div>
         </div>
       </section>
 
@@ -835,13 +848,13 @@ function renderForBrandsPageSeo(origin: string): PageSeoResult {
           <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
             <h3 class="font-bold text-slate-900">Conversational Survey Engines</h3>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Interactive chat questionnaires generate 3.4x higher completion rates compared to legacy multi-page survey forms.
+              Interactive chat questionnaires offer an intuitive user experience compared to legacy multi-page survey forms.
             </p>
           </div>
           <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
             <h3 class="font-bold text-slate-900">Automated Quality Screening</h3>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Multi-factor response auditing eliminates AI bot farms, speeders, and contradictory answer patterns.
+              Our quality checks help identify suspicious, duplicate or inconsistent responses to uphold data integrity.
             </p>
           </div>
         </div>
@@ -1231,6 +1244,99 @@ function renderContactPageSeo(origin: string): PageSeoResult {
 }
 
 /**
+ * 11b. Rewards & Withdrawals Policy SSR (/rewards-and-withdrawals)
+ */
+function renderRewardsAndWithdrawalsSeo(origin: string): PageSeoResult {
+  const canonicalUrl = `${origin}/rewards-and-withdrawals`;
+  const title = 'Rewards & Withdrawals Policy - Transparent Consumer Compensation | Voice Flow 360';
+  const description = 'Comprehensive guide to Voice Flow 360 participant compensation: coin-to-currency conversion rates, acceptance criteria, withdrawal thresholds, payment methods, and dispute procedures.';
+
+  const htmlContent = `
+    <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
+      <header class="border-b border-slate-200 pb-6 space-y-2">
+        <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
+          Compensation Standards
+        </div>
+        <h1 class="text-3xl font-extrabold text-slate-900">Rewards &amp; Withdrawals Policy</h1>
+        <p class="text-slate-600 text-sm">Transparent rules governing coin-to-USD conversion rates, response acceptance criteria, monthly audit cycles, and payout processing.</p>
+      </header>
+
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <strong class="text-slate-900 block text-sm mb-1">Fixed Conversion</strong>
+          <p class="text-slate-600">100 Coins = $1.00 USD fixed ratio. Rewards are displayed upfront before beginning any study.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <strong class="text-slate-900 block text-sm mb-1">Response Acceptance</strong>
+          <p class="text-slate-600">Only eligible, thoughtful, non-duplicate responses are accepted. Quality checks filter low-effort submissions.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <strong class="text-slate-900 block text-sm mb-1">Disbursement Rails</strong>
+          <p class="text-slate-600">Withdrawals available via Bank Wire, PayPal, and Crypto once reaching the minimum balance.</p>
+        </div>
+      </section>
+
+      <section class="space-y-4 text-sm text-slate-700 leading-relaxed">
+        <h2 class="text-lg font-bold text-slate-900">No Advertising Arbitrage Guarantee</h2>
+        <p>Under no circumstances are cash-convertible coins awarded for viewing, clicking, or interacting with Google advertisements. Watching an ad is never required to complete a survey, receive an earned reward, or disburse an eligible balance.</p>
+      </section>
+    </div>
+  `;
+
+  return {
+    title,
+    description,
+    canonicalUrl,
+    ogType: 'website',
+    keywords: DEFAULT_KEYWORDS,
+    htmlContent,
+  };
+}
+
+/**
+ * 11c. Research Methodology SSR (/research-methodology)
+ */
+function renderResearchMethodologySeo(origin: string): PageSeoResult {
+  const canonicalUrl = `${origin}/research-methodology`;
+  const title = 'Research Methodology & Educational Library | Voice Flow 360';
+  const description = 'Educational resources covering conversational survey architecture, response quality auditing, sample size interpretations, ethical participant compensation, and consumer feedback product synthesis.';
+
+  const htmlContent = `
+    <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
+      <header class="border-b border-slate-200 pb-6 space-y-2">
+        <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full">
+          Methodological Standards
+        </div>
+        <h1 class="text-3xl font-extrabold text-slate-900">Research Methodology &amp; Educational Resources</h1>
+        <p class="text-slate-600 text-sm">Empirical guides on survey design, psychometric construct validity, fraud prevention, and statistical interpretation.</p>
+      </header>
+
+      <section class="space-y-4">
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <h2 class="text-base font-bold text-slate-900">Published Methodology Guides</h2>
+          <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-600">
+            <li><strong>How Conversational Surveys Work:</strong> Architecture, sequential dialogue, and satisficing reduction.</li>
+            <li><strong>How Response Quality Is Assessed:</strong> Multi-factor velocity checks, semantic entropy, and human spot-checks.</li>
+            <li><strong>How to Interpret Survey Sample Sizes:</strong> Margins of error, convenience vs. quota samples, and subgroup limitations.</li>
+            <li><strong>How Participant Compensation Works:</strong> Ethical honorariums, coin-to-USD conversion, and separation from ads.</li>
+            <li><strong>How Consumer Feedback Informs Product Decisions:</strong> Translating conversational sentiment into engineering roadmaps.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  `;
+
+  return {
+    title,
+    description,
+    canonicalUrl,
+    ogType: 'website',
+    keywords: DEFAULT_KEYWORDS,
+    htmlContent,
+  };
+}
+
+/**
  * 12. Sitemap Directory SSR
  */
 function renderSitemapDirectorySeo(origin: string): PageSeoResult {
@@ -1485,6 +1591,66 @@ function renderStartEarningSeo(origin: string): PageSeoResult {
 }
 
 /**
+ * 18b. Public Product Reviews SSR (/product-reviews)
+ */
+function renderPublicProductReviewsSeo(origin: string): PageSeoResult {
+  const canonicalUrl = `${origin}/product-reviews`;
+  const title = 'Public Product Reviews - 100+ Newly Launched Devices | Voice Flow 360';
+  const description = 'Browse verified consumer reviews, pricing in USD, top features, purchase intent, and owner satisfaction across 100+ newly launched tech products and gadgets.';
+
+  const htmlContent = `
+    <div class="ssr-page-wrapper max-w-5xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
+      <header class="border-b border-slate-200 pb-6 space-y-3">
+        <div class="inline-block px-3 py-1 bg-purple-100 text-purple-900 text-xs font-bold rounded-full">
+          Verified Consumer Feedback &bull; 100+ Newly Launched Products
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900">
+          Public Product Reviews &amp; Pricing Directory
+        </h1>
+        <p class="text-slate-600 text-base leading-relaxed">
+          Explore transparent retail pricing in USD, standout hardware features, satisfaction percentages, and purchase intent analytics across 105+ recently launched devices.
+        </p>
+      </header>
+
+      <section class="space-y-6">
+        <h2 class="text-xl font-bold text-slate-900">100+ Newly Launched Products Catalog</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${LAUNCHED_PRODUCTS.slice(0, 36).map((p) => `
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-extrabold text-purple-700">${escapeHtml(p.brand)}</span>
+                <span class="font-black text-slate-900">$${p.priceUSD.toLocaleString()} USD</span>
+              </div>
+              <h3 class="font-bold text-slate-900 text-sm leading-snug">${escapeHtml(p.name)}</h3>
+              <p class="text-xs text-slate-500 line-clamp-2">${escapeHtml(p.summary)}</p>
+              <div class="flex flex-wrap gap-1 pt-1">
+                ${p.topFeatures.slice(0, 2).map((f) => `
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-purple-50 text-purple-800 font-medium">
+                    ${escapeHtml(f)}
+                  </span>
+                `).join('')}
+              </div>
+              <div class="text-[11px] text-emerald-700 font-bold pt-1">
+                &bull; ${p.satisfactionRate}% Satisfied &bull; ${p.intentToPurchaseRate}% Purchase Intent
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    </div>
+  `;
+
+  return {
+    title,
+    description,
+    canonicalUrl,
+    ogType: 'website',
+    keywords: 'public product reviews, new tech launches, product pricing USD, consumer satisfaction, purchase intent, user reviews, voice flow 360',
+    htmlContent,
+  };
+}
+
+/**
  * 19. Brand Case Studies & Homepage SSR (/brand-case-studies and /)
  */
 function renderHomepageSeo(origin: string): PageSeoResult {
@@ -1497,13 +1663,13 @@ function renderHomepageSeo(origin: string): PageSeoResult {
     <div class="ssr-page-wrapper max-w-5xl mx-auto px-4 py-10 text-slate-800 font-sans space-y-12">
       <header class="text-center space-y-4 max-w-3xl mx-auto">
         <div class="inline-block px-3.5 py-1 bg-purple-100 text-purple-900 text-xs font-bold rounded-full">
-          Verified Consumer Market Research Platform
+          Consumer Market Research &amp; Brand Insights
         </div>
         <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-          Where Your Authentic Opinions Shape Tomorrow's Brands
+          Share your opinions. Help businesses understand consumers.
         </h1>
         <p class="text-lg text-slate-600 leading-relaxed">
-          Join 185,000+ consumer panelists who participate in conversational surveys, evaluate top brands, and earn real research honorariums.
+          Participate in available research studies and receive the reward shown for eligible, accepted responses. Study availability and rewards vary.
         </p>
         <div class="pt-2 flex flex-wrap justify-center gap-3">
           <a href="/start-earning" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-colors">
@@ -1523,9 +1689,9 @@ function renderHomepageSeo(origin: string): PageSeoResult {
           </p>
         </div>
         <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-2">
-          <h2 class="text-lg font-bold text-slate-900">Guaranteed Honorariums</h2>
+          <h2 class="text-lg font-bold text-slate-900">Transparent Honorariums</h2>
           <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Every completed, high-quality survey awards platform coins. Cash out via Bank Transfer or Crypto with transparent rates.
+            Eligible, accepted survey responses receive the stated study reward. Cash out via transparent payout rails with defined thresholds.
           </p>
         </div>
         <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-2">

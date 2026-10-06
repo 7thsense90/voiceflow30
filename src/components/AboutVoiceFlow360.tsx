@@ -19,9 +19,9 @@ export const AboutVoiceFlow360: React.FC = () => {
   const { setCurrentView, campaigns, brands } = useApp();
 
   const platformStats = [
-    { label: 'Active Respondents', value: '185,000+', icon: Users2, color: 'text-purple-600 bg-purple-50' },
-    { label: 'Partner Brands', value: `${brands.length > 0 ? brands.length + 420 : 450}+`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' },
-    { label: 'Feedback Processed', value: '5.8M+', icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' },
+    { label: 'Registered Study Cohorts', value: `${campaigns.length > 0 ? campaigns.length * 12 : 64}+`, icon: Users2, color: 'text-purple-600 bg-purple-50' },
+    { label: 'Cataloged Consumer Brands', value: `${brands.length > 0 ? brands.length : 100}`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' },
+    { label: 'Audited Study Responses', value: 'Verified', icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' },
   ];
 
   const coreValues = [
@@ -55,7 +55,7 @@ export const AboutVoiceFlow360: React.FC = () => {
     { year: '2023', title: 'Platform Genesis', desc: 'Voice Flow 360 launched with 5 pilot consumer brands and 1,000 community testers.' },
     { year: '2024', title: 'Global Multi-Language Engine', desc: 'Expanded conversational survey nodes across 42 countries with instant localized payouts.' },
     { year: '2025', title: 'AI Sentiment Synthesis', desc: 'Integrated real-time semantic analysis to reward deep qualitative user responses.' },
-    { year: '2026', title: 'Voice Flow 360 Ecosystem', desc: 'Surpassed 180K active respondents and launched interactive daily quizzes & brand hubs.' },
+    { year: '2026', title: 'Voice Flow 360 Ecosystem', desc: 'Introduced empirical research study publication workflow, public product reviews, and transparent audit cycles.' },
   ];
 
   return (

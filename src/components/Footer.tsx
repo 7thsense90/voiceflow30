@@ -98,11 +98,30 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <Link
+                    id="footer-nav-product-reviews-btn"
+                    to="/product-reviews"
+                    className="hover:text-purple-300 transition-colors font-semibold text-amber-300 flex items-center gap-1.5"
+                  >
+                    <span>Public Product Reviews</span>
+                    <span className="px-1.5 py-0.5 text-[9px] font-extrabold bg-amber-400/20 text-amber-300 rounded">100+</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     id="footer-nav-referrals-btn"
                     to="/referrals"
                     className="hover:text-purple-300 transition-colors font-medium text-amber-300/90"
                   >
                     Referral Program (+300 Coins)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    id="footer-nav-rewards-policy-btn"
+                    to="/rewards-and-withdrawals"
+                    className="hover:text-purple-300 transition-colors font-bold text-emerald-400"
+                  >
+                    Rewards &amp; Withdrawals
                   </Link>
                 </li>
               </ul>
@@ -121,6 +140,15 @@ export const Footer: React.FC = () => {
                     className="hover:text-purple-300 transition-colors font-bold text-purple-400"
                   >
                     Brand Research Studies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    id="footer-nav-research-methodology-btn"
+                    to="/research-methodology"
+                    className="hover:text-purple-300 transition-colors font-semibold text-indigo-300"
+                  >
+                    Research Methodology
                   </Link>
                 </li>
                 <li>
@@ -274,6 +302,8 @@ export const Footer: React.FC = () => {
             </span>
             <Link to="/privacy" className="hover:text-slate-300 transition-colors">Privacy</Link>
             <Link to="/terms" className="hover:text-slate-300 transition-colors">Terms</Link>
+            <Link to="/rewards-and-withdrawals" className="hover:text-slate-300 transition-colors">Rewards Policy</Link>
+            <Link to="/research-methodology" className="hover:text-slate-300 transition-colors">Methodology</Link>
             <Link to="/contact" className="hover:text-slate-300 transition-colors">Contact</Link>
           </div>
         </div>

@@ -326,7 +326,7 @@ export const ForBrandsView: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-            Connect with <strong className="text-white font-semibold">185,000+ verified respondents</strong> across 95+ countries. Get genuine conversational audio transcripts, Net Promoter Scores, and demographic cross-tabulation in 48 to 72 hours.
+            Reach target consumer cohorts for qualitative audio feedback, Net Promoter Scores, and demographic cross-tabulation in 48 to 72 hours.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
@@ -349,20 +349,20 @@ export const ForBrandsView: React.FC = () => {
           {/* Metric Highlights */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-10 border-t border-slate-800/80">
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
-              <div className="text-2xl sm:text-3xl font-black text-purple-400">185K+</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Verified Active Panelists</div>
+              <div className="text-2xl sm:text-3xl font-black text-purple-400">Targeted</div>
+              <div className="text-xs text-slate-400 mt-1 font-medium">Consumer Cohorts</div>
             </div>
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
               <div className="text-2xl sm:text-3xl font-black text-indigo-400">48-72h</div>
               <div className="text-xs text-slate-400 mt-1 font-medium">Average Report Turnaround</div>
             </div>
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
-              <div className="text-2xl sm:text-3xl font-black text-emerald-400">95+</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Countries & Regions</div>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-400">Multi-Market</div>
+              <div className="text-xs text-slate-400 mt-1 font-medium">Regional Coverage</div>
             </div>
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
-              <div className="text-2xl sm:text-3xl font-black text-amber-400">98.4%</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Human Quality Score</div>
+              <div className="text-2xl sm:text-3xl font-black text-amber-400">Audited</div>
+              <div className="text-xs text-slate-400 mt-1 font-medium">Multi-Factor Quality Checks</div>
             </div>
           </div>
         </div>
@@ -730,7 +730,7 @@ export const ForBrandsView: React.FC = () => {
                     ))}
                   </select>
                   <p className="text-xs text-slate-500 mt-1.5">
-                    Guaranteed 100% verified, completed respondent sessions with quality checks.
+                    Our quality checks help identify suspicious, duplicate or inconsistent responses to ensure valid completed sessions.
                   </p>
                 </div>
               </div>

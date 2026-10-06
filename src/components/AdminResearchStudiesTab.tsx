@@ -56,7 +56,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'under_review' | 'draft' | 'rejected'>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   // Modal State
@@ -74,10 +74,23 @@ export const AdminResearchStudiesTab: React.FC = () => {
   const [excerpt, setExcerpt] = useState('');
   const [body, setBody] = useState('');
   const [sourcesNote, setSourcesNote] = useState('');
-  const [status, setStatus] = useState<ResearchArticleStatus>('published');
+  const [status, setStatus] = useState<ResearchArticleStatus>('draft');
   const [publishedAt, setPublishedAt] = useState('');
   const [editorTab, setEditorTab] = useState<'write' | 'preview'>('write');
   const [formError, setFormError] = useState<string | null>(null);
+
+  // Research Audit & Transparency Fields
+  const [researchQuestion, setResearchQuestion] = useState('');
+  const [fieldworkDates, setFieldworkDates] = useState('');
+  const [validResponsesCount, setValidResponsesCount] = useState<number | ''>('');
+  const [recruitmentMethod, setRecruitmentMethod] = useState('');
+  const [participantGeography, setParticipantGeography] = useState('');
+  const [participantDemographics, setParticipantDemographics] = useState('');
+  const [sampleLimitations, setSampleLimitations] = useState('');
+  const [reviewerName, setReviewerName] = useState('Voice Flow 360 Review Board');
+  const [reviewNotes, setReviewNotes] = useState('');
+  const [studyTypeClassification, setStudyTypeClassification] = useState<'independent' | 'commissioned'>('independent');
+  const [isIllustrativeDemo, setIsIllustrativeDemo] = useState(false);
 
   // Utility to generate slug from title
   const generateSlug = (val: string) => {
@@ -115,8 +128,19 @@ export const AdminResearchStudiesTab: React.FC = () => {
     setExcerpt('');
     setBody('');
     setSourcesNote('');
-    setStatus('published');
-    setPublishedAt(new Date().toISOString().slice(0, 16));
+    setStatus('draft');
+    setPublishedAt('');
+    setResearchQuestion('');
+    setFieldworkDates('');
+    setValidResponsesCount('');
+    setRecruitmentMethod('');
+    setParticipantGeography('');
+    setParticipantDemographics('');
+    setSampleLimitations('');
+    setReviewerName('Voice Flow 360 Review Board');
+    setReviewNotes('');
+    setStudyTypeClassification('independent');
+    setIsIllustrativeDemo(false);
     setEditorTab('write');
     setFormError(null);
     setIsEditorOpen(true);
@@ -137,9 +161,35 @@ export const AdminResearchStudiesTab: React.FC = () => {
     setPublishedAt(
       article.published_at ? new Date(article.published_at).toISOString().slice(0, 16) : ''
     );
+    setResearchQuestion(article.research_question || '');
+    setFieldworkDates(article.fieldwork_dates || '');
+    setValidResponsesCount(article.valid_responses_count ?? '');
+    setRecruitmentMethod(article.recruitment_method || '');
+    setParticipantGeography(article.participant_geography || '');
+    setParticipantDemographics(article.participant_demographics || '');
+    setSampleLimitations(article.sample_limitations || '');
+    setReviewerName(article.reviewer_name || 'Voice Flow 360 Review Board');
+    setReviewNotes(article.review_notes || '');
+    setStudyTypeClassification(article.study_type_classification || 'independent');
+    setIsIllustrativeDemo(article.is_illustrative_demo || false);
     setEditorTab('write');
     setFormError(null);
     setIsEditorOpen(true);
+  };
+
+  const handleStatusTransition = (article: ResearchArticle, newStatus: ResearchArticleStatus) => {
+    const isPublishing = newStatus === 'published';
+    const now = new Date().toISOString();
+    const res = saveResearchArticle({
+      ...article,
+      status: newStatus,
+      published_at: isPublishing ? (article.published_at || now) : article.published_at,
+      reviewed_at: isPublishing ? now : article.reviewed_at,
+      reviewer_name: isPublishing ? (article.reviewer_name || 'Voice Flow 360 Review Board') : article.reviewer_name,
+    });
+    if (res.success) {
+      showToast(`Study status updated to ${newStatus.replace('_', ' ').toUpperCase()}`, 'success');
+    }
   };
 
   // Check if body has numeric claim (% or NPS)
@@ -254,6 +304,18 @@ export const AdminResearchStudiesTab: React.FC = () => {
       sources_note: sourcesNote.trim(),
       status,
       published_at: resolvedPublishedAt,
+      research_question: researchQuestion.trim() || undefined,
+      fieldwork_dates: fieldworkDates.trim() || undefined,
+      valid_responses_count: typeof validResponsesCount === 'number' ? validResponsesCount : undefined,
+      recruitment_method: recruitmentMethod.trim() || undefined,
+      participant_geography: participantGeography.trim() || undefined,
+      participant_demographics: participantDemographics.trim() || undefined,
+      sample_limitations: sampleLimitations.trim() || undefined,
+      reviewer_name: reviewerName.trim() || undefined,
+      reviewed_at: status === 'published' ? new Date().toISOString() : undefined,
+      review_notes: reviewNotes.trim() || undefined,
+      study_type_classification: studyTypeClassification,
+      is_illustrative_demo: isIllustrativeDemo,
     });
 
     if (res.success) {
@@ -292,9 +354,11 @@ export const AdminResearchStudiesTab: React.FC = () => {
   const stats = useMemo(() => {
     const total = researchArticles.length;
     const published = researchArticles.filter((a) => a.status === 'published').length;
+    const underReview = researchArticles.filter((a) => a.status === 'under_review').length;
     const drafts = researchArticles.filter((a) => a.status === 'draft').length;
+    const rejected = researchArticles.filter((a) => a.status === 'rejected').length;
     const uniqueBrands = new Set(researchArticles.map((a) => a.brand_name)).size;
-    return { total, published, drafts, uniqueBrands };
+    return { total, published, underReview, drafts, rejected, uniqueBrands };
   }, [researchArticles]);
 
   return (
@@ -310,13 +374,13 @@ export const AdminResearchStudiesTab: React.FC = () => {
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-700">
                 Editorial CMS
               </span>
-              <span className="text-xs text-slate-500 font-medium">Independent Research Publication</span>
+              <span className="text-xs text-slate-500 font-medium">Draft &rarr; Review &rarr; Published Workflow</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1 tracking-tight">
               Brand Research Studies Content Manager
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-2xl">
-              Author and publish verified brand intelligence studies at <code className="bg-slate-100 px-1.5 py-0.5 rounded text-purple-700 font-semibold">/brand-research-studies/[slug]</code>. Strictly separated from rewarding flows with dedicated ad zones and persistent brand disclaimers.
+              Strict peer review controls: Drafts remain private until verified by an authorized reviewer.
             </p>
           </div>
         </div>
@@ -334,14 +398,14 @@ export const AdminResearchStudiesTab: React.FC = () => {
       </div>
 
       {/* Metric Counters */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5 sm:gap-4">
         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Total Studies</span>
             <Layers className="w-4 h-4 text-slate-400" />
           </div>
           <p className="text-2xl font-black text-slate-900 mt-1">{stats.total}</p>
-          <span className="text-[11px] text-slate-500 font-medium">Indexed in database</span>
+          <span className="text-[11px] text-slate-500 font-medium">All database records</span>
         </div>
 
         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
@@ -350,7 +414,16 @@ export const AdminResearchStudiesTab: React.FC = () => {
             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
           </div>
           <p className="text-2xl font-black text-emerald-600 mt-1">{stats.published}</p>
-          <span className="text-[11px] text-emerald-600/80 font-medium">Accessible to public</span>
+          <span className="text-[11px] text-emerald-600/80 font-medium">Publicly crawlable</span>
+        </div>
+
+        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Under Review</span>
+            <Clock className="w-4 h-4 text-indigo-500" />
+          </div>
+          <p className="text-2xl font-black text-indigo-600 mt-1">{stats.underReview}</p>
+          <span className="text-[11px] text-indigo-600/80 font-medium">Awaiting audit</span>
         </div>
 
         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
@@ -359,16 +432,16 @@ export const AdminResearchStudiesTab: React.FC = () => {
             <Clock className="w-4 h-4 text-amber-500" />
           </div>
           <p className="text-2xl font-black text-amber-600 mt-1">{stats.drafts}</p>
-          <span className="text-[11px] text-amber-600/80 font-medium">Internal preview only</span>
+          <span className="text-[11px] text-amber-600/80 font-medium">Private authoring</span>
         </div>
 
         <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Studied Brands</span>
-            <Building2 className="w-4 h-4 text-indigo-500" />
+            <span className="text-xs font-semibold text-slate-500">Revision Needed</span>
+            <AlertTriangle className="w-4 h-4 text-rose-500" />
           </div>
-          <p className="text-2xl font-black text-indigo-600 mt-1">{stats.uniqueBrands}</p>
-          <span className="text-[11px] text-indigo-600/80 font-medium">Distinct companies</span>
+          <p className="text-2xl font-black text-rose-600 mt-1">{stats.rejected}</p>
+          <span className="text-[11px] text-rose-600/80 font-medium">Requires edits</span>
         </div>
       </div>
 
@@ -387,10 +460,10 @@ export const AdminResearchStudiesTab: React.FC = () => {
 
         <div className="flex items-center gap-3 w-full md:w-auto flex-wrap">
           {/* Status Filter */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 flex-wrap gap-1">
             <button
               onClick={() => setStatusFilter('all')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 statusFilter === 'all' ? 'bg-white text-slate-900 shadow-2xs font-bold' : 'hover:text-slate-900'
               }`}
             >
@@ -398,7 +471,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
             </button>
             <button
               onClick={() => setStatusFilter('published')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 statusFilter === 'published'
                   ? 'bg-white text-emerald-700 shadow-2xs font-bold'
                   : 'hover:text-slate-900'
@@ -407,14 +480,34 @@ export const AdminResearchStudiesTab: React.FC = () => {
               Published ({stats.published})
             </button>
             <button
+              onClick={() => setStatusFilter('under_review')}
+              className={`px-2.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                statusFilter === 'under_review'
+                  ? 'bg-white text-indigo-700 shadow-2xs font-bold'
+                  : 'hover:text-slate-900'
+              }`}
+            >
+              Review ({stats.underReview})
+            </button>
+            <button
               onClick={() => setStatusFilter('draft')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 statusFilter === 'draft'
                   ? 'bg-white text-amber-700 shadow-2xs font-bold'
                   : 'hover:text-slate-900'
               }`}
             >
               Drafts ({stats.drafts})
+            </button>
+            <button
+              onClick={() => setStatusFilter('rejected')}
+              className={`px-2.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                statusFilter === 'rejected'
+                  ? 'bg-white text-rose-700 shadow-2xs font-bold'
+                  : 'hover:text-slate-900'
+              }`}
+            >
+              Revision ({stats.rejected})
             </button>
           </div>
 
@@ -471,15 +564,33 @@ export const AdminResearchStudiesTab: React.FC = () => {
                       <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-purple-50 text-purple-700 border border-purple-200/60">
                         {article.category}
                       </span>
-                      {article.status === 'published' ? (
+                      {article.status === 'published' && (
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                           Published
                         </span>
-                      ) : (
+                      )}
+                      {article.status === 'under_review' && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          <Clock className="w-3 h-3 text-indigo-600" />
+                          Under Review
+                        </span>
+                      )}
+                      {article.status === 'draft' && (
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
                           <Clock className="w-3 h-3 text-amber-600" />
                           Draft
+                        </span>
+                      )}
+                      {article.status === 'rejected' && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                          <AlertTriangle className="w-3 h-3 text-rose-600" />
+                          Revision Needed
+                        </span>
+                      )}
+                      {article.is_illustrative_demo && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                          Illustrative Demo
                         </span>
                       )}
                     </div>
@@ -503,6 +614,9 @@ export const AdminResearchStudiesTab: React.FC = () => {
                             })
                           : 'Not published'}
                       </span>
+                      {article.valid_responses_count && (
+                        <span>Sample: n={article.valid_responses_count.toLocaleString()}</span>
+                      )}
                       <span className="font-mono text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
                         /brand-research-studies/{article.slug}
                       </span>
@@ -510,13 +624,61 @@ export const AdminResearchStudiesTab: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-2 self-end lg:self-center shrink-0">
+                {/* Workflow Transitions & Actions */}
+                <div className="flex items-center gap-2 self-end lg:self-center shrink-0 flex-wrap">
+                  {/* Workflow buttons */}
+                  {article.status === 'draft' && (
+                    <button
+                      onClick={() => handleStatusTransition(article, 'under_review')}
+                      className="px-3 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer"
+                      title="Submit draft for editorial peer review"
+                    >
+                      Submit for Review
+                    </button>
+                  )}
+                  {article.status === 'under_review' && (
+                    <>
+                      <button
+                        onClick={() => handleStatusTransition(article, 'published')}
+                        className="px-3 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                        title="Approve and make public"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Approve &amp; Publish</span>
+                      </button>
+                      <button
+                        onClick={() => handleStatusTransition(article, 'rejected')}
+                        className="px-2.5 py-1.5 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition-all cursor-pointer"
+                        title="Request revision"
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+                  {article.status === 'published' && (
+                    <button
+                      onClick={() => handleStatusTransition(article, 'draft')}
+                      className="px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl transition-all cursor-pointer"
+                      title="Unpublish back to private draft"
+                    >
+                      Unpublish
+                    </button>
+                  )}
+                  {article.status === 'rejected' && (
+                    <button
+                      onClick={() => handleStatusTransition(article, 'draft')}
+                      className="px-2.5 py-1.5 text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-xl transition-all cursor-pointer"
+                      title="Reopen for authoring"
+                    >
+                      Reopen Draft
+                    </button>
+                  )}
+
                   {article.status === 'published' && (
                     <button
                       id={`btn-view-live-study-${article.slug}`}
                       onClick={() => navigateToResearchArticle(article.slug)}
-                      className="p-2.5 text-slate-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all border border-slate-200 cursor-pointer"
+                      className="p-2 text-slate-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all border border-slate-200 cursor-pointer"
                       title="View public live page"
                     >
                       <Eye className="w-4 h-4" />
@@ -526,7 +688,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
                   <button
                     id={`btn-edit-study-${article.slug}`}
                     onClick={() => handleOpenEdit(article)}
-                    className="px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-purple-700 hover:bg-purple-50 rounded-xl transition-all border border-slate-200 flex items-center gap-1.5 cursor-pointer"
+                    className="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-purple-700 hover:bg-purple-50 rounded-xl transition-all border border-slate-200 flex items-center gap-1.5 cursor-pointer"
                   >
                     <Edit className="w-3.5 h-3.5 text-purple-600" />
                     <span>Edit</span>
@@ -535,7 +697,7 @@ export const AdminResearchStudiesTab: React.FC = () => {
                   <button
                     id={`btn-delete-study-${article.slug}`}
                     onClick={() => setDeleteConfirmId(article.id)}
-                    className="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all border border-slate-200 cursor-pointer"
+                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all border border-slate-200 cursor-pointer"
                     title="Delete study"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -908,36 +1070,203 @@ export const AdminResearchStudiesTab: React.FC = () => {
                 )}
               </div>
 
+              {/* Research Methodology & Audit Metadata */}
+              <div className="p-4 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-black text-purple-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-purple-600" />
+                    <span>Empirical Research Methodology &amp; Audit Metadata</span>
+                  </h4>
+                  <span className="text-[10px] text-purple-700 font-semibold">Phase 5 &amp; 6 Standards</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Primary Research Question
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. What factors drive storefront loyalty and subscription retention among active console owners?"
+                      value={researchQuestion}
+                      onChange={(e) => setResearchQuestion(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Fieldwork Dates / Inquiry Window
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. February 1 – February 18, 2026"
+                      value={fieldworkDates}
+                      onChange={(e) => setFieldworkDates(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Valid Responses Sample Size (n)
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 1420"
+                      value={validResponsesCount}
+                      onChange={(e) => setValidResponsesCount(e.target.value ? Number(e.target.value) : '')}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Recruitment Method
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Opt-in verified consumer research panel with double-blind screening"
+                      value={recruitmentMethod}
+                      onChange={(e) => setRecruitmentMethod(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Participant Geography
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. United States (58%), United Kingdom (22%), Germany (12%)"
+                      value={participantGeography}
+                      onChange={(e) => setParticipantGeography(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Participant Characteristics &amp; Demographics
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Adult consumers aged 18–49 with confirmed daily or weekly product engagement."
+                      value={participantDemographics}
+                      onChange={(e) => setParticipantDemographics(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Sample Limitations &amp; Potential Bias (Mandatory Disclosure)
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="Convenience sample derived from opted-in panel respondents; percentages reflect sample responses and cannot be generalized as representative of general population without weighting."
+                      value={sampleLimitations}
+                      onChange={(e) => setSampleLimitations(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Assigned Reviewer / Auditor
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Dr. Evelyn Martinez, Lead Consumer Research Methodologist"
+                      value={reviewerName}
+                      onChange={(e) => setReviewerName(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-800 mb-1">
+                      Research Classification
+                    </label>
+                    <select
+                      value={studyTypeClassification}
+                      onChange={(e) => setStudyTypeClassification(e.target.value as 'independent' | 'commissioned')}
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="independent">Independent Research (Not Commissioned by Brand)</option>
+                      <option value="commissioned">Commissioned Enterprise Study</option>
+                    </select>
+                  </div>
+
+                  <div className="sm:col-span-2 flex items-center gap-3 pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-800">
+                      <input
+                        type="checkbox"
+                        checked={isIllustrativeDemo}
+                        onChange={(e) => setIsIllustrativeDemo(e.target.checked)}
+                        className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
+                      />
+                      <span>Mark as Illustrative Demonstration (Excludes from empirical claims)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               {/* Status & Published Date Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
                 <div>
                   <label className="block text-xs font-bold text-slate-800 mb-1.5">
-                    Publication Status
+                    Publication Status (Draft &rarr; Review &rarr; Published)
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => setStatus('published')}
-                      className={`py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                        status === 'published'
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-2xs'
-                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                      }`}
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      <span>Published (Live)</span>
-                    </button>
-                    <button
-                      type="button"
                       onClick={() => setStatus('draft')}
-                      className={`py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                         status === 'draft'
                           ? 'bg-amber-50 border-amber-300 text-amber-800 shadow-2xs'
                           : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                       }`}
                     >
-                      <Clock className="w-4 h-4 text-amber-600" />
-                      <span>Draft (Hidden)</span>
+                      <Clock className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Draft (Private)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStatus('under_review')}
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        status === 'under_review'
+                          ? 'bg-indigo-50 border-indigo-300 text-indigo-800 shadow-2xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <Clock className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Under Review</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStatus('published')}
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        status === 'published'
+                          ? 'bg-emerald-50 border-emerald-300 text-emerald-800 shadow-2xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Published (Live)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStatus('rejected')}
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        status === 'rejected'
+                          ? 'bg-rose-50 border-rose-300 text-rose-800 shadow-2xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                      <span>Revision Needed</span>
                     </button>
                   </div>
                 </div>

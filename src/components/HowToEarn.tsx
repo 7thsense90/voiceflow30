@@ -61,7 +61,7 @@ export const HowToEarn: React.FC = () => {
     {
       step: '03',
       title: 'Methodology Review & Data Auditing',
-      description: 'To maintain empirical standards for enterprise clients, survey responses undergo automated quality auditing to screen out rushed inputs, bot scripts, and conflicting statements.',
+      description: 'Our quality checks help identify suspicious, duplicate or inconsistent responses to uphold empirical research standards for partner studies.',
       icon: ShieldCheck,
       color: 'bg-amber-500',
     },
@@ -511,7 +511,7 @@ export const HowToEarn: React.FC = () => {
               Ready to Share Your Consumer Perspective?
             </h3>
             <p className="text-purple-100 text-xs sm:text-sm">
-              Join over 185,000 verified panelists shaping product roadmaps for the world's leading brands.
+              Participate in available research studies and receive the reward shown for eligible, accepted responses.
             </p>
           </div>
 

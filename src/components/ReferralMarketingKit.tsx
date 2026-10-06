@@ -807,7 +807,7 @@ ${effectiveLink} (Referral Code: ${effectiveCode})
                   <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
                     <span className="flex items-center gap-1">
                       <Flame className="w-3 h-3 text-amber-400" />
-                      Pro Tip: Post with your downloaded JPG banner for 3.4x more clicks!
+                      Pro Tip: Pairing posts with visual imagery significantly improves feed visibility.
                     </span>
                     <button
                       type="button"

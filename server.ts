@@ -474,6 +474,13 @@ Allow: /brands
 Allow: /brands/*
 Allow: /brand-insights
 Allow: /brand-insights/*
+Allow: /brand-research-studies
+Allow: /brand-research-studies/*
+Allow: /research-methodology
+Allow: /research-methodology/*
+Allow: /rewards-and-withdrawals
+Allow: /product-reviews
+Allow: /public-product-reviews
 Allow: /news
 Allow: /referrals
 Allow: /faq
@@ -528,6 +535,10 @@ Sitemap: https://voiceflow360.com/sitemap.xml
       { path: '/privacy', priority: '0.5', changefreq: 'monthly' },
       { path: '/terms', priority: '0.5', changefreq: 'monthly' },
       { path: '/contact', priority: '0.6', changefreq: 'monthly' },
+      { path: '/rewards-and-withdrawals', priority: '0.8', changefreq: 'weekly' },
+      { path: '/research-methodology', priority: '0.8', changefreq: 'weekly' },
+      { path: '/brand-research-studies', priority: '0.85', changefreq: 'daily' },
+      { path: '/product-reviews', priority: '0.85', changefreq: 'daily' },
       { path: '/sitemap-directory', priority: '0.7', changefreq: 'weekly' },
     ];
 

@@ -120,6 +120,22 @@ export const APP_ROUTES: RouteItem[] = [
     priority: 0.75,
   },
   {
+    path: '/product-reviews',
+    view: 'product-reviews',
+    title: 'Public Product Reviews - 100+ Newly Launched Devices | Voice Flow 360',
+    description: 'Browse verified consumer reviews, pricing in USD, top features, purchase intent, and owner satisfaction across 100+ newly launched tech products and gadgets.',
+    changefreq: 'daily',
+    priority: 0.9,
+  },
+  {
+    path: '/public-product-reviews',
+    view: 'product-reviews',
+    title: 'Public Product Reviews - 100+ Newly Launched Devices | Voice Flow 360',
+    description: 'Browse verified consumer reviews, pricing in USD, top features, purchase intent, and owner satisfaction across 100+ newly launched tech products and gadgets.',
+    changefreq: 'daily',
+    priority: 0.85,
+  },
+  {
     path: '/referrals',
     view: 'referral-program',
     title: 'Referral Program - Earn Lifetime Friend Bonuses',
@@ -190,6 +206,22 @@ export const APP_ROUTES: RouteItem[] = [
     description: 'Independent consumer intelligence, brand sentiment benchmarks, and market research reports published by Voice Flow 360.',
     changefreq: 'daily',
     priority: 0.9,
+  },
+  {
+    path: '/rewards-and-withdrawals',
+    view: 'rewards-and-withdrawals',
+    title: 'Rewards & Withdrawals Policy - Transparent Consumer Compensation | Voice Flow 360',
+    description: 'Transparent guide to Voice Flow 360 participant compensation: conversion rates, acceptance criteria, thresholds, payment rails, and dispute policies.',
+    changefreq: 'weekly',
+    priority: 0.85,
+  },
+  {
+    path: '/research-methodology',
+    view: 'research-methodology',
+    title: 'Research Methodology & Educational Library | Voice Flow 360',
+    description: 'Empirical guide to conversational surveys, response quality audits, sample sizes, ethical compensation, and consumer feedback product synthesis.',
+    changefreq: 'weekly',
+    priority: 0.85,
   },
 ];
 
@@ -323,6 +355,14 @@ export function parseRoute(pathname: string): ParsedRoute {
     return { view: 'news-updates' };
   }
   if (
+    cleanPath === '/product-reviews' ||
+    cleanPath === '/public-product-reviews' ||
+    cleanPath === '/products' ||
+    cleanPath === '/product-reviews/'
+  ) {
+    return { view: 'product-reviews' };
+  }
+  if (
     cleanPath === '/referrals' ||
     cleanPath === '/referral-program' ||
     cleanPath === '/referral-earning' ||
@@ -341,6 +381,21 @@ export function parseRoute(pathname: string): ParsedRoute {
   }
   if (cleanPath === '/contact') {
     return { view: 'contact' };
+  }
+  if (
+    cleanPath === '/rewards-and-withdrawals' ||
+    cleanPath === '/rewards-withdrawals' ||
+    cleanPath === '/payout-policy' ||
+    cleanPath === '/rewards-policy'
+  ) {
+    return { view: 'rewards-and-withdrawals' };
+  }
+  if (
+    cleanPath === '/research-methodology' ||
+    cleanPath.startsWith('/research-methodology/') ||
+    cleanPath === '/methodology'
+  ) {
+    return { view: 'research-methodology' };
   }
   if (
     cleanPath === '/sitemap-directory' ||
@@ -426,6 +481,10 @@ export function getPathForView(view: string, brandId?: string | null): string {
     case 'news':
     case 'news-updates':
       return '/news';
+    case 'product-reviews':
+    case 'public-product-reviews':
+    case 'products':
+      return '/product-reviews';
     case 'referrals':
     case 'referral-program':
     case 'referral-earning':
@@ -440,6 +499,12 @@ export function getPathForView(view: string, brandId?: string | null): string {
       return '/terms';
     case 'contact':
       return '/contact';
+    case 'rewards-and-withdrawals':
+    case 'rewards-withdrawals':
+      return '/rewards-and-withdrawals';
+    case 'research-methodology':
+    case 'methodology':
+      return '/research-methodology';
     case 'sitemap-directory':
       return '/sitemap-directory';
     case 'profile':

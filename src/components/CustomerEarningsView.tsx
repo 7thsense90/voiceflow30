@@ -738,6 +738,16 @@ export const CustomerEarningsView: React.FC = () => {
             <p className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">
               Redeemable balance will be displayed after Audit. Audit will be performed by the 1st of every month.
             </p>
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setCurrentView('rewards-and-withdrawals')}
+                className="text-xs font-bold text-purple-700 hover:text-purple-900 underline flex items-center gap-1 cursor-pointer"
+              >
+                <span>Read our complete, transparent Rewards &amp; Withdrawals Policy</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
           {/* Withdrawable Balance Pill */}

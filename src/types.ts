@@ -340,7 +340,7 @@ export interface NewsletterSubscriber {
   country?: string;
 }
 
-export type ResearchArticleStatus = 'draft' | 'published';
+export type ResearchArticleStatus = 'draft' | 'under_review' | 'published' | 'rejected' | 'archived';
 
 export interface ResearchArticle {
   id: string;
@@ -356,5 +356,18 @@ export interface ResearchArticle {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  // Rigorous editorial & empirical research study metadata
+  research_question?: string;
+  fieldwork_dates?: string;
+  valid_responses_count?: number;
+  recruitment_method?: string;
+  participant_geography?: string;
+  participant_demographics?: string;
+  sample_limitations?: string;
+  reviewer_name?: string;
+  reviewed_at?: string | null;
+  review_notes?: string;
+  study_type_classification?: 'independent' | 'commissioned';
+  is_illustrative_demo?: boolean;
 }
 

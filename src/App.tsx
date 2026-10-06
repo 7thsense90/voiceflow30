@@ -28,6 +28,9 @@ import { EarningsDisclaimer } from './components/EarningsDisclaimer';
 import { ReferralProgram } from './components/ReferralProgram';
 import { FAQ } from './components/FAQ';
 import { SitemapDirectory } from './components/SitemapDirectory';
+import { PublicProductReviews } from './components/PublicProductReviews';
+import { RewardsAndWithdrawals } from './components/RewardsAndWithdrawals';
+import { ResearchMethodologyView } from './components/ResearchMethodologyView';
 import { SurveyCooldownModal } from './components/SurveyCooldownModal';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { BrandCaseStudiesView } from './components/BrandCaseStudiesView';
@@ -135,6 +138,15 @@ const MainAppContent: React.FC = () => {
 
     // 4. News and Updates
     if (currentView === 'news' || currentView === 'news-updates') return <NewsUpdates />;
+
+    // 4b. Public Product Reviews (100+ Newly Launched Products)
+    if (
+      currentView === 'product-reviews' ||
+      currentView === 'public-product-reviews' ||
+      currentView === 'products'
+    ) {
+      return <PublicProductReviews />;
+    }
     // 5. Start Earning / Dashboard:
     // If the authenticated user is an administrator, ALWAYS display the Admin Dashboard!
     if (currentView === 'dashboard' || currentView === 'start-earning') {
@@ -161,6 +173,16 @@ const MainAppContent: React.FC = () => {
     if (currentView === 'terms') return <TermsOfService />;
     if (currentView === 'earnings-disclaimer' || currentView === 'disclaimer') return <EarningsDisclaimer />;
     if (currentView === 'contact') return <ContactUs />;
+    if (
+      currentView === 'rewards-and-withdrawals' ||
+      currentView === 'rewards-withdrawals' ||
+      currentView === 'payout-policy'
+    ) {
+      return <RewardsAndWithdrawals />;
+    }
+    if (currentView === 'research-methodology' || currentView === 'methodology') {
+      return <ResearchMethodologyView />;
+    }
     if (currentView === 'sitemap-directory') return <SitemapDirectory />;
 
     // Brand directory & details

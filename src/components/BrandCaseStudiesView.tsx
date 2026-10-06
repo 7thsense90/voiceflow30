@@ -301,11 +301,11 @@ export const BrandCaseStudiesView: React.FC = () => {
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-                Brand Case Studies &amp; Market Intelligence
+                Share your opinions. Help businesses understand consumers.
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl font-normal">
-                Independent empirical research, consumer satisfaction metrics, and strategic SWOT roadmaps on world-leading consumer brands. Derived from over 185,000+ verified panel participants.
+                Participate in available research studies and receive the reward shown for eligible, accepted responses. Study availability and rewards vary.
               </p>
 
               {/* Integrity & Empirical Trust Indicators */}

@@ -62,6 +62,8 @@ async function runPrerender() {
     '/sitemap-directory',
     '/brands',
     '/brand-insights',
+    '/product-reviews',
+    '/public-product-reviews',
     '/news',
     '/referrals',
     '/surveys',

@@ -391,17 +391,49 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 pt-1">
-                <input
-                  id="reg-terms-checkbox"
-                  type="checkbox"
-                  checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="rounded border-slate-300 text-amber-600 focus:ring-amber-500"
-                />
-                <label htmlFor="reg-terms-checkbox" className="text-xs text-slate-600">
-                  I agree to the Terms of Service &amp; Privacy Policy.
-                </label>
+              <div className="space-y-1.5 pt-1">
+                <div className="flex items-start gap-2">
+                  <input
+                    id="reg-terms-checkbox"
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    className="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500"
+                  />
+                  <label htmlFor="reg-terms-checkbox" className="text-xs text-slate-600 leading-relaxed">
+                    I agree to the{' '}
+                    <a
+                      href="/terms"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-600 underline font-semibold hover:text-purple-800"
+                    >
+                      Participant Terms
+                    </a>
+                    ,{' '}
+                    <a
+                      href="/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-600 underline font-semibold hover:text-purple-800"
+                    >
+                      Privacy Policy
+                    </a>
+                    , and{' '}
+                    <a
+                      href="/rewards-and-withdrawals"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-600 underline font-semibold hover:text-purple-800"
+                    >
+                      Rewards &amp; Withdrawals Policy
+                    </a>
+                    .
+                  </label>
+                </div>
+                <p className="text-[10px] text-slate-400 pl-6 leading-relaxed">
+                  Study availability and compensation vary based on eligibility criteria. No reward is guaranteed without accepted responses.
+                </p>
               </div>
             </>
           )}

@@ -2593,6 +2593,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       published_at: publishedAt,
       created_at: existingArticle?.created_at || now,
       updated_at: now,
+      research_question: articleData.research_question || existingArticle?.research_question,
+      fieldwork_dates: articleData.fieldwork_dates || existingArticle?.fieldwork_dates,
+      valid_responses_count: articleData.valid_responses_count ?? existingArticle?.valid_responses_count,
+      recruitment_method: articleData.recruitment_method || existingArticle?.recruitment_method,
+      participant_geography: articleData.participant_geography || existingArticle?.participant_geography,
+      participant_demographics: articleData.participant_demographics || existingArticle?.participant_demographics,
+      sample_limitations: articleData.sample_limitations || existingArticle?.sample_limitations,
+      reviewer_name: articleData.reviewer_name || existingArticle?.reviewer_name,
+      reviewed_at: articleData.reviewed_at !== undefined ? articleData.reviewed_at : existingArticle?.reviewed_at,
+      review_notes: articleData.review_notes || existingArticle?.review_notes,
+      study_type_classification: articleData.study_type_classification || existingArticle?.study_type_classification || 'independent',
+      is_illustrative_demo: articleData.is_illustrative_demo ?? existingArticle?.is_illustrative_demo ?? false,
     };
 
     setResearchArticles((prev) => {

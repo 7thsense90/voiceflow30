@@ -25,6 +25,7 @@ import {
   Megaphone,
   Info,
   X,
+  Star,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -128,6 +129,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
       case 'news':
       case 'news-updates':
         return 'News & Updates';
+      case 'product-reviews':
+      case 'public-product-reviews':
+      case 'products':
+        return 'Public Product Reviews (100+)';
       case 'earnings':
       case 'my-earnings':
         return 'Participation and Rewards';
@@ -203,6 +208,75 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
               </div>
             </Link>
           </div>
+
+          {/* Desktop Navigation Links: Phase 9 Standard Navigation */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
+            <Link
+              id="desktop-nav-home"
+              to="/brand-case-studies"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'brand-case-studies' || currentView === 'landing' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              id="desktop-nav-how-it-works"
+              to="/how-to-earn"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'how-to-earn' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              How It Works
+            </Link>
+            <Link
+              id="desktop-nav-research-insights"
+              to="/brand-research-studies"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'brand-research-studies' || currentView === 'brand-research-study-detail' || currentView === 'brand-insights'
+                  ? 'text-purple-700 font-bold bg-purple-50'
+                  : ''
+              }`}
+            >
+              Research &amp; Insights
+            </Link>
+            <Link
+              id="desktop-nav-for-brands"
+              to="/for-brands"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'for-brands' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              For Brands
+            </Link>
+            <Link
+              id="desktop-nav-rewards"
+              to="/rewards-and-withdrawals"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'rewards-and-withdrawals' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              Rewards
+            </Link>
+            <Link
+              id="desktop-nav-about"
+              to="/about"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'about' || currentView === 'about-voiceflow' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              id="desktop-nav-contact"
+              to="/contact"
+              className={`px-2.5 py-1.5 rounded-lg transition-colors hover:text-purple-700 hover:bg-purple-50/60 ${
+                currentView === 'contact' ? 'text-purple-700 font-bold bg-purple-50' : ''
+              }`}
+            >
+              Contact
+            </Link>
+          </nav>
 
           {/* Right Action Bar: Notifications, Profile */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 lg:gap-3 shrink-0">
@@ -585,6 +659,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
                     <BarChart3 className="w-4 h-4 text-amber-600 shrink-0" />
                     <span>Brand Insights &amp; Metrics</span>
                   </Link>
+
+                  <Link
+                    id="side-nav-product-reviews"
+                    to="/product-reviews"
+                    onClick={() => setIsSidebarDrawerOpen(false)}
+                    className={`w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-3 ${
+                      currentView === 'product-reviews' || currentView === 'public-product-reviews'
+                        ? 'text-purple-700 bg-purple-50 font-black shadow-xs'
+                        : 'text-slate-700 hover:bg-white hover:text-slate-900'
+                    }`}
+                  >
+                    <Star className="w-4 h-4 text-amber-500 shrink-0 fill-amber-400" />
+                    <span>Public Product Reviews (100+)</span>
+                  </Link>
                 </div>
               </div>
 
@@ -634,6 +722,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
                   >
                     <HelpCircle className="w-4 h-4 text-purple-600 shrink-0" />
                     <span>Help &amp; FAQ</span>
+                  </Link>
+
+                  <Link
+                    id="side-nav-rewards-withdrawals"
+                    to="/rewards-and-withdrawals"
+                    onClick={() => setIsSidebarDrawerOpen(false)}
+                    className={`w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-3 ${
+                      currentView === 'rewards-and-withdrawals'
+                        ? 'text-purple-700 bg-purple-50 font-black shadow-xs'
+                        : 'text-slate-700 hover:bg-white hover:text-slate-900'
+                    }`}
+                  >
+                    <Coins className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Rewards &amp; Withdrawals</span>
+                  </Link>
+
+                  <Link
+                    id="side-nav-research-methodology"
+                    to="/research-methodology"
+                    onClick={() => setIsSidebarDrawerOpen(false)}
+                    className={`w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center gap-3 ${
+                      currentView === 'research-methodology'
+                        ? 'text-purple-700 bg-purple-50 font-black shadow-xs'
+                        : 'text-slate-700 hover:bg-white hover:text-slate-900'
+                    }`}
+                  >
+                    <BookOpen className="w-4 h-4 text-indigo-600 shrink-0" />
+                    <span>Research Methodology</span>
                   </Link>
                 </div>
               </div>
