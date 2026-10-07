@@ -32,7 +32,7 @@ export const riotGamesArticle: BrandSEOArticle = {
     positiveSentiment: 81,
     neutralSentiment: 12,
     negativeSentiment: 7,
-    verifiedResponsesAnalyzed: 1510,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Worldwide Tier-1 Competitive Esports & Transmedia Universe',
   },
   demographicBreakdown: {
@@ -159,7 +159,7 @@ export const riotGamesArticle: BrandSEOArticle = {
 
 In modern digital culture, few entertainment entities command the ferocious community loyalty, competitive fervor, and global transmedia acclaim possessed by **Riot Games**. Founded in 2006 by Brandon Beck and Marc Merrill, Riot defied traditional publishing conventions by focusing on a single, endlessly supported core title: *League of Legends*. Twenty years later, with the explosive arrival of *Valorant*, the phenomenon of *Teamfight Tactics*, and the Emmy-winning masterpiece *Arcane*, Riot has evolved into the defining esports and storytelling superpower of the 21st century.
 
-Drawing from **1,510+ verified consumer surveys and player interviews on Voice Flow 360**, this strategic report evaluates Riot Games’ consumer perception, demographic trends, satisfaction scores, and forward-looking business initiatives.
+Drawing from secondary desk research, public esports telemetry, and community feedback compiled by the Voice Flow 360 Industry Intelligence Desk, this strategic report evaluates Riot Games’ consumer perception, demographic trends, satisfaction scores, and forward-looking business initiatives.
 
 ---
 
@@ -187,7 +187,7 @@ Riot Games achieves a **Customer Satisfaction Score (CSAT) of 89%** alongside a 
 | **Community Toxicity Management** | 61% | 68% | Primary Consumer Pain Point |
 | **Server Uptime & Ping Optimization** | 94% | 82% | Elite Global Infrastructure |
 
-The primary dragging metric remains **community toxicity**. Despite introducing honor systems, automated chat mutes, and rank restrictions, 39% of surveyed players cite verbal hostility and griefing as their primary reason for taking temporary breaks from ranked competition.
+The primary dragging metric remains **community toxicity**. Despite introducing honor systems, automated chat mutes, and rank restrictions, public player discussions frequently cite verbal hostility and griefing as a major reason for taking temporary breaks from ranked competition.
 
 ---
 

@@ -571,7 +571,7 @@ const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' |
     category: 'audio',
     categoryLabel: 'Audio & Headphones',
     priceUSD: 299,
-    releaseYear: '2024 / 2025',
+    releaseYear: '2023 / 2024',
     badge: 'Flagship In-Ear',
     image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=80',
     topFeatures: ['Dynamic Driver X Technology', 'Dual Feedback Noise Sensors', 'Polyurethane Foam Noise Isolation Tips', 'LDAC & 360 Reality Audio'],

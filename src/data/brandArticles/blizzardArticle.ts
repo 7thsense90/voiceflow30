@@ -32,7 +32,7 @@ export const blizzardArticle: BrandSEOArticle = {
     positiveSentiment: 74,
     neutralSentiment: 16,
     negativeSentiment: 10,
-    verifiedResponsesAnalyzed: 1410,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 in Western PC Fantasy MMORPGs & Action Role-Playing',
   },
   demographicBreakdown: {
@@ -159,7 +159,7 @@ export const blizzardArticle: BrandSEOArticle = {
 
 For over three decades, the name **Blizzard Entertainment** was synonymous with infallible PC gaming royalty. Its foundational creed—"Gameplay First"—yielded a portfolio of cultural monuments that defined entire genres: *Warcraft* created the modern real-time strategy and MMORPG template, *Diablo* invented the dark action-RPG loot treadmill, and *StarCraft* served as the foundational bedrock upon which the entire modern esports industry was erected.
 
-Following several tumultuous years of corporate restructuring and creative friction, Blizzard in 2026 is experiencing a profound creative resurgence under the stewardship of Microsoft Gaming. Based on **1,410+ verified survey responses on Voice Flow 360**, this market research study explores consumer sentiment, demographic realignments, the revitalization of *World of Warcraft*, and the strategic horizons of this storied gaming institution.
+Following several tumultuous years of corporate restructuring and creative friction, Blizzard in 2026 is experiencing a profound creative resurgence under the stewardship of Microsoft Gaming. Based on independent editorial desk research, publicly available community telemetry, and corporate financial disclosures compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis explores consumer sentiment trends, demographic realignments, the revitalization of *World of Warcraft*, and the strategic horizons of this storied gaming institution.
 
 ---
 

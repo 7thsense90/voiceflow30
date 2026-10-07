@@ -311,7 +311,7 @@ function renderBrandResearchStudiesIndexSeo(origin: string, articles: ResearchAr
   const publishedArticles = articles.filter((a) => a.status === 'published');
   const canonicalUrl = `${origin}/brand-research-studies`;
   const title = `Brand Research Studies & Market Intelligence | Voice Flow 360`;
-  const description = `Explore empirical consumer sentiment research studies, brand satisfaction benchmarks, Net Promoter Scores, and market analysis across leading brands.`;
+  const description = `Independent editorial analysis of consumer products, brand strategies and market trends, based on publicly available sources. Each article includes its sources and limitations.`;
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -366,7 +366,7 @@ function renderBrandResearchStudiesIndexSeo(origin: string, articles: ResearchAr
         <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
           <span>${article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}</span>
           <a href="/brand-research-studies/${escapeHtml(article.slug)}" class="text-purple-600 font-bold hover:underline">
-            Read Study &rarr;
+            Read Analysis &rarr;
           </a>
         </div>
       </div>
@@ -389,13 +389,13 @@ function renderBrandResearchStudiesIndexSeo(origin: string, articles: ResearchAr
 
       <header class="mb-10 space-y-3">
         <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full uppercase tracking-wider">
-          Market Intelligence &bull; Independent Empirical Studies
+          Market Intelligence &bull; Independent Editorial Analysis
         </div>
         <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           Brand Research Studies
         </h1>
         <p class="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed">
-          In-depth, independent analysis evaluating consumer sentiment, hardware adoption, software ecosystem engagement, and customer satisfaction benchmarks across major consumer and enterprise brands.
+          Independent editorial analysis of consumer products, brand strategies and market trends, based on publicly available sources. Each article includes its sources and limitations.
         </p>
       </header>
 

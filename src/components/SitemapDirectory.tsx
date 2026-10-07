@@ -33,7 +33,7 @@ export const SitemapDirectory: React.FC = () => {
     { path: '/news', title: 'News, Releases & Payout Reports', desc: 'Monthly transparency bulletins and platform updates.' },
     { path: '/referrals', title: 'Referral Program', desc: 'Earn 300 bonus coins plus 10% lifetime referral earnings.' },
     { path: '/faq', title: 'Frequently Asked Questions', desc: 'Instant answers to payout thresholds, security audits, and rules.' },
-    { path: '/privacy', title: 'Privacy Policy & Google Disclosures', desc: 'GDPR, CCPA, and Google AdSense compliance policies.' },
+    { path: '/privacy', title: 'Privacy Policy & Google Disclosures', desc: 'Privacy practices, data rights, and cookie preferences.' },
     { path: '/terms', title: 'Terms of Service', desc: 'Platform rules, user agreements, and anti-fraud guidelines.' },
     { path: '/contact', title: 'Contact Support & Partnerships', desc: 'Member assistance and enterprise brand contact desk.' },
   ];

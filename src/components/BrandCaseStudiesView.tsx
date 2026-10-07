@@ -859,7 +859,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                           <span>
                             {study.studyType === 'Empirical Study'
                               ? 'Read Empirical Study'
-                              : 'Read Editorial Analysis'}
+                              : 'Read Analysis'}
                           </span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </div>

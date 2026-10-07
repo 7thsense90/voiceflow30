@@ -80,7 +80,7 @@ export const CookieConsentBanner: React.FC = () => {
           </div>
 
           <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-            We and our trusted partners (including <strong>Google AdSense</strong>) use cookies to analyze site traffic, personalize content, and serve relevant advertisements in accordance with GDPR and CCPA policies.
+            We use essential cookies to operate the website. With your permission, we may also use optional cookies for analytics. If advertising is enabled following approval, Google and its partners may use cookies to serve ads, subject to your consent choices where required. See our <button type="button" onClick={() => setCurrentView('privacy')} className="font-semibold text-purple-700 underline cursor-pointer">Privacy Policy</button> for details.
           </p>
 
           {showPreferences && (

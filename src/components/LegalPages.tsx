@@ -13,7 +13,7 @@ export const PageWrapper: React.FC<{
       title={title}
       description={
         description ||
-        `Official ${title} for Voice Flow 360 - The premier conversational consumer feedback and rewards ecosystem.`
+        `Official ${title} for Voice Flow 360 - Independent consumer research and conversational feedback platform.`
       }
       canonicalPath={canonicalPath}
     />

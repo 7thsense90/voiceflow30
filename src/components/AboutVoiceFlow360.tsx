@@ -20,10 +20,16 @@ export const AboutVoiceFlow360: React.FC = () => {
   const { setCurrentView, users, responses, brands } = useApp();
 
   const platformStats = [
-    { label: 'Registered Participants', value: `${users.length}`, icon: Users2, color: 'text-purple-600 bg-purple-50' },
-    { label: 'Cataloged Brands', value: `${brands.length}`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' },
-    { label: 'Audited Study Responses', value: `${responses.length}`, icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' },
-  ];
+    users.length > 0
+      ? { label: 'Registered Participants', value: `${users.length}`, icon: Users2, color: 'text-purple-600 bg-purple-50' }
+      : null,
+    brands.length > 0
+      ? { label: 'Cataloged Brands', value: `${brands.length}`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' }
+      : null,
+    responses.length > 0
+      ? { label: 'Audited Study Responses', value: `${responses.length}`, icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' }
+      : null,
+  ].filter(Boolean) as { label: string; value: string; icon: any; color: string }[];
 
   const coreValues = [
     {
@@ -33,10 +39,10 @@ export const AboutVoiceFlow360: React.FC = () => {
       tag: 'Dynamic Dialogue',
     },
     {
-      title: 'Empirical Rigor',
-      description: 'Our research studies are built on verified opt-in respondent panels and transparent convenience samples, with clear sample sizes, methodology disclosures, and explicit limitations stated upfront.',
+      title: 'Transparent Analysis',
+      description: 'Our independent editorial analyses clearly disclose publicly available sources and analytical scope, separating desk research from empirical survey studies.',
       icon: Award,
-      tag: 'Verified Data',
+      tag: 'Verified Sources',
     },
     {
       title: 'Market Intelligence Desk',
@@ -48,7 +54,7 @@ export const AboutVoiceFlow360: React.FC = () => {
       title: 'Data Privacy & Ethics',
       description: 'Your data belongs to you. Responses are aggregated anonymously to preserve consumer privacy while delivering actionable market truths.',
       icon: ShieldCheck,
-      tag: '100% Secure',
+      tag: 'Data Privacy & Security',
     },
   ];
 
@@ -88,7 +94,7 @@ export const AboutVoiceFlow360: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-lg text-purple-100/90 leading-relaxed">
-            Voice Flow 360 is the premier independent brand intelligence and consumer research platform. We deliver rigorous empirical case studies, consumer sentiment benchmarks, and strategic brand analyses across leading global industries.
+            Voice Flow 360 combines conversational consumer surveys with independent editorial analysis of products, brands and market trends. Eligible participants can earn rewards for accepted survey responses, subject to our published review and withdrawal policy.
           </p>
         </div>
       </div>
@@ -138,7 +144,7 @@ export const AboutVoiceFlow360: React.FC = () => {
             {[
               'Simple registration — answer conversational surveys and earn research coins upon completed quality review',
               'Fixed coin conversion (100 Coins = $1.00 USD) with monthly audited payouts via Direct Bank Transfer & Cryptocurrency at a 2,000 Coins ($20.00) minimum threshold',
-              'Direct influence on products from global brands before they hit the market',
+              'Independent perspective on products and brands based on genuine user experiences',
               'Real-time transparency on survey reward pools and daily multiplier bonuses',
             ].map((item, idx) => (
               <div key={idx} className="flex items-start gap-2.5 text-sm text-slate-700">
@@ -207,7 +213,7 @@ export const AboutVoiceFlow360: React.FC = () => {
       <div className="space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Why Voice Flow 360 Leads The Industry
+            Our Core Operating Principles
           </h2>
           <p className="text-slate-500 text-sm">
             Engineered from the ground up for thoughtful dialogue, data integrity, and transparent monthly payouts.

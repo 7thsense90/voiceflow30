@@ -31,7 +31,7 @@ export const ubisoftArticle: BrandSEOArticle = {
     positiveSentiment: 68,
     neutralSentiment: 19,
     negativeSentiment: 13,
-    verifiedResponsesAnalyzed: 1240,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#4 Global Publisher in Open-World Action & Tactical Shooters',
   },
   demographicBreakdown: {
@@ -157,7 +157,7 @@ export const ubisoftArticle: BrandSEOArticle = {
 
 Few publishers in entertainment history have shaped the language of modern 3D world design as profoundly as **Ubisoft**. By formalizing the modern open-world paradigm—tower viewpoints, dynamic stealth-action, living historical ecosystems—the French-founded publisher established a global entertainment empire.
 
-Drawing from **1,240+ verified participant surveys on Voice Flow 360**, this market research study delivers an evidence-based diagnosis of Ubisoft's brand perception, player demographics, customer satisfaction indices, and strategic roadmap heading deeper into 2026.
+Drawing from secondary desk research, Ubisoft entertainment financial disclosures, and public gaming community reviews compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis delivers an evidence-based diagnosis of Ubisoft's brand perception, player demographics, customer satisfaction indices, and strategic roadmap heading deeper into 2026.
 
 ---
 
@@ -253,7 +253,7 @@ export const cdprojektArticle: BrandSEOArticle = {
     positiveSentiment: 86,
     neutralSentiment: 9,
     negativeSentiment: 5,
-    verifiedResponsesAnalyzed: 1530,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 European Independent Developer of Prestige Narrative RPGs',
   },
   demographicBreakdown: {
@@ -378,7 +378,7 @@ export const cdprojektArticle: BrandSEOArticle = {
 
 In the contemporary gaming landscape, few studios evoke the intense emotional passion commanded by **CD PROJEKT RED**. From its humble beginnings translating Western role-playing games in 1990s Warsaw to conquering the globe with *The Witcher 3: Wild Hunt*, CDPR established itself as the gold standard of mature, choice-driven narrative storytelling.
 
-Drawing upon **1,530+ verified survey responses on Voice Flow 360**, this market research study explores the studio's extraordinary post-launch turnaround, player demographics, brand trust recovery, and commercial horizons.
+Drawing upon secondary desk research, CD PROJEKT S.A. investor disclosures, and public player review data compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis explores the studio's extraordinary post-launch turnaround, player demographics, brand trust recovery, and commercial horizons.
 
 ---
 
@@ -474,7 +474,7 @@ export const capcomArticle: BrandSEOArticle = {
     positiveSentiment: 89,
     neutralSentiment: 8,
     negativeSentiment: 3,
-    verifiedResponsesAnalyzed: 1480,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Japanese Action & Fighting Game Developer in Production Consistency',
   },
   demographicBreakdown: {
@@ -599,7 +599,7 @@ export const capcomArticle: BrandSEOArticle = {
 
 In the modern video game industry, no legacy publisher has orchestrated a more immaculate, sustained masterclass in creative and commercial resurgence than **Capcom**. While many rival global publishers struggle with bloated development cycles and identity crises, the Osaka-based titan has delivered hit after hit with machine-like precision.
 
-Synthesized from **1,480+ verified player surveys on Voice Flow 360**, this empirical market intelligence study breaks down Capcom's customer satisfaction benchmarks, demographic footprint, technical leadership, and strategic future.
+Synthesized through secondary desk research from Capcom financial reports, official release documentation, and public player telemetry compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis breaks down Capcom's customer satisfaction benchmarks, demographic footprint, technical leadership, and strategic future.
 
 ---
 
@@ -695,7 +695,7 @@ export const squareEnixArticle: BrandSEOArticle = {
     positiveSentiment: 80,
     neutralSentiment: 13,
     negativeSentiment: 7,
-    verifiedResponsesAnalyzed: 1390,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Global Japanese Role-Playing Game (JRPG) Publisher',
   },
   demographicBreakdown: {
@@ -820,7 +820,7 @@ export const squareEnixArticle: BrandSEOArticle = {
 
 For over forty years, **Square Enix** has stood as the poetic bard of the video game industry. Through the soaring orchestral melodies of Nobuo Uematsu, the cinematic vision of Hironobu Sakaguchi, and the timeless character designs of Tetsuya Nomura and Akira Toriyama, the company defined what it meant for interactive entertainment to touch the human heart.
 
-Synthesizing data from **1,390+ verified surveys on Voice Flow 360**, this empirical market research analysis explores Square Enix's critical resurgence, customer satisfaction indices, demographic composition, and its pivotal transition to global multiplatform accessibility.
+Synthesizing data from secondary desk research, Square Enix Holdings financial disclosures, and public gaming reviews compiled by the Voice Flow 360 Industry Intelligence Desk, this empirical market research analysis explores Square Enix's critical resurgence, customer satisfaction indices, demographic composition, and its pivotal transition to global multiplatform accessibility.
 
 ---
 

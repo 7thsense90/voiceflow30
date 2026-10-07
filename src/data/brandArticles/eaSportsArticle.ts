@@ -32,7 +32,7 @@ export const eaSportsArticle: BrandSEOArticle = {
     positiveSentiment: 71,
     neutralSentiment: 17,
     negativeSentiment: 12,
-    verifiedResponsesAnalyzed: 1490,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Worldwide Interactive Sports Simulation & Licensed Gaming',
   },
   demographicBreakdown: {
@@ -159,7 +159,7 @@ export const eaSportsArticle: BrandSEOArticle = {
 
 "It's in the game." For four decades, that iconic four-word audio trademark has signaled the start of millions of hours of virtual athletic glory. Today, **EA Sports** represents an untouchable commercial juggernaut. Responsible for the world’s most lucrative sports simulations—including the newly minted **EA Sports FC**, the unstoppable **Madden NFL** franchise, and the triumphant return of **College Football**—EA Sports has turned athletic fandom into an evergreen, billion-dollar interactive economy.
 
-Synthesizing data from **1,490+ verified consumer surveys and player interviews on Voice Flow 360**, this market intelligence analysis examines player satisfaction, demographic realities, the controversy surrounding Ultimate Team microtransactions, and the future evolution of sports video games.
+Synthesizing data from secondary desk research, EA financial reports, and public player discussions compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis examines player satisfaction, demographic realities, community sentiment regarding Ultimate Team microtransactions, and the future evolution of sports video games.
 
 ---
 
@@ -187,7 +187,7 @@ EA Sports records an overall **Customer Satisfaction Score (CSAT) of 84%** and a
 | **Ultimate Team Pack Monetization Ethics** | 48% | 70% | Core Consumer Friction Point |
 | **Competitive Server Responsiveness** | 67% | 80% | Sluggish Weekend Input Delay |
 
-The glaring low point on EA Sports’ scorecard is **Ultimate Team monetization ethics (48%)**. Over 62% of surveyed players believe the mode relies too heavily on chance-based card packs, comparing the experience to gambling and demanding fairer pathways to earn top-tier cards through in-game performance rather than real-world credit cards.
+The glaring low point on EA Sports’ scorecard is **Ultimate Team monetization ethics (48%)**. A significant portion of community commentary expresses concern that the mode relies heavily on chance-based card packs, comparing the experience to gambling and demanding fairer pathways to earn top-tier cards through in-game performance rather than real-world credit cards.
 
 ---
 

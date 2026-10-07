@@ -348,9 +348,9 @@ export const BrandInsights: React.FC = () => {
                       </span>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl text-center">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block">Responses</span>
-                      <span className="text-base font-black text-slate-800">
-                        {leadArticle.keyMetrics.verifiedResponsesAnalyzed}
+                      <span className="text-[10px] uppercase font-bold text-slate-500 block">Format</span>
+                      <span className="text-xs font-black text-slate-800">
+                        Editorial Desk
                       </span>
                     </div>
                   </div>

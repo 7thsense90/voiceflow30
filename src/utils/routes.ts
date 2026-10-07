@@ -155,7 +155,7 @@ export const APP_ROUTES: RouteItem[] = [
     path: '/privacy',
     view: 'privacy',
     title: 'Privacy Policy & Google AdSense Disclosures',
-    description: 'Our commitment to protecting your personal data, survey anonymity, and cookie preferences in compliance with GDPR and AdSense policies.',
+    description: 'Our policy regarding your personal data, survey privacy, and cookie preferences.',
     changefreq: 'monthly',
     priority: 0.5,
   },

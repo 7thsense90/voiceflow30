@@ -95,7 +95,7 @@ export const BrandResearchStudiesIndex: React.FC = () => {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Objective consumer sentiment analyses, benchmark evaluations, and empirical market intelligence on leading global brands. Conducted by Voice Flow 360’s independent research group.
+              Independent editorial analysis of consumer products, brand strategies and market trends, based on publicly available sources. Each article includes its sources and limitations.
             </p>
 
             <div className="flex items-center gap-4 pt-2 text-xs text-slate-400 font-medium">
@@ -106,7 +106,7 @@ export const BrandResearchStudiesIndex: React.FC = () => {
               <span>&bull;</span>
               <span className="flex items-center gap-1.5">
                 <Layers className="w-4 h-4 text-indigo-400" />
-                {publishedArticles.length} Published Papers
+                {publishedArticles.length} Articles
               </span>
             </div>
           </div>
@@ -230,9 +230,14 @@ export const BrandResearchStudiesIndex: React.FC = () => {
                     {/* Card Content */}
                     <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
-                        <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
-                          <Calendar className="w-3 h-3 text-slate-400" />
-                          <time dateTime={article.published_at || undefined}>{formattedDate}</time>
+                        <div className="flex items-center justify-between gap-2 text-[11px] text-slate-400 font-medium">
+                          <span className="inline-block text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                            Editorial Analysis
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3 text-slate-400" />
+                            <time dateTime={article.published_at || undefined}>{formattedDate}</time>
+                          </div>
                         </div>
 
                         <h2 className="text-lg font-black text-slate-900 group-hover:text-purple-600 transition-colors tracking-tight leading-snug line-clamp-2">
@@ -246,7 +251,7 @@ export const BrandResearchStudiesIndex: React.FC = () => {
 
                       {/* Card Footer Link */}
                       <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-600 group-hover:text-purple-700">
-                        <span>Read Independent Study</span>
+                        <span>Read Analysis</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
