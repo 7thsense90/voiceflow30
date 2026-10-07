@@ -1,5 +1,6 @@
 import React from 'react';
 import { SEOHead } from './SEOHead';
+import { Link } from './Link';
 import {
   Sparkles,
   MessageSquareQuote,
@@ -16,12 +17,12 @@ import {
 import { useApp } from '../context/AppContext';
 
 export const AboutVoiceFlow360: React.FC = () => {
-  const { setCurrentView, campaigns, brands } = useApp();
+  const { setCurrentView, users, responses, brands } = useApp();
 
   const platformStats = [
-    { label: 'Registered Study Cohorts', value: `${campaigns.length > 0 ? campaigns.length * 12 : 64}+`, icon: Users2, color: 'text-purple-600 bg-purple-50' },
-    { label: 'Cataloged Consumer Brands', value: `${brands.length > 0 ? brands.length : 100}`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' },
-    { label: 'Audited Study Responses', value: 'Verified', icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' },
+    { label: 'Registered Participants', value: `${users.length}`, icon: Users2, color: 'text-purple-600 bg-purple-50' },
+    { label: 'Cataloged Brands', value: `${brands.length}`, icon: Building2, color: 'text-indigo-600 bg-indigo-50' },
+    { label: 'Audited Study Responses', value: `${responses.length}`, icon: MessageSquareQuote, color: 'text-emerald-600 bg-emerald-50' },
   ];
 
   const coreValues = [
@@ -52,10 +53,10 @@ export const AboutVoiceFlow360: React.FC = () => {
   ];
 
   const milestones = [
-    { year: '2023', title: 'Platform Genesis', desc: 'Voice Flow 360 launched with 5 pilot consumer brands and 1,000 community testers.' },
-    { year: '2024', title: 'Global Multi-Language Engine', desc: 'Expanded conversational survey infrastructure across multiple international regions with standardized monthly review cycles and secure payment rails.' },
-    { year: '2025', title: 'Semantic Quality Auditing', desc: 'Integrated real-time semantic analysis to verify response attentiveness and filter automated filler.' },
-    { year: '2026', title: 'Voice Flow 360 Ecosystem', desc: 'Introduced empirical research study publication workflow, public product reviews, and transparent audit cycles.' },
+    { year: 'Phase 1', title: 'Conversational Research Core', desc: 'Engineered conversational inquiry architecture to replace static survey forms with structured, interactive dialogue.' },
+    { year: 'Phase 2', title: 'Editorial & Market Desk', desc: 'Established independent editorial analysis desk synthesizing secondary market data, public reviews, and commercial product evaluations.' },
+    { year: 'Phase 3', title: 'Quality Auditing & Integrity', desc: 'Implemented structured response quality verification, attentiveness audits, and transparent monthly reward disbursement cycles.' },
+    { year: 'Phase 4', title: 'Voice Flow 360 Ecosystem', desc: 'Expanded public product evaluations, empirical study workflows, and multi-rail payment verification (Direct Bank Transfer & Cryptocurrency).' },
   ];
 
   return (
@@ -145,6 +146,14 @@ export const AboutVoiceFlow360: React.FC = () => {
                 <span>{item}</span>
               </div>
             ))}
+            <div className="pt-2">
+              <Link
+                to="/rewards"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-purple-700 hover:text-purple-900 underline underline-offset-4 cursor-pointer"
+              >
+                <span>Read the complete Rewards &amp; Withdrawals Policy &rarr;</span>
+              </Link>
+            </div>
           </div>
         </div>
 

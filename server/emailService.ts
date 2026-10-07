@@ -810,14 +810,14 @@ Sender Account: ${fromEmail}`,
   // Live Campaign Delivery (respects customOptions or active surveys)
   const headline = customOptions?.headline || 'Fresh Consumer Research Studies Waiting in Your Hub';
   const subject = customOptions?.subject || '2 New Paid Surveys Available: Earn Up to 430 Coins Today!';
-  const previewText = customOptions?.previewText || 'Exclusive brand feedback studies are live now with instant cashout credits.';
+  const previewText = customOptions?.previewText || 'Exclusive brand feedback studies are live now with verified research credits.';
   const bodyContent = customOptions?.bodyContent ||
-    'Top consumer brands want to hear your authentic voice! We have unlocked new conversational surveys tailored for your profile. Share your thoughts and receive instant coin credits redeemable for real cash payouts.';
+    'Top consumer brands want to hear your authentic voice! We have unlocked new conversational surveys tailored for your profile. Share your thoughts and receive verified coin credits upon completed quality review.';
   const actionText = customOptions?.actionText || 'Take Surveys & Claim Coins';
   const actionUrl = ensureProductionUrl(customOptions?.actionUrl, '/surveys');
   const bonusCoins = customOptions?.bonusCoins !== undefined ? customOptions.bonusCoins : 50;
   const badge = customOptions?.badge || 'New Survey Alert';
-  const subheadline = customOptions?.subheadline || 'Matched Research Opportunities & Instant Credits';
+  const subheadline = customOptions?.subheadline || 'Matched Research Opportunities & Verified Credits';
   const featuredSurveys = customOptions?.featuredSurveys && customOptions.featuredSurveys.length > 0
     ? customOptions.featuredSurveys
     : [

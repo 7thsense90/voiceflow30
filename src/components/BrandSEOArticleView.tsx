@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { BrandSEOArticle } from '../data/brandArticles/types';
 import { getBrandStudyPath } from '../data/brandArticles';
+import { getBrandSourceLinks } from '../utils/brandSources';
 import { SEOHead } from './SEOHead';
 import { Link } from './Link';
 import { AdSenseAd } from './AdSenseAd';
@@ -61,6 +62,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
   }, []);
 
   const dedicatedPath = getBrandStudyPath(article);
+  const sourceLinks = useMemo(() => getBrandSourceLinks(article.brandId, article.brandName), [article.brandId, article.brandName]);
 
   const handleCopyLink = () => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -434,7 +436,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
               Editorial Method
             </span>
             <p className="text-slate-600 text-xs">
-              Synthesized by the Voice Flow 360 Industry Intelligence Desk through secondary research: evaluating public financial disclosures, technical benchmarks, corporate announcements, and third-party consumer sentiment telemetry.
+              {sourceLinks.editorialMethodText}
             </p>
           </div>
 
@@ -453,38 +455,53 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
               Primary Linked Sources &amp; Public References
             </span>
             <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-              <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
-                <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                <a
-                  href={`https://www.google.com/finance?q=${encodeURIComponent(article.brandName)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-700 hover:text-purple-900 font-medium truncate"
-                >
-                  SEC &amp; Financial Filings ({article.brandName})
-                </a>
+              <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                  <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <a
+                    href={sourceLinks.officialPortal.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-purple-900 truncate"
+                  >
+                    {sourceLinks.officialPortal.label}
+                  </a>
+                </div>
+                <span className="text-[10px] text-slate-500 leading-tight">
+                  {sourceLinks.officialPortal.note}
+                </span>
               </li>
-              <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
-                <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                <a
-                  href={`https://www.statista.com/search/?q=${encodeURIComponent(article.brandName)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-700 hover:text-purple-900 font-medium truncate"
-                >
-                  Industry Telemetry &amp; Market Share Data
-                </a>
+              <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                  <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <a
+                    href={sourceLinks.corporateFilings.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-purple-900 truncate"
+                  >
+                    {sourceLinks.corporateFilings.label}
+                  </a>
+                </div>
+                <span className="text-[10px] text-slate-500 leading-tight">
+                  {sourceLinks.corporateFilings.note}
+                </span>
               </li>
-              <li className="flex items-center gap-1.5 p-2 bg-slate-50 rounded-lg border border-slate-100">
-                <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                <a
-                  href={`https://www.trustpilot.com/search?query=${encodeURIComponent(article.brandName)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-700 hover:text-purple-900 font-medium truncate"
-                >
-                  Public Consumer Reviews &amp; Feedback Indexes
-                </a>
+              <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                  <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <a
+                    href={sourceLinks.customerReviews.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-purple-900 truncate"
+                  >
+                    {sourceLinks.customerReviews.label}
+                  </a>
+                </div>
+                <span className="text-[10px] text-slate-500 leading-tight">
+                  {sourceLinks.customerReviews.note}
+                </span>
               </li>
             </ul>
           </div>

@@ -96,7 +96,7 @@ export const NewsUpdates: React.FC = () => {
       iconColor: 'bg-amber-600',
       readTime: '3 min read',
       summary:
-        'To ensure our partner brands receive 100% human, authentic perspectives and that honest community members get maximum rewards, we deployed our upgraded AI bot-filtration protocols.',
+        'To ensure our research studies receive 100% human, authentic perspectives and that honest community members get maximum rewards, we deployed our upgraded AI bot-filtration protocols.',
       details: [
         'Zero impact on genuine conversational survey takers',
         'Sub-second payout risk verifications without withholding user balances',
@@ -245,7 +245,7 @@ export const NewsUpdates: React.FC = () => {
           <div>
             <h3 className="text-xl font-extrabold">Never Miss New Brand Research Study Drops</h3>
             <p className="text-xs text-purple-200 mt-0.5">
-              Subscribe to get alerts when verified partner brand studies and research cohorts launch.
+              Subscribe to get alerts when verified brand studies and research cohorts launch.
             </p>
           </div>
         </div>

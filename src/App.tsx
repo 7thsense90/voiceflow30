@@ -34,6 +34,7 @@ import { ResearchMethodologyView } from './components/ResearchMethodologyView';
 import { SurveyCooldownModal } from './components/SurveyCooldownModal';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { BrandCaseStudiesView } from './components/BrandCaseStudiesView';
+import { NotFoundView } from './components/NotFoundView';
 import { Footer } from './components/Footer';
 import { Link } from './components/Link';
 
@@ -227,6 +228,10 @@ const MainAppContent: React.FC = () => {
       }
       // If unauthorized non-admin attempts to view admin console, show CustomerDashboard
       return <CustomerDashboard />;
+    }
+
+    if (currentView === 'not-found') {
+      return <NotFoundView />;
     }
 
     // Default view: if signed in with an admin user, display the Admin Dashboard!

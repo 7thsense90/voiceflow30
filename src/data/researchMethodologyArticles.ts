@@ -245,7 +245,7 @@ export const RESEARCH_METHODOLOGY_ARTICLES: EducationalArticle[] = [
     authorRole: 'Product Intelligence Practice',
     publishedDate: '2026-03-05',
     lastUpdated: '2026-03-26',
-    summary: 'How Fortune 500 product teams, industrial designers, and digital product managers translate aggregated survey data into concrete roadmap prioritization, pricing adjustments, and feature iterations.',
+    summary: 'How modern product teams, industrial designers, and digital product managers translate aggregated survey data into concrete roadmap prioritization, pricing adjustments, and feature iterations.',
     sections: [
       {
         heading: 'The Gap Between Analytics Dashboards and Human Motivation',

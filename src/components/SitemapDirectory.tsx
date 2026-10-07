@@ -28,7 +28,7 @@ export const SitemapDirectory: React.FC = () => {
     { path: '/surveys', title: 'Survey Catalog & Live Drops', desc: 'Browse available conversational surveys and sponsor brand drops.' },
     { path: '/quizzes', title: 'Daily Speed Quizzes', desc: 'Test general knowledge and brand trivia for instant coin multipliers.' },
     { path: '/my-earnings', title: 'My Earnings & Withdrawal Portal', desc: 'Cashout via Direct Bank Transfer and Cryptocurrency.' },
-    { path: '/brands', title: '100+ Partner Brands Directory', desc: 'Discover participating consumer brands and product lines.' },
+    { path: '/brands', title: '100+ Cataloged Brands Directory', desc: 'Discover cataloged consumer brands and product lines.' },
     { path: '/brand-insights', title: 'Brand Insights & Analytics', desc: 'Aggregate customer sentiment scores and industry research.' },
     { path: '/news', title: 'News, Releases & Payout Reports', desc: 'Monthly transparency bulletins and platform updates.' },
     { path: '/referrals', title: 'Referral Program', desc: 'Earn 300 bonus coins plus 10% lifetime referral earnings.' },
@@ -78,7 +78,7 @@ export const SitemapDirectory: React.FC = () => {
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
       <SEOHead
         title="HTML Sitemap & Complete Site Index - Voice Flow 360"
-        description="Comprehensive index and sitemap of all 148 pages on Voice Flow 360, including core earning portals, brand research studies, and partner brand profiles on voiceflow360.com."
+        description="Comprehensive index and sitemap of all 148 pages on Voice Flow 360, including core earning portals, brand research studies, and cataloged brand profiles on voiceflow360.com."
         canonicalPath="/sitemap-directory"
       />
 
@@ -149,7 +149,7 @@ export const SitemapDirectory: React.FC = () => {
           </span>
           <span className="flex items-center gap-1.5 text-emerald-700">
             <Building2 className="w-4 h-4" />
-            <span>{partnerBrands.length} Partner Brands</span>
+            <span>{partnerBrands.length} Cataloged Brands</span>
           </span>
         </div>
       </div>
@@ -228,7 +228,7 @@ export const SitemapDirectory: React.FC = () => {
         </div>
       </section>
 
-      {/* Section 3: Partner Brand Directory Profiles */}
+      {/* Section 3: Cataloged Brand Directory Profiles */}
       <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2.5">
@@ -237,9 +237,9 @@ export const SitemapDirectory: React.FC = () => {
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900">
-                Partner Brand Profile Hubs ({filteredBrands.length})
+                Cataloged Brand Profile Hubs ({filteredBrands.length})
               </h2>
-              <p className="text-xs text-slate-500">100 verified consumer brands offering conversational survey rewards</p>
+              <p className="text-xs text-slate-500">100 cataloged consumer brands with interactive consumer feedback surveys</p>
             </div>
           </div>
         </div>

@@ -313,8 +313,8 @@ ${effectiveLink} (Referral Code: ${effectiveCode})
 
       curY += ratio === 'landscape' ? 65 : ratio === 'story' ? 140 : 90;
 
-      // 7. Value Badges Row (Instant Payouts, +150 Bonus, 300 Coin Referral)
-      const perks = ['⚡ Instant Coin Credit', '🎁 Free Starter Bonus', '✨ Fast Redemptions'];
+      // 7. Value Badges Row (Verified Rewards, Starter Bonus, Monthly Redemptions)
+      const perks = ['⚡ Verified Coin Rewards', '🎁 Free Starter Bonus', '✨ Monthly Redemptions'];
       const perkWidth = ratio === 'landscape' ? 240 : 280;
       const totalPerksWidth = perks.length * perkWidth + (perks.length - 1) * 20;
       let perkStartX = centerX - totalPerksWidth / 2 + perkWidth / 2;

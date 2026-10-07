@@ -32,8 +32,8 @@ export const APP_ROUTES: RouteItem[] = [
   {
     path: '/about',
     view: 'about-voiceflow',
-    title: 'About Voice Flow 360 - The Conversational Feedback Ecosystem',
-    description: 'Learn how Voice Flow 360 connects 185,000+ respondents with 450+ global brands for fair, instant consumer compensation.',
+    title: 'About Voice Flow 360 - Independent Brand Intelligence & Research',
+    description: 'Learn how Voice Flow 360 conducts independent editorial analysis, consumer sentiment benchmarks, and market research studies.',
     changefreq: 'weekly',
     priority: 0.9,
   },
@@ -88,8 +88,8 @@ export const APP_ROUTES: RouteItem[] = [
   {
     path: '/brands',
     view: 'brand-directory',
-    title: '100+ Partner Brands Directory - Market Research Insights',
-    description: 'Search through 100+ global brands partnering with Voice Flow 360 for consumer feedback and survey rewards.',
+    title: 'Cataloged Brands Directory - Market Research Insights',
+    description: 'Search through 100+ global brands cataloged on Voice Flow 360 for consumer feedback and survey rewards.',
     changefreq: 'daily',
     priority: 0.85,
   },
@@ -442,6 +442,9 @@ export function parseRoute(pathname: string): ParsedRoute {
   if (cleanPath === '/brand-research-studies') {
     return { view: 'brand-research-studies' };
   }
+  if (cleanPath === '/404') {
+    return { view: 'not-found' };
+  }
   const brandResearchMatch = cleanPath.match(/^\/brand-research-studies\/([a-zA-Z0-9_-]+)$/);
   if (brandResearchMatch) {
     return {
@@ -449,6 +452,11 @@ export function parseRoute(pathname: string): ParsedRoute {
       articleSlug: brandResearchMatch[1],
       studyPath: `/brand-research-studies/${brandResearchMatch[1]}`,
     };
+  }
+
+  // Default fallback for unrecognized non-root paths
+  if (cleanPath !== '/' && cleanPath !== '') {
+    return { view: 'not-found' };
   }
 
   // Default fallback
@@ -579,6 +587,8 @@ export function getPathForView(
       return '/brand-research-studies';
     case 'brand-research-study-detail':
       return articleSlug ? `/brand-research-studies/${articleSlug}` : '/brand-research-studies';
+    case 'not-found':
+      return '/404';
     default:
       return '/brand-case-studies';
   }

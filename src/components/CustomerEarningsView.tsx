@@ -669,7 +669,7 @@ export const CustomerEarningsView: React.FC = () => {
                 How Participation and Rewards Are Audited on the 1st of Every Month
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed font-medium">
-                To guarantee top-tier market research data for partner brands and sustain genuine coin rewards, all participation undergoes an automated audit conducted on the <strong>1st of every month</strong>.
+                To maintain top-tier market research data for brand studies and sustain genuine coin rewards, all participation undergoes an automated audit conducted on the <strong>1st of every month</strong>.
               </p>
             </div>
           </div>

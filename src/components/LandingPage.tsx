@@ -115,7 +115,7 @@ export const LandingPage: React.FC = () => {
               <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 font-medium">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Instant Honorarium Credits</span>
+                  <span>Verified Honorarium Credits</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -123,7 +123,7 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>100% Free &amp; Secure</span>
+                  <span>100% Free to Join</span>
                 </div>
               </div>
             </div>

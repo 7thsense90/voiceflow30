@@ -132,7 +132,7 @@ const PRICING_TIERS = [
     tag: 'Enterprise & Agencies',
     popular: false,
     features: [
-      '1,500+ guaranteed targeted participants',
+      '1,500+ targeted panel participants',
       'Van Westendorp price modeling or custom logic',
       'Competitor benchmark cross-comparison',
       'Dedicated Market Research Project Manager',
@@ -307,7 +307,7 @@ export const ForBrandsView: React.FC = () => {
     <div className="w-full bg-[#f8f9fc] text-slate-900 min-h-screen pb-20">
       <SEOHead
         title="Market Research for Brands - Conversational Studies & Consumer Intelligence | Voice Flow 360"
-        description="Launch high-impact market research studies for your products or services. Reach 185,000+ verified active consumers with conversational voice surveys, price sensitivity testing, and NPS intelligence."
+        description="Launch high-impact market research studies for your products or services. Reach targeted active consumer cohorts with conversational voice surveys, price sensitivity testing, and NPS intelligence."
         canonicalPath="/for-brands"
       />
 
@@ -965,7 +965,7 @@ export const ForBrandsView: React.FC = () => {
                   <span className="text-2xl font-black text-slate-900">{sampleSize.toLocaleString()} Verified Participants</span>
                 </div>
                 <p className="text-xs text-slate-600 max-w-lg">
-                  Guaranteed verified consumer responses, rigorous quality audits, audio feedback transcription, and comprehensive cross-tabulation analytics for your brand.
+                  Audited consumer responses, rigorous quality checks, audio feedback transcription, and comprehensive cross-tabulation analytics for your brand.
                 </p>
               </div>
 

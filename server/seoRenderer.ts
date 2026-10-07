@@ -20,6 +20,7 @@ import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
 import { LAUNCHED_PRODUCTS } from '../src/data/productReviewsData';
 import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
 import { ResearchArticle } from '../src/types';
+import { getBrandSourceLinks } from '../src/utils/brandSources';
 
 export interface PageSeoResult {
   title: string;
@@ -29,6 +30,7 @@ export interface PageSeoResult {
   keywords: string;
   structuredData?: Record<string, unknown>;
   htmlContent: string;
+  is404?: boolean;
 }
 
 function escapeHtml(str: string): string {
@@ -80,6 +82,7 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (knownBrand) {
       return renderBrandDetailSeo(origin, knownBrand);
     }
+    return render404Seo(origin, cleanPath);
   }
 
   // 1b. Check for Brand Research Studies (CMS Section)
@@ -97,6 +100,7 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (brandArticle) {
       return renderBrandStudySeo(origin, brandArticle);
     }
+    return render404Seo(origin, cleanPath);
   }
 
   if (cleanPath === '/brand-research-studies') {
@@ -113,6 +117,7 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (brand) {
       return renderBrandDetailSeo(origin, brand);
     }
+    return render404Seo(origin, cleanPath);
   }
 
   // 3. Static High-Value Platform Pages
@@ -194,12 +199,63 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     case '/dashboard':
       return renderStartEarningSeo(origin);
 
+    case '/profile':
+    case '/login':
+    case '/register':
+    case '/my-earnings':
+    case '/earnings':
+    case '/wallet':
+      return renderStartEarningSeo(origin);
+
     case '/brand-case-studies':
     case '/case-studies':
     case '/':
-    default:
       return renderHomepageSeo(origin);
+
+    default:
+      return render404Seo(origin, cleanPath);
   }
+}
+
+function render404Seo(origin: string, requestPath: string): PageSeoResult {
+  const title = 'Page Not Found (404) | Voice Flow 360';
+  const description = 'The requested page or research study could not be located on Voice Flow 360. Explore our active brand research studies, product evaluations, and consumer feedback programs.';
+  const canonicalUrl = `${origin}${requestPath}`;
+
+  const htmlContent = `
+    <div class="ssr-page-wrapper max-w-3xl mx-auto px-4 py-16 text-center text-slate-800 font-sans">
+      <div class="w-16 h-16 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-black">
+        404
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+        Page Not Found
+      </h1>
+      <p class="text-base text-slate-600 max-w-md mx-auto mb-8 leading-relaxed">
+        The requested URL <code class="bg-slate-100 px-2 py-0.5 rounded text-sm text-purple-700">${escapeHtml(requestPath)}</code> could not be found or may have been archived.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors">
+          Return to Home
+        </a>
+        <a href="/brand-case-studies" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors">
+          Browse Brand Studies
+        </a>
+        <a href="/faq" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition-colors">
+          Help &amp; FAQs
+        </a>
+      </div>
+    </div>
+  `;
+
+  return {
+    title,
+    description,
+    canonicalUrl,
+    ogType: 'website',
+    keywords: DEFAULT_KEYWORDS,
+    htmlContent,
+    is404: true,
+  };
 }
 
 function simpleMarkdownToHtml(markdown: string): string {
@@ -501,6 +557,7 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
             `;
           }
 
+          const brandLinks = getBrandSourceLinks(undefined, article.brand_name);
           return `
             <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-slate-200">
@@ -509,7 +566,7 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
               </div>
               <div class="space-y-3 text-xs text-slate-700 leading-relaxed">
                 <div>
-                  <strong>Editorial Method:</strong> Synthesized by the Voice Flow 360 Industry Intelligence Desk through secondary research: evaluating public financial disclosures, technical benchmarks, corporate announcements, and third-party consumer sentiment telemetry.
+                  <strong>Editorial Method:</strong> ${escapeHtml(brandLinks.editorialMethodText)}
                 </div>
                 <div>
                   <strong>Author &amp; Reviewer:</strong> Voice Flow 360 Industry Intelligence Desk &bull; Audited by Voice Flow 360 Research Standards Desk
@@ -517,9 +574,9 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
                 <div>
                   <strong>Primary Linked Sources &amp; Public References:</strong>
                   <ul class="list-disc pl-5 mt-1 space-y-1">
-                    <li><a href="https://www.google.com/finance?q=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">SEC &amp; Financial Disclosures (${escapeHtml(article.brand_name)})</a></li>
-                    <li><a href="https://www.statista.com/search/?q=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Industry Benchmark Telemetry</a></li>
-                    <li><a href="https://www.trustpilot.com/search?query=${encodeURIComponent(article.brand_name)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Public Customer Feedback Signals</a></li>
+                    <li><a href="${escapeHtml(brandLinks.officialPortal.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.officialPortal.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.officialPortal.note)}</span></li>
+                    <li><a href="${escapeHtml(brandLinks.corporateFilings.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.corporateFilings.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.corporateFilings.note)}</span></li>
+                    <li><a href="${escapeHtml(brandLinks.customerReviews.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.customerReviews.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.customerReviews.note)}</span></li>
                   </ul>
                 </div>
                 <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-950">
@@ -603,6 +660,8 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
     },
   };
 
+  const brandLinks = getBrandSourceLinks(article.brandId, article.brandName);
+
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans">
       <nav aria-label="Breadcrumb" class="text-xs text-slate-500 mb-6 flex items-center gap-2">
@@ -638,7 +697,7 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
           </div>
           <div class="space-y-3">
             <div>
-              <strong>Editorial Method:</strong> Synthesized by the Voice Flow 360 Industry Intelligence Desk through secondary research: evaluating public financial disclosures, technical benchmarks, corporate announcements, and third-party consumer sentiment telemetry.
+              <strong>Editorial Method:</strong> ${escapeHtml(brandLinks.editorialMethodText)}
             </div>
             <div>
               <strong>Author:</strong> ${escapeHtml(article.author.name)} (${escapeHtml(article.author.role)}) &bull; <strong>Reviewed &amp; Audited by:</strong> Voice Flow 360 Research Standards Desk
@@ -646,9 +705,9 @@ function renderBrandStudySeo(origin: string, article: BrandSEOArticle): PageSeoR
             <div>
               <strong>Primary Linked Sources &amp; Public References:</strong>
               <ul class="list-disc pl-5 mt-1 space-y-1">
-                <li><a href="https://www.google.com/finance?q=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">SEC &amp; Financial Filings (${escapeHtml(article.brandName)})</a></li>
-                <li><a href="https://www.statista.com/search/?q=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Industry Telemetry &amp; Market Share Data</a></li>
-                <li><a href="https://www.trustpilot.com/search?query=${encodeURIComponent(article.brandName)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">Public Consumer Reviews &amp; Feedback Indexes</a></li>
+                <li><a href="${escapeHtml(brandLinks.officialPortal.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.officialPortal.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.officialPortal.note)}</span></li>
+                <li><a href="${escapeHtml(brandLinks.corporateFilings.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.corporateFilings.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.corporateFilings.note)}</span></li>
+                <li><a href="${escapeHtml(brandLinks.customerReviews.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.customerReviews.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.customerReviews.note)}</span></li>
               </ul>
             </div>
             <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-950">

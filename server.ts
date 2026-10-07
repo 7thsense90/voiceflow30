@@ -14,7 +14,7 @@ import {
   sendWelcomeSubscriberEmail,
   sendSingleCustomerEmail,
 } from "./server/emailService";
-import { injectSeoAndContent } from "./server/seoRenderer";
+import { injectSeoAndContent, getPageSeoAndContent } from "./server/seoRenderer";
 
 dotenv.config();
 
@@ -948,8 +948,9 @@ Return strictly valid JSON according to schema.`;
         const templatePath = path.resolve(process.cwd(), 'index.html');
         let template = await fs.promises.readFile(templatePath, 'utf-8');
         template = await vite.transformIndexHtml(url, template);
+        const seo = getPageSeoAndContent(req.path);
         const rendered = injectSeoAndContent(template, req.path);
-        res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).send(rendered);
+        res.status(seo.is404 ? 404 : 200).set({ 'Content-Type': 'text/html; charset=utf-8' }).send(rendered);
       } catch (e: any) {
         vite.ssrFixStacktrace(e);
         next(e);
@@ -977,8 +978,9 @@ Return strictly valid JSON according to schema.`;
 
         const templatePath = path.join(distPath, 'index.html');
         const template = await fs.promises.readFile(templatePath, 'utf-8');
+        const seo = getPageSeoAndContent(req.path);
         const rendered = injectSeoAndContent(template, req.path);
-        res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).send(rendered);
+        res.status(seo.is404 ? 404 : 200).set({ 'Content-Type': 'text/html; charset=utf-8' }).send(rendered);
       } catch (err) {
         next(err);
       }

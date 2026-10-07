@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
               </div>
 
               <p className="text-xs leading-relaxed text-slate-400 max-w-sm">
-                Empowering consumers globally with instant coin rewards for real opinions, while providing leading enterprise brands with authentic market intelligence through interactive chat surveys.
+                Empowering consumers globally with verified coin rewards for authentic feedback, while providing independent editorial market analysis and interactive consumer research.
               </p>
 
               {/* Trust Badges */}

@@ -160,7 +160,7 @@ export const SurveysView: React.FC = () => {
     <div className="space-y-6">
       <SEOHead
         title="Browse Paid Surveys & Brand Research Studies"
-        description="Browse active paid surveys and consumer studies from world-class brands. Earn up to 250 coins per completed study with instant credit to your rewards balance."
+        description="Browse active paid surveys and consumer studies from world-class brands. Earn up to 250 coins per completed study with pending credits verified for monthly redeemable payouts."
         keywords={[
           'paid surveys catalog',
           'online consumer studies',
@@ -258,7 +258,7 @@ export const SurveysView: React.FC = () => {
                 <span>→</span>
                 <span className="flex items-center gap-1">
                   <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] flex items-center justify-center">3</span>
-                  Instant Coins
+                  Earn Coins
                 </span>
               </div>
             </div>

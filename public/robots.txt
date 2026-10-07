@@ -22,7 +22,12 @@ Allow: /brands
 Allow: /brands/*
 Allow: /brand-insights
 Allow: /brand-insights/*
+Allow: /brand-research-studies
+Allow: /brand-research-studies/*
+Allow: /product-reviews
 Allow: /news
+Allow: /rewards
+Allow: /research-methodology
 Allow: /referrals
 Allow: /faq
 Allow: /privacy
@@ -32,9 +37,14 @@ Allow: /sitemap-directory
 Allow: /sitemap.xml
 Allow: /sitemap
 
-# Restrict sensitive internal and admin consoles
+# Restrict private member, auth, and admin consoles
 Disallow: /admin
+Disallow: /admin/*
 Disallow: /api/
+Disallow: /profile
+Disallow: /login
+Disallow: /register
+Disallow: /wallet
 
 # XML Sitemap Location
 Sitemap: https://voiceflow360.com/sitemap.xml

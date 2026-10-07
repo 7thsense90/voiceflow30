@@ -76,7 +76,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
   );
   const [headline, setHeadline] = useState<string>('Brand New Surveys Are Waiting For You');
   const [introMessage, setIntroMessage] = useState<string>(
-    'Top partner brands have just published new conversational surveys on Voice Flow 360. Your real feedback shapes upcoming consumer products and unlocks instant cash rewards.'
+    'Top consumer brands have just published new conversational surveys on Voice Flow 360. Your real feedback shapes upcoming consumer products and unlocks verified research honorarium rewards.'
   );
   const [ctaText, setCtaText] = useState<string>('Start Surveys & Claim Rewards');
   const [bonusCoins, setBonusCoins] = useState<number>(0);
@@ -181,13 +181,13 @@ export const AdminEmailCampaignTab: React.FC = () => {
               : {
                   subject: subject.trim() || '🚀 New Paid Surveys Available: Earn Up to 450 Coins Today!',
                   headline: headline.trim() || 'Fresh Consumer Research Studies Waiting in Your Hub',
-                  previewText: previewText.trim() || 'Exclusive brand feedback studies are live now with instant cashout credits.',
+                  previewText: previewText.trim() || 'Exclusive brand feedback studies are live now with verified research credits.',
                   bodyContent: introMessage.trim(),
                   actionUrl: templateType === 'monthly_earning_credited' ? 'https://voiceflow360.com/earnings' : 'https://voiceflow360.com/surveys',
                   actionText: ctaText.trim() || (templateType === 'monthly_earning_credited' ? 'View Redeemable Wallet & Cash Out' : 'Take Surveys & Claim Coins'),
                   bonusCoins: bonusCoins > 0 ? bonusCoins : (templateType === 'monthly_earning_credited' ? 0 : 50),
                   badge: templateType === 'monthly_earning_credited' ? 'Wallet Credited' : (bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Opportunity'),
-                  subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Instant Credits'),
+                  subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Verified Credits'),
                   featuredSurveys: featuredSurveysList.map((s) => ({
                     title: s.title,
                     category: s.category,
@@ -394,7 +394,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
         setPreviewText('Exclusive brand feedback studies are live now. Claim your survey spot before quota completes.');
         setHeadline('Fresh Market Research Studies Waiting in Your Hub');
         setIntroMessage(
-          'Top consumer brands are looking for your authentic voice! We have unlocked new conversational surveys tailored for your profile. Share your thoughts and receive instant coin credits redeemable for real cash payouts.'
+          'Top consumer brands are looking for your authentic voice! We have unlocked new conversational surveys tailored for your profile. Share your thoughts and receive verified coin credits upon completed quality review.'
         );
         setCtaText('Take Surveys & Claim Coins');
         setBonusCoins(0);
@@ -402,7 +402,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
 
       case 'high_reward_spotlight':
         setSubject(`⭐ High-Reward Research Spotlight: Up to ${coins} Coins Awaiting Your Voice`);
-        setPreviewText('A premium conversational study has been matched to your profile with guaranteed rewards.');
+        setPreviewText('A premium conversational study has been matched to your profile with high-tier coin rewards.');
         setHeadline('Premium High-Payout Research Spotlight');
         setIntroMessage(
           'You have been selected for a priority research cohort. Complete our featured conversational study to unlock high-tier coin rewards. Your verified input directly impacts product releases for global brands.'
@@ -520,7 +520,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
             actionUrl: templateType === 'monthly_earning_credited' ? 'https://voiceflow360.com/earnings' : 'https://voiceflow360.com/surveys',
             actionText: ctaText.trim() || (templateType === 'monthly_earning_credited' ? 'View Redeemable Wallet & Cash Out' : 'View Available Surveys'),
             badge: templateType === 'monthly_earning_credited' ? 'Wallet Credited' : (bonusCoins > 0 ? `Bonus +${bonusCoins} Coins Available` : 'Exclusive Research Alert'),
-            subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Instant Credits'),
+            subheadline: previewText.trim() || (templateType === 'monthly_earning_credited' ? 'Monthly Balance Successfully Transferred' : 'Matched Research Opportunities & Verified Credits'),
             bonusCoins: bonusCoins > 0 ? bonusCoins : undefined,
             featuredSurveys: featuredSurveysList.map((s) => ({
               title: s.title,
@@ -644,7 +644,7 @@ export const AdminEmailCampaignTab: React.FC = () => {
               Email All Listed Users About New Surveys
             </h1>
             <p className="text-purple-200 text-sm max-w-2xl leading-relaxed">
-              Broadcast high-converting email notifications to your listed consumer panel. Feature newly launched surveys, showcase rewards, and drive instant survey participation.
+              Broadcast high-converting email notifications to your listed consumer panel. Feature newly launched surveys, showcase rewards, and drive active survey participation.
             </p>
           </div>
 

@@ -1,6 +1,6 @@
 /**
  * Authentic empirical benchmark ratings and satisfaction metrics
- * for every one of the 100 global partner brands on Voice Flow 360.
+ * for 100 global cataloged brands on Voice Flow 360.
  *
  * Each score is calibrated based on real-world industry benchmarks,
  * customer satisfaction (ACSI/NPS) reports, and verified brand perception.
