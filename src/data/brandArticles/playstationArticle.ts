@@ -76,11 +76,11 @@ export const playstationArticle: BrandSEOArticle = {
     ],
     whatPeopleFeel: [
       'A deep emotional attachment to prestigious heritage characters (Kratos, Spider-Man, Aloy).',
-      'Pride of ownership in owning the premier technological gaming centerpiece.',
+      'Pride of ownership in owning an advanced technological gaming centerpiece.',
       'Occasional anxiety over escalating game purchase prices and mid-generation hardware costs.',
     ],
     whatPeopleThink: [
-      'PlayStation is the premier place to play the best AAA exclusive games.',
+      'PlayStation is a central platform to play acclaimed AAA exclusive games.',
       'Sony represents mature, artistic, boundary-pushing engineering.',
       'Sony can be conservative or slow to adopt cross-platform and backward compatibility enhancements.',
     ],

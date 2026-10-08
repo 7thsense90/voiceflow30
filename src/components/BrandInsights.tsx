@@ -253,7 +253,9 @@ export const BrandInsights: React.FC = () => {
                 <Building2 className="w-3.5 h-3.5 text-purple-400" />
                 <span>Monitored Brands</span>
               </div>
-              <p className="text-xl font-black text-white mt-1">100+ Leaders</p>
+              <p className="text-xl font-black text-white mt-1">
+                {brands.length > 0 ? `${brands.length} Cataloged` : 'Active Directory'}
+              </p>
               <p className="text-[11px] text-slate-400">Gaming, Tech, Auto, Retail</p>
             </div>
 
@@ -263,7 +265,7 @@ export const BrandInsights: React.FC = () => {
                 <span>Verified Panel Data</span>
               </div>
               <p className="text-xl font-black text-white mt-1">
-                {totalAllResponses > 0 ? totalAllResponses.toLocaleString() : '2,000+'} Responses
+                {totalAllResponses > 0 ? `${totalAllResponses.toLocaleString()} Responses` : 'Live Responses'}
               </p>
               <p className="text-[11px] text-slate-400">Authentic Consumer Evaluations</p>
             </div>
@@ -276,7 +278,7 @@ export const BrandInsights: React.FC = () => {
               <p className="text-xl font-black text-white mt-1">
                 {publishedArticles.length} Published
               </p>
-              <p className="text-[11px] text-slate-400">1,000+ Word Editorial Studies</p>
+              <p className="text-[11px] text-slate-400">Independent Editorial Analyses</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-xs p-3.5 rounded-2xl border border-white/10">
@@ -357,7 +359,7 @@ export const BrandInsights: React.FC = () => {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-700 group-hover:translate-x-0.5 transition-transform">
-                  <span>Read Full Executive Article</span>
+                  <span>Read Analysis</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </Link>

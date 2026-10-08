@@ -20,7 +20,14 @@ import {
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
-  const { setCurrentView, startGuestSession, campaigns } = useApp();
+  const { setCurrentView, startGuestSession, campaigns, users, responses, brands } = useApp();
+
+  const genuineStats = [
+    users.length > 0 ? { value: `${users.length}`, label: 'Registered Participants' } : null,
+    responses.length > 0 ? { value: `${responses.length}`, label: 'Audited Responses' } : null,
+    brands.length > 0 ? { value: `${brands.length}`, label: 'Cataloged Brands' } : null,
+    campaigns.length > 0 ? { value: `${campaigns.length}`, label: 'Active Research Studies' } : null,
+  ].filter(Boolean) as { value: string; label: string }[];
 
   // Mini-chat interactive preview demo
   const [miniStep, setMiniStep] = useState(0);
@@ -335,29 +342,21 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trust Stats Counter */}
-      <section className="py-14 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-amber-400">1.2M+</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Research Honorariums Awarded</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-white">15,400+</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Chats Completed</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-amber-400">99.8%</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Payout Approval Rate</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl font-extrabold text-white">&lt; 24h</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Avg. Redemption Time</div>
+      {/* Platform Activity Stats (Derived strictly from genuine records) */}
+      {genuineStats.length > 0 && (
+        <section className="py-14 bg-slate-900 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+              {genuineStats.map((stat, idx) => (
+                <div key={idx}>
+                  <div className="text-3xl sm:text-4xl font-extrabold text-amber-400">{stat.value}</div>
+                  <div className="text-xs text-slate-400 mt-1 font-medium">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Footer CTA */}
       <section className="py-16 bg-gradient-to-b from-slate-900 to-slate-950 text-white text-center">

@@ -383,7 +383,7 @@ export const BrandDirectory: React.FC = () => {
                       to={heroArticle.studyUrl}
                       className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs group/btn"
                     >
-                      <span>Read Research Publication</span>
+                      <span>Read Analysis</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>

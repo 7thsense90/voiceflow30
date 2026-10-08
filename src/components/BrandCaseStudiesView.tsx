@@ -332,7 +332,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                 <span className="hidden sm:inline">&bull;</span>
                 <span className="flex items-center gap-1.5">
                   <Award className="w-4 h-4 text-amber-400" />
-                  Empirical Consumer Sentiment Data
+                  Independent Editorial Analysis &amp; Consumer Data
                 </span>
               </div>
             </div>
@@ -732,7 +732,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                     {spotlightStudy.highlights && spotlightStudy.highlights.length > 0 && (
                       <div className="pt-2 space-y-1.5">
                         <span className="text-[10px] font-black uppercase text-amber-400 tracking-wider">
-                          Key Empirical Finding:
+                          {spotlightStudy.studyType === 'Empirical Study' ? 'Key Empirical Finding:' : 'Key Strategic Finding:'}
                         </span>
                         <p className="text-xs text-purple-100 font-medium flex items-start gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
@@ -853,7 +853,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                         <span className="text-[11px] text-slate-400 font-normal">
                           {study.totalResponses > 0
                             ? `${study.totalResponses.toLocaleString()} Responses`
-                            : 'Overview'}
+                            : 'Editorial Desk'}
                         </span>
                         <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                           <span>

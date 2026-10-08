@@ -31,7 +31,7 @@ export const dellArticle: BrandSEOArticle = {
     positiveSentiment: 81,
     neutralSentiment: 13,
     negativeSentiment: 6,
-    verifiedResponsesAnalyzed: 1440,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Global Commercial Enterprise PC & Premium Windows Ultrabook Vendor',
   },
   demographicBreakdown: {
@@ -156,7 +156,7 @@ export const dellArticle: BrandSEOArticle = {
 
 In the history of the personal computer industry, few companies have demonstrated the resilience and operational dexterity of **Dell Technologies**. Founded in 1984 by Michael Dell from his University of Texas dorm room with $1,000, Dell dismantled the traditional retail distribution model by selling custom-configured PCs directly to consumers.
 
-Four decades later, Dell has grown into an enterprise titan. Synthesizing data from **1,440+ verified corporate IT and consumer surveys on Voice Flow 360**, this market research study explores Dell's customer satisfaction scores, XPS ultrabook design choices, Alienware gaming presence, and enterprise warranty dominance.
+Four decades later, Dell has grown into an enterprise titan. Synthesizing data from secondary desk research, Dell corporate disclosures, and IT hardware benchmark reviews compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis explores Dell's customer satisfaction scores, XPS ultrabook design choices, Alienware gaming presence, and enterprise warranty dominance.
 
 ---
 
@@ -252,7 +252,7 @@ export const asusRogArticle: BrandSEOArticle = {
     positiveSentiment: 83,
     neutralSentiment: 11,
     negativeSentiment: 6,
-    verifiedResponsesAnalyzed: 1470,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Global Gaming Handheld PC & Premium OLED Gaming Laptop Brand',
   },
   demographicBreakdown: {
@@ -377,7 +377,7 @@ export const asusRogArticle: BrandSEOArticle = {
 
 In the universe of PC gaming hardware, **ASUS Republic of Gamers (ROG)** has earned a legendary reputation for relentless performance pursuit. Established in 2006 by ASUSTeK Computer, ROG began as an elite skunkworks team of motherboard engineers determined to shatter world overclocking records.
 
-Two decades later, ROG has transformed the entire landscape of personal computing. By inventing the modern Windows gaming handheld category with the **ROG Ally** and redefining gaming laptop aesthetics with the CNC-milled **Zephyrus OLED** line, ROG leads both mobile and desktop gaming. Synthesized from **1,470+ verified gamer surveys on Voice Flow 360**, this market research study explores ROG's customer satisfaction scores, handheld ergonomics, and competitive roadmap.
+Two decades later, ROG has transformed the entire landscape of personal computing. By inventing the modern Windows gaming handheld category with the **ROG Ally** and redefining gaming laptop aesthetics with the CNC-milled **Zephyrus OLED** line, ROG leads both mobile and desktop gaming. Synthesizing data from secondary desk research, ASUS technical documentation, and verified hardware lab reviews compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis explores ROG's customer satisfaction scores, handheld ergonomics, and competitive roadmap.
 
 ---
 
@@ -473,7 +473,7 @@ export const unityArticle: BrandSEOArticle = {
     positiveSentiment: 78,
     neutralSentiment: 14,
     negativeSentiment: 8,
-    verifiedResponsesAnalyzed: 1310,
+    verifiedResponsesAnalyzed: 0,
     globalMarketRank: '#1 Real-Time 3D Engine for Mobile, XR & Indie Game Development',
   },
   demographicBreakdown: {
@@ -598,7 +598,7 @@ export const unityArticle: BrandSEOArticle = {
 
 In the digital entertainment economy, players marvel at characters, stories, and worlds, but rarely ponder the invisible architectural engine rendering every polygon, calculating every physical collision, and executing every line of code. For more than 70% of the world's mobile games and the majority of independent releases, that foundational engine is **Unity Technologies**.
 
-Founded in 2004 in a Copenhagen basement by David Helgason, Nicholas Francis, and Joachim Ante, Unity was born from an egalitarian mission: to "democratize game development." Synthesizing data from **1,310+ verified developer surveys on Voice Flow 360**, this empirical market intelligence study evaluates developer satisfaction benchmarks, the launch of **Unity 6**, the **Sentis AI runtime**, and Unity's strategic revival in 2026.
+Founded in 2004 in a Copenhagen basement by David Helgason, Nicholas Francis, and Joachim Ante, Unity was born from an egalitarian mission: to "democratize game development." Synthesizing data from secondary desk research, Unity Software SEC filings, and public developer discussions compiled by the Voice Flow 360 Industry Intelligence Desk, this editorial analysis evaluates developer satisfaction benchmarks, the launch of **Unity 6**, the **Sentis AI runtime**, and Unity's strategic revival in 2026.
 
 ---
 

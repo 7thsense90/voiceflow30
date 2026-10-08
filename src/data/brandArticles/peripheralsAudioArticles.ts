@@ -401,10 +401,15 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
 | :--- | :---: | :---: | :--- |
 | **Real-Time Eye Autofocus & AI Tracking** | 99% | 78% | Gold standard benchmark for mirrorless camera autofocus |
 | **Low-Light Sensor Dynamic Range** | 98% | 80% | Unrivaled full-frame BSI sensor performance |
-| **WH-1000XM Audio Fidelity & LDAC Codec** | 95% | 76% | Industry-leading high-resolution wireless streaming |
+| **1000X Audio Fidelity & LDAC Codec** | 95% | 76% | Industry-leading high-resolution wireless streaming |
 | **E-Mount Lens Ecosystem Variety** | 97% | 74% | Widest selection of native first and third-party lenses |
 | **Battery Life on Z-Series Camera Cells** | 92% | 72% | All-day shooting endurance without overheating |
 | **Complex Camera Menu Hierarchies** | 68% | 76% | Dense technical menus can intimidate beginners |
+
+### Verified Audio Specifications & Hardware Reference (WF-1000XM5 vs. WH-1000XM5)
+- **Sony WF-1000XM5 Flagship Earbuds ($299 MSRP, Launched July 2023):** Built on Sony's Dynamic Driver X (8.4mm), dual feedback noise microphones, Integrated Processor V2 paired with the HD Noise Cancelling Processor QN2e, and polyurethane foam noise isolation tips. Supports LDAC (up to 990 kbps 24-bit/96kHz), multipoint Bluetooth 5.3, and IPX4 water resistance.
+- **Sony WH-1000XM5 Over-Ear Headphones ($399 MSRP, Launched May 2022):** Employs Auto NC Optimizer with 8 microphones, 30mm carbon fiber composite drivers, dual processors (V1/QN1), 30-hour battery life with fast charge (3 mins for 3 hrs playback), and non-folding headband architecture.
+- **Important Qualification on Unreleased "WF-1000XM6" / "WH-1000XM6":** As of 2026, Sony has **not announced, scheduled, or released** a next-generation "WF-1000XM6" or "WH-1000XM6". Any third-party internet claims asserting XM6 launch dates, release pricing, or lab testing benchmarks are unverified speculation. All technical specifications, objective acoustic benchmarks, and comparative measurements in this publication document verified production hardware: the WF-1000XM5 and WH-1000XM5.
 
 ---
 

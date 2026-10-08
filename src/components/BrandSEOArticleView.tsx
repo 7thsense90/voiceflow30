@@ -225,7 +225,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
               {
                 '@type': 'ListItem',
                 position: 3,
-                name: `${article.brandName} User Research Study`,
+                name: `${article.brandName} Editorial Analysis`,
                 item: typeof window !== 'undefined' ? `${window.location.origin}${dedicatedPath}` : dedicatedPath,
               },
             ],
@@ -413,7 +413,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
 
         <div className="p-3 bg-amber-50/50 rounded-2xl border border-amber-100">
           <div className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Analysis Type</div>
-          <div className="text-xl sm:text-2xl font-black text-amber-950 mt-1">Editorial</div>
+          <div className="text-xl sm:text-2xl font-black text-amber-950 mt-1">Editorial Analysis</div>
           <div className="text-[10px] font-semibold text-amber-700 mt-0.5">Market Synthesis Desk</div>
         </div>
       </section>
@@ -426,7 +426,7 @@ export const BrandSEOArticleView: React.FC<BrandSEOArticleViewProps> = ({ articl
             <span>Editorial Methodology, Sources &amp; Transparency Disclosure</span>
           </div>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
-            Source-Based Editorial Analysis
+            Editorial Analysis
           </span>
         </div>
 

@@ -434,7 +434,7 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
                     : 'bg-amber-100 text-amber-900 border border-amber-200'
                 }`}>
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  {isEmpiricalSurvey ? 'Verified Empirical Survey' : 'Source-Based Editorial Analysis'}
+                  {isEmpiricalSurvey ? 'Verified Empirical Survey' : 'Editorial Analysis'}
                 </span>
               </div>
 
