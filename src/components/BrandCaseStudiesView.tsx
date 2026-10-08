@@ -856,11 +856,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                             : 'Editorial Desk'}
                         </span>
                         <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>
-                            {study.studyType === 'Empirical Study'
-                              ? 'Read Empirical Study'
-                              : 'Read Analysis'}
-                          </span>
+                          <span>Read Analysis</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </div>
                       </div>
@@ -884,7 +880,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                itemName="case studies"
+                itemName="Articles"
               />
             )}
 

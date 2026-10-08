@@ -274,7 +274,7 @@ export const BrandResearchStudiesIndex: React.FC = () => {
                     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                itemName="research studies"
+                itemName="Articles"
                 className="mt-8"
               />
             )}

@@ -537,9 +537,19 @@ Sitemap: https://voiceflow360.com/sitemap.xml
       { path: '/contact', priority: '0.6', changefreq: 'monthly' },
       { path: '/rewards-and-withdrawals', priority: '0.8', changefreq: 'weekly' },
       { path: '/research-methodology', priority: '0.8', changefreq: 'weekly' },
+      { path: '/earnings-disclaimer', priority: '0.7', changefreq: 'monthly' },
       { path: '/brand-research-studies', priority: '0.85', changefreq: 'daily' },
       { path: '/product-reviews', priority: '0.85', changefreq: 'daily' },
       { path: '/sitemap-directory', priority: '0.7', changefreq: 'weekly' },
+    ];
+
+    // All 5 Dedicated Published Research Methodology Articles
+    const methodologyArticlePaths = [
+      "/research-methodology/how-conversational-surveys-work",
+      "/research-methodology/how-response-quality-is-assessed",
+      "/research-methodology/how-to-interpret-survey-sample-sizes",
+      "/research-methodology/how-participant-compensation-works",
+      "/research-methodology/how-consumer-feedback-informs-product-decisions",
     ];
 
     // All 30 Dedicated In-Depth SEO Brand Research Study Pages
@@ -576,7 +586,7 @@ Sitemap: https://voiceflow360.com/sitemap.xml
       "/brand-insights/unity-technologies-user-research-study",
     ];
 
-    // All 100 Partner Consumer Brands
+    // All 100 Cataloged Consumer Brands
     const all100BrandIds = [
       "br_playstation", "br_nintendo", "br_steam", "br_xbox", "br_epicgames",
       "br_riotgames", "br_roblox", "br_blizzard", "br_ea_sports", "br_rockstar",
@@ -608,6 +618,12 @@ Sitemap: https://voiceflow360.com/sitemap.xml
     <lastmod>${today}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
+  </url>`),
+      ...methodologyArticlePaths.map(mPath => `  <url>
+    <loc>${baseUrl}${mPath}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>`),
       ...brandStudyPaths.map(studyPath => `  <url>
     <loc>${baseUrl}${studyPath}</loc>

@@ -239,6 +239,46 @@ export const APP_ROUTES: RouteItem[] = [
     changefreq: 'weekly',
     priority: 0.85,
   },
+  {
+    path: '/research-methodology/how-conversational-surveys-work',
+    view: 'research-methodology',
+    title: 'How Conversational Surveys Work: Architecture & Response Dynamics | Voice Flow 360',
+    description: 'A comprehensive technical overview of how conversational survey engines administer questions and preserve standardization.',
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
+  {
+    path: '/research-methodology/how-response-quality-is-assessed',
+    view: 'research-methodology',
+    title: 'How Response Quality Is Assessed: Multi-Factor Audit Architecture | Voice Flow 360',
+    description: 'The protocols, algorithms, and human verification layers used to screen out fraudulent, duplicate, and low-effort feedback.',
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
+  {
+    path: '/research-methodology/how-to-interpret-survey-sample-sizes',
+    view: 'research-methodology',
+    title: 'How to Interpret Survey Sample Sizes: Margins of Error, Power & Statistical Weight | Voice Flow 360',
+    description: 'A practical guide for navigating convenience samples, sample sizes (n), and representative claims.',
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
+  {
+    path: '/research-methodology/how-participant-compensation-works',
+    view: 'research-methodology',
+    title: 'How Participant Compensation Works: Ethical Honorariums, Audits & Payout Rails | Voice Flow 360',
+    description: 'The economic mechanics of survey rewards: coin-to-USD conversion rates, escrow integrity, and why ads must never gate earnings.',
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
+  {
+    path: '/research-methodology/how-consumer-feedback-informs-product-decisions',
+    view: 'research-methodology',
+    title: 'How Consumer Feedback Informs Product Decisions: From Raw Chat to Enterprise Roadmap | Voice Flow 360',
+    description: 'Tracing the analytical journey of qualitative sentiment from consumer conversations into engineering sprints and commercial strategy.',
+    changefreq: 'monthly',
+    priority: 0.8,
+  },
 ];
 
 export interface ParsedRoute {
@@ -246,6 +286,7 @@ export interface ParsedRoute {
   brandId?: string;
   articleSlug?: string;
   studyPath?: string;
+  methodologySlug?: string;
 }
 
 /**
@@ -433,9 +474,17 @@ export function parseRoute(pathname: string): ParsedRoute {
   ) {
     return { view: 'rewards-and-withdrawals' };
   }
+  const methodologyMatch = cleanPath.match(/^\/research-methodology\/([a-zA-Z0-9_-]+)$/);
+  if (methodologyMatch) {
+    return {
+      view: 'research-methodology',
+      articleSlug: methodologyMatch[1],
+      methodologySlug: methodologyMatch[1],
+    };
+  }
   if (
     cleanPath === '/research-methodology' ||
-    cleanPath.startsWith('/research-methodology/') ||
+    cleanPath === '/research-methodology/' ||
     cleanPath === '/methodology'
   ) {
     return { view: 'research-methodology' };
@@ -596,7 +645,7 @@ export function getPathForView(
       return '/rewards';
     case 'research-methodology':
     case 'methodology':
-      return '/research-methodology';
+      return articleSlug ? `/research-methodology/${articleSlug}` : '/research-methodology';
     case 'sitemap-directory':
       return '/sitemap-directory';
     case 'profile':

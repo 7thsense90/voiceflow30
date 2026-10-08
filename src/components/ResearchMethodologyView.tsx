@@ -27,18 +27,26 @@ import {
 } from 'lucide-react';
 
 export const ResearchMethodologyView: React.FC = () => {
-  const { showToast, setCurrentView } = useApp();
-  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
+  const { showToast, setCurrentView, selectedMethodologySlug, navigateToMethodologyArticle } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   const selectedArticle = useMemo(() => {
-    if (!selectedArticleId) return null;
+    const slugOrId = selectedMethodologySlug;
+    if (!slugOrId) {
+      if (typeof window !== 'undefined') {
+        const match = window.location.pathname.match(/^\/research-methodology\/([a-zA-Z0-9_-]+)$/);
+        if (match) {
+          return RESEARCH_METHODOLOGY_ARTICLES.find((a) => a.slug === match[1] || a.id === match[1]) || null;
+        }
+      }
+      return null;
+    }
     return (
-      RESEARCH_METHODOLOGY_ARTICLES.find((a) => a.id === selectedArticleId || a.slug === selectedArticleId) ||
+      RESEARCH_METHODOLOGY_ARTICLES.find((a) => a.slug === slugOrId || a.id === slugOrId) ||
       null
     );
-  }, [selectedArticleId]);
+  }, [selectedMethodologySlug]);
 
   const categories = useMemo(() => {
     const set = new Set(RESEARCH_METHODOLOGY_ARTICLES.map((a) => a.category));
@@ -91,7 +99,7 @@ export const ResearchMethodologyView: React.FC = () => {
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <nav className="flex items-center gap-2 text-xs font-semibold text-slate-400">
               <button
-                onClick={() => setSelectedArticleId(null)}
+                onClick={() => navigateToMethodologyArticle(null)}
                 className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <BookOpen className="w-3.5 h-3.5" />
@@ -240,7 +248,7 @@ export const ResearchMethodologyView: React.FC = () => {
           {/* Bottom Back Button */}
           <div className="pt-8 border-t border-slate-200 flex items-center justify-between">
             <button
-              onClick={() => setSelectedArticleId(null)}
+              onClick={() => navigateToMethodologyArticle(null)}
               className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-2"
             >
               <span>&larr; Back to Methodology Library</span>
@@ -337,9 +345,9 @@ export const ResearchMethodologyView: React.FC = () => {
         {/* Guides List */}
         <div className="space-y-6">
           {filteredArticles.map((article) => (
-            <div
+            <article
               key={article.id}
-              onClick={() => setSelectedArticleId(article.id)}
+              onClick={() => navigateToMethodologyArticle(article.slug)}
               className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs hover:shadow-md transition-all cursor-pointer group space-y-4"
             >
               <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -359,7 +367,16 @@ export const ResearchMethodologyView: React.FC = () => {
 
               <div className="space-y-2">
                 <h2 className="text-lg sm:text-2xl font-black text-slate-900 group-hover:text-purple-600 transition-colors leading-tight">
-                  {article.title}
+                  <Link
+                    to={`/research-methodology/${article.slug}`}
+                    className="hover:underline text-inherit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigateToMethodologyArticle(article.slug);
+                    }}
+                  >
+                    {article.title}
+                  </Link>
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   {article.summary}
@@ -371,11 +388,11 @@ export const ResearchMethodologyView: React.FC = () => {
                   Author: <strong className="text-slate-700">{article.author}</strong>
                 </span>
                 <span className="font-bold text-purple-600 group-hover:text-purple-700 flex items-center gap-1">
-                  <span>Read Complete Methodology</span>
+                  <span>Read Analysis</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

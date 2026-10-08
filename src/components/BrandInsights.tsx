@@ -589,7 +589,7 @@ export const BrandInsights: React.FC = () => {
                       className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs text-center"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>Read Editorial Analysis</span>
+                      <span>Read Analysis</span>
                     </Link>
                   ) : (
                     <Link

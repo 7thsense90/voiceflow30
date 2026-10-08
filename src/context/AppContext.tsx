@@ -215,6 +215,11 @@ interface AppContextType {
     article: Omit<ResearchArticle, 'id' | 'created_at' | 'updated_at'> & { id?: string }
   ) => { success: boolean; error?: string; article?: ResearchArticle };
   deleteResearchArticle: (id: string) => { success: boolean; error?: string };
+
+  // Research Methodology Educational Articles
+  selectedMethodologySlug: string | null;
+  setSelectedMethodologySlug: (slug: string | null) => void;
+  navigateToMethodologyArticle: (slug: string | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -341,6 +346,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return missing.length > 0 ? [...loaded, ...missing] : loaded;
   });
   const [selectedArticleSlug, setSelectedArticleSlugState] = useState<string | null>(() => initialRoute.articleSlug || null);
+  const [selectedMethodologySlug, setSelectedMethodologySlugState] = useState<string | null>(() => initialRoute.methodologySlug || null);
   const [prefilledInquiryForCampaign, setPrefilledInquiryForCampaign] = useState<BrandInquiry | null>(null);
   const [settings, setSettings] = useState<PlatformSettings>(() => {
     const s = loadStorage(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS);
@@ -424,12 +430,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       window.location.pathname.startsWith('/brand-research-studies/') ||
       window.location.pathname.startsWith('/brand-insights/') ||
       window.location.pathname.startsWith('/brand-study/') ||
+      window.location.pathname.startsWith('/research-methodology/') ||
       window.location.pathname.includes('/user-research-study');
 
     if (isIndividualArticleUrl) {
       // Each article must keep its own permanent URL — never downgrade to a general listing
       window.history.replaceState(
-        { view: initial.view, brandId: initial.brandId, articleSlug: initial.articleSlug },
+        {
+          view: initial.view,
+          brandId: initial.brandId,
+          articleSlug: initial.articleSlug,
+          methodologySlug: initial.methodologySlug,
+        },
         '',
         window.location.pathname
       );
@@ -457,6 +469,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (route.articleSlug !== undefined) {
         setSelectedArticleSlugState(route.articleSlug);
       }
+      setSelectedMethodologySlugState(route.methodologySlug || null);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -2507,6 +2520,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
+  const navigateToMethodologyArticle = useCallback((slug: string | null) => {
+    setSelectedMethodologySlugState(slug);
+    setCurrentViewState('research-methodology');
+    if (typeof window !== 'undefined') {
+      const targetPath = slug ? `/research-methodology/${slug}` : '/research-methodology';
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState(
+          { view: 'research-methodology', methodologySlug: slug, articleSlug: slug },
+          '',
+          targetPath
+        );
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
+
   const setSelectedArticleSlug = useCallback((slug: string | null) => {
     setSelectedArticleSlugState(slug);
     if (slug) {
@@ -2739,6 +2768,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         navigateToResearchArticle,
         saveResearchArticle,
         deleteResearchArticle,
+        selectedMethodologySlug,
+        setSelectedMethodologySlug: setSelectedMethodologySlugState,
+        navigateToMethodologyArticle,
       }}
     >
       {children}

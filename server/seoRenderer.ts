@@ -19,6 +19,10 @@ import {
 import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
 import { LAUNCHED_PRODUCTS } from '../src/data/productReviewsData';
 import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
+import {
+  RESEARCH_METHODOLOGY_ARTICLES,
+  EducationalArticle,
+} from '../src/data/researchMethodologyArticles';
 import { ResearchArticle } from '../src/types';
 import { getBrandSourceLinks } from '../src/utils/brandSources';
 
@@ -105,6 +109,19 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
 
   if (cleanPath === '/brand-research-studies') {
     return renderBrandResearchStudiesIndexSeo(origin, INITIAL_RESEARCH_ARTICLES);
+  }
+
+  // 1c. Check for Research Methodology article: /research-methodology/:slug
+  const methodologyMatch = cleanPath.match(/^\/research-methodology\/([a-zA-Z0-9_-]+)$/);
+  if (methodologyMatch) {
+    const slug = methodologyMatch[1];
+    const methodologyArticle = RESEARCH_METHODOLOGY_ARTICLES.find(
+      (a) => a.slug === slug || a.id === slug
+    );
+    if (methodologyArticle) {
+      return renderMethodologyArticleSeo(origin, methodologyArticle);
+    }
+    return render404Seo(origin, cleanPath);
   }
 
   // 2. Check for Brand Directory item: /brands/:brandId
@@ -1497,19 +1514,97 @@ function renderResearchMethodologySeo(origin: string): PageSeoResult {
 }
 
 /**
+ * 11d. Research Methodology Individual Article SSR (/research-methodology/:slug)
+ */
+function renderMethodologyArticleSeo(origin: string, article: EducationalArticle): PageSeoResult {
+  const canonicalUrl = `${origin}/research-methodology/${article.slug}`;
+  const title = `${article.title} | Voice Flow 360 Research Methodology`;
+  const description = article.summary;
+
+  const sectionsHtml = article.sections
+    .map(
+      (sec) => `
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">${escapeHtml(sec.heading)}</h2>
+        ${sec.content.map((p) => `<p class="text-sm leading-relaxed text-slate-700">${escapeHtml(p)}</p>`).join('')}
+        ${
+          sec.callout
+            ? `<div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-1">
+                 <strong class="text-xs font-bold text-purple-900 block">${escapeHtml(sec.callout.title)}</strong>
+                 <p class="text-xs text-purple-800">${escapeHtml(sec.callout.body)}</p>
+               </div>`
+            : ''
+        }
+      </section>
+    `
+    )
+    .join('');
+
+  const takeawaysHtml = article.keyTakeaways
+    .map((kt) => `<li class="text-xs text-slate-700">${escapeHtml(kt)}</li>`)
+    .join('');
+
+  const htmlContent = `
+    <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
+      <nav class="text-xs text-slate-500 flex items-center gap-2">
+        <a href="/research-methodology" class="text-purple-600 hover:underline">Methodology Library</a>
+        <span>&rsaquo;</span>
+        <span class="text-slate-800 font-semibold truncate">${escapeHtml(article.title)}</span>
+      </nav>
+
+      <header class="border-b border-slate-200 pb-6 space-y-3">
+        <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full">
+          ${escapeHtml(article.category)} &bull; ${escapeHtml(article.readTime)}
+        </div>
+        <h1 class="text-3xl font-extrabold text-slate-900 leading-tight">${escapeHtml(article.title)}</h1>
+        <p class="text-slate-600 text-sm leading-relaxed">${escapeHtml(article.subtitle)}</p>
+        <div class="text-xs text-slate-500 pt-1">
+          By <strong>${escapeHtml(article.author)}</strong> (${escapeHtml(article.authorRole)}) &bull; Published: ${escapeHtml(article.publishedDate)}
+        </div>
+      </header>
+
+      <div class="space-y-6">
+        ${sectionsHtml}
+      </div>
+
+      <section class="p-5 rounded-2xl bg-indigo-50 border border-indigo-200 space-y-2">
+        <h3 class="text-sm font-bold text-indigo-900">Key Takeaways</h3>
+        <ul class="list-disc pl-5 space-y-1.5">
+          ${takeawaysHtml}
+        </ul>
+      </section>
+
+      <footer class="pt-6 border-t border-slate-200 text-xs text-slate-500">
+        <p><strong>Limitations Disclosure:</strong> ${escapeHtml(article.limitations)}</p>
+      </footer>
+    </div>
+  `;
+
+  return {
+    title,
+    description,
+    canonicalUrl,
+    ogType: 'article',
+    keywords: `${article.category.toLowerCase()}, market research methodology, consumer surveys, empirical research`,
+    htmlContent,
+  };
+}
+
+/**
  * 12. Sitemap Directory SSR
  */
 function renderSitemapDirectorySeo(origin: string): PageSeoResult {
   const canonicalUrl = `${origin}/sitemap-directory`;
-  const title = 'HTML Sitemap & Platform Directory - Voice Flow 360';
-  const description = 'Complete navigation hierarchy and index of all 147+ platform pages, survey drops, and brand studies on Voice Flow 360.';
   const publishedBrandStudies = getPublishedBrandArticles();
+  const totalPublished = 22 + RESEARCH_METHODOLOGY_ARTICLES.length + publishedBrandStudies.length + RAW_100_BRANDS.length;
+  const title = 'Published Platform Directory & Sitemap - Voice Flow 360';
+  const description = `Complete navigation hierarchy and directory of all ${totalPublished} published pages, research articles, methodology guides, and brand profiles on Voice Flow 360.`;
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
       <header class="border-b border-slate-200 pb-6 space-y-2">
-        <h1 class="text-3xl font-extrabold text-slate-900">HTML Platform Directory &amp; Sitemap</h1>
-        <p class="text-slate-600 text-sm">Comprehensive index of research reports, brand intelligence profiles, and platform views.</p>
+        <h1 class="text-3xl font-extrabold text-slate-900">Published Platform Directory &amp; Sitemap</h1>
+        <p class="text-slate-600 text-sm">Comprehensive index of published research reports, methodology articles, brand profiles, and platform views (${totalPublished} published pages).</p>
       </header>
 
       <section class="space-y-4">
@@ -1522,6 +1617,9 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
           <li><a href="/earnings-disclaimer" class="text-purple-600 hover:underline">Earnings Disclaimer</a></li>
           <li><a href="/brands" class="text-purple-600 hover:underline">100+ Brands Directory</a></li>
           <li><a href="/brand-insights" class="text-purple-600 hover:underline">Brand Insights</a></li>
+          <li><a href="/product-reviews" class="text-purple-600 hover:underline">Product Reviews</a></li>
+          <li><a href="/research-methodology" class="text-purple-600 hover:underline">Research Methodology Hub</a></li>
+          <li><a href="/rewards-and-withdrawals" class="text-purple-600 hover:underline">Rewards Policy</a></li>
           <li><a href="/faq" class="text-purple-600 hover:underline">FAQ &amp; Help</a></li>
           <li><a href="/privacy" class="text-purple-600 hover:underline">Privacy Policy</a></li>
           <li><a href="/terms" class="text-purple-600 hover:underline">Terms of Service</a></li>
@@ -1530,7 +1628,20 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-bold text-slate-900">Verified Brand Intelligence Studies</h2>
+        <h2 class="text-xl font-bold text-slate-900">Research Methodology Articles</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+          ${RESEARCH_METHODOLOGY_ARTICLES.map((m) => `
+            <li>
+              <a href="/research-methodology/${m.slug}" class="text-purple-600 hover:underline">
+                ${escapeHtml(m.title)}
+              </a>
+            </li>
+          `).join('')}
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">Verified Brand Research Articles</h2>
         <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
           ${publishedBrandStudies.length > 0 ? publishedBrandStudies.map((art) => `
             <li>
@@ -1539,7 +1650,7 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
               </a>
             </li>
           `).join('') : `
-            <li class="text-slate-500 italic">New verified studies are published automatically as real survey responses come in.</li>
+            <li class="text-slate-500 italic">Verified studies are published as survey datasets are finalized.</li>
           `}
         </ul>
       </section>
