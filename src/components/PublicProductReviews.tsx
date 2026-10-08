@@ -6,6 +6,8 @@ import {
   LAUNCHED_PRODUCTS,
   INITIAL_PRODUCT_REVIEWS,
   PRODUCT_CATEGORIES,
+  calculateProductMetrics,
+  ProductCalculatedMetrics,
 } from '../data/productReviewsData';
 import {
   Star,
@@ -24,13 +26,15 @@ import {
   TrendingUp,
   Tag,
   ArrowUpDown,
-  ShieldCheck,
   Award,
   AlertCircle,
   HelpCircle,
+  Info,
+  Calendar,
+  FileText,
 } from 'lucide-react';
 
-const REVIEWS_STORAGE_KEY = 'ce_public_product_reviews_v1';
+const REVIEWS_STORAGE_KEY = 'ce_public_product_reviews_v2';
 
 export const PublicProductReviews: React.FC = () => {
   const { showToast } = useApp();
@@ -46,12 +50,20 @@ export const PublicProductReviews: React.FC = () => {
   // Review submission modal state
   const [reviewingProduct, setReviewingProduct] = useState<LaunchedProduct | null>(null);
 
-  // Reviews state backed by localStorage
+  // Reviews state backed by localStorage, initialized with approved initial reviews
   const [reviews, setReviews] = useState<PublicProductReview[]>(() => {
     try {
       const stored = localStorage.getItem(REVIEWS_STORAGE_KEY);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((r) => ({
+            ...r,
+            status: r.status || 'approved',
+            ownershipType: r.ownershipType || (r.isSelfReportedOwner ? 'self_reported_owner' : 'prospective_buyer'),
+            isSelfReportedOwner: typeof r.isSelfReportedOwner === 'boolean' ? r.isSelfReportedOwner : Boolean(r.verifiedOwner),
+          }));
+        }
       }
     } catch {
       // Fallback
@@ -73,7 +85,7 @@ export const PublicProductReviews: React.FC = () => {
     authorName: '',
     authorCity: '',
     rating: 5,
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner' as PublicProductReview['ownershipType'],
     generalFeeling: '',
     happyWithPurchase: 'very_happy' as PublicProductReview['happyWithPurchase'],
     intentToPurchase: 'definitely_will_buy' as PublicProductReview['intentToPurchase'],
@@ -83,26 +95,73 @@ export const PublicProductReviews: React.FC = () => {
     whatTheyDontLike: '',
   });
 
-  // Filter and sort products
-  const filteredProducts = useMemo(() => {
-    return LAUNCHED_PRODUCTS.filter((prod) => {
-      const matchesCategory = selectedCategory === 'all' || prod.category === selectedCategory;
-      const q = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        !q ||
-        prod.name.toLowerCase().includes(q) ||
-        prod.brand.toLowerCase().includes(q) ||
-        prod.topFeatures.some((f) => f.toLowerCase().includes(q)) ||
-        prod.summary.toLowerCase().includes(q);
-      return matchesCategory && matchesSearch;
-    }).sort((a, b) => {
-      if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'price_low') return a.priceUSD - b.priceUSD;
-      if (sortBy === 'price_high') return b.priceUSD - a.priceUSD;
-      if (sortBy === 'reviews') return b.reviewCount - a.reviewCount;
-      return 0; // Default order
-    });
-  }, [selectedCategory, searchQuery, sortBy]);
+  // Global aggregate metrics computed strictly from genuine approved reviews
+  const overallMetrics = useMemo(() => {
+    const approvedReviews = reviews.filter((r) => r.status === 'approved');
+    const totalApprovedCount = approvedReviews.length;
+
+    const relevantSatisfaction = approvedReviews.filter(
+      (r) =>
+        r.isSelfReportedOwner ||
+        r.happyWithPurchase !== 'not_purchased_yet' ||
+        r.satisfactionLevel !== 'not_applicable'
+    );
+    const satisfiedCount = relevantSatisfaction.filter(
+      (r) =>
+        r.satisfactionLevel === 'extremely_satisfied' ||
+        r.satisfactionLevel === 'satisfied' ||
+        r.happyWithPurchase === 'very_happy' ||
+        r.happyWithPurchase === 'happy'
+    ).length;
+
+    const satisfactionPct =
+      relevantSatisfaction.length > 0
+        ? Math.round((satisfiedCount / relevantSatisfaction.length) * 100)
+        : null;
+
+    const productsWithApprovedReviews = new Set(approvedReviews.map((r) => r.productId)).size;
+
+    return {
+      totalApprovedCount,
+      satisfactionPct,
+      satisfiedCount,
+      satisfactionTotal: relevantSatisfaction.length,
+      productsWithApprovedReviews,
+    };
+  }, [reviews]);
+
+  // Filter and sort products with calculated metrics
+  const filteredProductsWithMetrics = useMemo(() => {
+    const items = LAUNCHED_PRODUCTS.map((prod) => ({
+      product: prod,
+      metrics: calculateProductMetrics(prod.id, reviews),
+    }));
+
+    return items
+      .filter(({ product }) => {
+        const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+        const q = searchQuery.toLowerCase().trim();
+        const matchesSearch =
+          !q ||
+          product.name.toLowerCase().includes(q) ||
+          product.brand.toLowerCase().includes(q) ||
+          product.topFeatures.some((f) => f.toLowerCase().includes(q)) ||
+          product.summary.toLowerCase().includes(q);
+        return matchesCategory && matchesSearch;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'rating') {
+          const ratingA = a.metrics.avgRating ? Number(a.metrics.avgRating) : -1;
+          const ratingB = b.metrics.avgRating ? Number(b.metrics.avgRating) : -1;
+          if (ratingB !== ratingA) return ratingB - ratingA;
+          return b.metrics.reviewCount - a.metrics.reviewCount;
+        }
+        if (sortBy === 'price_low') return a.product.priceUSD - b.product.priceUSD;
+        if (sortBy === 'price_high') return b.product.priceUSD - a.product.priceUSD;
+        if (sortBy === 'reviews') return b.metrics.reviewCount - a.metrics.reviewCount;
+        return 0; // Featured default order
+      });
+  }, [selectedCategory, searchQuery, sortBy, reviews]);
 
   // Handle Review Submission
   const handleSubmitReview = (e: React.FormEvent) => {
@@ -126,28 +185,30 @@ export const PublicProductReviews: React.FC = () => {
       id: `rev-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
       productId: reviewingProduct.id,
       authorName: formData.authorName.trim(),
-      authorCity: formData.authorCity.trim() || 'Verified Panelist',
+      authorCity: formData.authorCity.trim() || 'Community Contributor',
       rating: formData.rating,
       createdAt: 'Just now',
-      verifiedOwner: formData.verifiedOwner,
+      ownershipType: formData.ownershipType,
+      isSelfReportedOwner: formData.ownershipType === 'self_reported_owner',
+      status: 'approved',
       generalFeeling: formData.generalFeeling.trim(),
       happyWithPurchase: formData.happyWithPurchase,
       intentToPurchase: formData.intentToPurchase,
-      intentReason: formData.intentReason.trim() || 'Interested in product innovations and value.',
+      intentReason: formData.intentReason.trim() || 'Evaluated for personal productivity and tech interests.',
       satisfactionLevel: formData.satisfactionLevel,
       whatTheyLike: formData.whatTheyLike.trim(),
-      whatTheyDontLike: formData.whatTheyDontLike.trim() || 'No major issues observed.',
+      whatTheyDontLike: formData.whatTheyDontLike.trim() || 'No major drawbacks identified.',
     };
 
     setReviews((prev) => [newReview, ...prev]);
-    showToast(`Thank you, ${formData.authorName}! Your review for ${reviewingProduct.name} has been published.`, 'success');
+    showToast(`Thank you, ${formData.authorName}! Your review for ${reviewingProduct.name} has been published and approved.`, 'success');
 
     // Reset and close
     setFormData({
       authorName: '',
       authorCity: '',
       rating: 5,
-      verifiedOwner: true,
+      ownershipType: 'self_reported_owner',
       generalFeeling: '',
       happyWithPurchase: 'very_happy',
       intentToPurchase: 'definitely_will_buy',
@@ -159,10 +220,17 @@ export const PublicProductReviews: React.FC = () => {
     setReviewingProduct(null);
   };
 
-  // Get reviews count for a specific product
-  const getProductReviews = (productId: string) => {
-    return reviews.filter((r) => r.productId === productId);
-  };
+  // Get active product metrics when modal is opened
+  const activeMetrics = useMemo(() => {
+    if (!activeProduct) return null;
+    return calculateProductMetrics(activeProduct.id, reviews);
+  }, [activeProduct, reviews]);
+
+  // Approved reviews for the active product
+  const activeApprovedReviews = useMemo(() => {
+    if (!activeProduct) return [];
+    return reviews.filter((r) => r.productId === activeProduct.id && r.status === 'approved');
+  }, [activeProduct, reviews]);
 
   return (
     <div className="min-h-screen bg-[#f8f9fc] text-slate-800 pb-20">
@@ -179,27 +247,70 @@ export const PublicProductReviews: React.FC = () => {
               Public Product Reviews
             </h1>
             <p className="text-base sm:text-lg text-purple-100/90 leading-relaxed font-normal">
-              Explore authentic public ratings, pricing in USD, and standout features for 100+ newly launched devices. Share your purchase experience, intent to buy, satisfaction scores, and what you love or dislike about each product.
+              Explore authentic public ratings, manufacturer USD launch prices, and baseline technical features for 100+ newly launched devices. Review genuine community feedback, self-reported satisfaction scores, and purchase intent without simulated percentages.
             </p>
           </div>
 
-          {/* Quick Stats Grid */}
+          {/* Quick Stats Grid — Calculated from Genuine Approved Data */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-2 max-w-4xl">
+            {/* 1. Products Listed */}
             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-              <div className="text-2xl sm:text-3xl font-black text-amber-300">105+</div>
-              <div className="text-xs sm:text-sm font-semibold text-purple-200">New Products Listed</div>
+              <div className="text-2xl sm:text-3xl font-black text-amber-300">
+                {LAUNCHED_PRODUCTS.length}+
+              </div>
+              <div className="text-xs sm:text-sm font-semibold text-purple-200">
+                Products Listed
+              </div>
+              <div className="text-[10px] text-purple-300/80 mt-1">
+                Official specifications baseline
+              </div>
             </div>
+
+            {/* 2. USD Price Range */}
             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-              <div className="text-2xl sm:text-3xl font-black text-emerald-300">$199 - $5,999</div>
-              <div className="text-xs sm:text-sm font-semibold text-purple-200">Transparent USD Prices</div>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-300">
+                $129 - $5,999
+              </div>
+              <div className="text-xs sm:text-sm font-semibold text-purple-200">
+                Published Launch MSRP
+              </div>
+              <div className="text-[10px] text-purple-300/80 mt-1">
+                Documented launch prices (USD)
+              </div>
             </div>
+
+            {/* 3. Owner Satisfaction (Genuine Calculation) */}
             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-              <div className="text-2xl sm:text-3xl font-black text-indigo-300">89% Avg</div>
-              <div className="text-xs sm:text-sm font-semibold text-purple-200">Owner Satisfaction</div>
+              <div className="text-2xl sm:text-3xl font-black text-indigo-300">
+                {overallMetrics.satisfactionPct !== null ? (
+                  `${overallMetrics.satisfactionPct}%`
+                ) : (
+                  <span className="text-lg font-bold text-indigo-200">Not enough data</span>
+                )}
+              </div>
+              <div className="text-xs sm:text-sm font-semibold text-purple-200">
+                Owner Satisfaction
+              </div>
+              <div className="text-[10px] text-purple-300/80 mt-1">
+                {overallMetrics.satisfactionPct !== null ? (
+                  `Based on ${overallMetrics.satisfactionTotal} approved response${overallMetrics.satisfactionTotal === 1 ? '' : 's'} (${overallMetrics.satisfiedCount} satisfied)`
+                ) : (
+                  'Awaiting approved community reviews'
+                )}
+              </div>
             </div>
+
+            {/* 4. Approved Reviews */}
             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-              <div className="text-2xl sm:text-3xl font-black text-pink-300">100% Public</div>
-              <div className="text-xs sm:text-sm font-semibold text-purple-200">Open For Reviews</div>
+              <div className="text-2xl sm:text-3xl font-black text-pink-300">
+                {overallMetrics.totalApprovedCount}
+              </div>
+              <div className="text-xs sm:text-sm font-semibold text-purple-200">
+                Approved Reviews
+              </div>
+              <div className="text-[10px] text-purple-300/80 mt-1">
+                Self-reported (Unverified purchases)
+              </div>
             </div>
           </div>
         </div>
@@ -224,6 +335,7 @@ export const PublicProductReviews: React.FC = () => {
                 <button
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                  aria-label="Clear search"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -240,7 +352,7 @@ export const PublicProductReviews: React.FC = () => {
                 className="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-600 cursor-pointer"
               >
                 <option value="featured">Featured Order</option>
-                <option value="rating">Highest Rated</option>
+                <option value="rating">Highest Rated (Approved)</option>
                 <option value="price_low">Price: Low to High</option>
                 <option value="price_high">Price: High to Low</option>
                 <option value="reviews">Most Reviewed</option>
@@ -265,30 +377,23 @@ export const PublicProductReviews: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-slate-100">
+          {/* Data Policy & Results Counter */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 gap-2">
             <span>
-              Showing <strong>{filteredProducts.length}</strong> of {LAUNCHED_PRODUCTS.length} products
+              Showing <strong>{filteredProductsWithMetrics.length}</strong> of {LAUNCHED_PRODUCTS.length} products
             </span>
-            <span className="text-purple-600 font-semibold">
-              Live Verified Public Consumer Insights
-            </span>
+            <div className="flex items-center gap-1.5 text-purple-700 font-medium text-[11px]">
+              <Info className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+              <span>
+                Ratings &amp; satisfaction percentages are calculated exclusively from real approved reviews. Products without reviews display &ldquo;Not enough data&rdquo;.
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => {
-            const productReviewsList = getProductReviews(product.id);
-            const hasReviews = productReviewsList.length > 0;
-            const calculatedRating = hasReviews
-              ? (productReviewsList.reduce((sum, r) => sum + r.rating, 0) / productReviewsList.length).toFixed(1)
-              : null;
-            const calculatedSatisfaction = hasReviews
-              ? Math.round(
-                  (productReviewsList.filter((r) => r.rating >= 4).length / productReviewsList.length) * 100
-                )
-              : null;
-
+          {filteredProductsWithMetrics.map(({ product, metrics }) => {
             return (
               <div
                 key={product.id}
@@ -315,19 +420,26 @@ export const PublicProductReviews: React.FC = () => {
                       </span>
                     </div>
 
-                    {/* Price Tag in USD */}
-                    <div className="absolute bottom-3 left-3 flex items-baseline gap-1 bg-white/95 backdrop-blur-md text-slate-900 px-3 py-1 rounded-xl shadow-md border border-white/60">
-                      <span className="text-base sm:text-lg font-black tracking-tight text-slate-900">
-                        ${product.priceUSD.toLocaleString()}
+                    {/* Price Tag in USD with Official MSRP indicator */}
+                    <div className="absolute bottom-3 left-3 flex flex-col bg-white/95 backdrop-blur-md text-slate-900 px-3 py-1 rounded-xl shadow-md border border-white/60">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-base sm:text-lg font-black tracking-tight text-slate-900">
+                          ${product.priceUSD.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] font-extrabold text-purple-700">USD</span>
+                      </div>
+                      <span className="text-[9px] text-slate-500 font-semibold -mt-0.5">
+                        Official Launch MSRP
                       </span>
-                      <span className="text-[10px] font-extrabold text-purple-700">USD</span>
                     </div>
 
-                    {/* Real Satisfaction Indicator */}
-                    {calculatedSatisfaction !== null && (
-                      <div className="absolute bottom-3 right-3 bg-emerald-950/80 backdrop-blur-md text-emerald-200 text-xs font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 flex items-center gap-1">
+                    {/* Owner Satisfaction Badge: Display ONLY if calculated from genuine responses */}
+                    {metrics.satisfactionPct !== null && (
+                      <div className="absolute bottom-3 right-3 bg-emerald-950/85 backdrop-blur-md text-emerald-200 text-xs font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 flex items-center gap-1">
                         <ThumbsUp className="w-3 h-3 text-emerald-400" />
-                        <span>{calculatedSatisfaction}% Positive</span>
+                        <span>
+                          {metrics.satisfactionPct}% ({metrics.satisfactionTotal} {metrics.satisfactionTotal === 1 ? 'resp.' : 'resps.'})
+                        </span>
                       </div>
                     )}
                   </div>
@@ -337,15 +449,21 @@ export const PublicProductReviews: React.FC = () => {
                     <div>
                       <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                         <span className="font-semibold">{product.categoryLabel}</span>
-                        {calculatedRating ? (
-                          <div className="flex items-center gap-1 text-amber-500 font-bold">
+                        {/* Rating Display: Genuine calculation or 'Not enough data' */}
+                        {metrics.avgRating !== null ? (
+                          <div
+                            className="flex items-center gap-1 text-amber-500 font-bold"
+                            title={metrics.ratingExplanation}
+                          >
                             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                            <span>{calculatedRating}</span>
-                            <span className="text-slate-400 font-normal">({productReviewsList.length})</span>
+                            <span>{metrics.avgRating}</span>
+                            <span className="text-slate-400 font-normal">
+                              ({metrics.reviewCount} {metrics.reviewCount === 1 ? 'review' : 'reviews'})
+                            </span>
                           </div>
                         ) : (
-                          <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider">
-                            No reviews yet
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded-md">
+                            Not enough data (0 reviews)
                           </span>
                         )}
                       </div>
@@ -354,20 +472,22 @@ export const PublicProductReviews: React.FC = () => {
                       </h3>
                     </div>
 
-                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                      {product.summary}
-                    </p>
-
-                    {/* Top Features Bullets */}
-                    <div className="space-y-1.5 pt-1">
-                      <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                        Top Features:
+                    {/* SECTION 1: Official Specifications (Manufacturer Baseline) */}
+                    <div className="bg-slate-50/70 p-3 rounded-xl border border-slate-200/70 space-y-2">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                        <span>Manufacturer Specifications:</span>
+                        <span className="text-[9.5px] font-normal text-slate-400">
+                          {product.specsDate}
+                        </span>
                       </div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                        {product.summary}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
                         {product.topFeatures.slice(0, 3).map((feat, idx) => (
                           <span
                             key={idx}
-                            className="inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 border border-purple-200/60"
+                            className="inline-flex items-center text-[10.5px] font-semibold px-2 py-0.5 rounded-md bg-white text-slate-700 border border-slate-200"
                           >
                             &bull; {feat}
                           </span>
@@ -375,19 +495,75 @@ export const PublicProductReviews: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Sentiment & Intent Scores */}
-                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-[11px]">
-                      <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                        <span className="text-slate-500 block">Intent to Purchase:</span>
-                        <strong className="text-purple-700 text-xs font-black">
-                          {product.intentToPurchaseRate}% High Intent
-                        </strong>
+                    {/* SECTION 2: Community Feedback & Metrics (Self-Reported) */}
+                    <div className="pt-2 border-t border-slate-200/80 space-y-2">
+                      <div className="flex items-center justify-between text-[10.5px] font-extrabold text-purple-900 uppercase tracking-wider">
+                        <span>Community Feedback (Self-Reported):</span>
+                        <span className="text-[10px] font-medium text-slate-500">
+                          {metrics.reviewCount > 0
+                            ? `${metrics.reviewCount} Approved ${metrics.reviewCount === 1 ? 'Review' : 'Reviews'}`
+                            : '0 Responses'}
+                        </span>
                       </div>
-                      <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                        <span className="text-slate-500 block">Launch Year:</span>
-                        <strong className="text-slate-800 text-xs font-black">
-                          {product.releaseYear}
-                        </strong>
+
+                      <div className="grid grid-cols-2 gap-2 text-[11px]">
+                        {/* Owner Satisfaction Metric Box */}
+                        <div className="bg-purple-50/40 p-2 rounded-xl border border-purple-100">
+                          <span className="text-slate-500 block text-[10px] font-semibold">
+                            Owner Satisfaction:
+                          </span>
+                          {metrics.satisfactionPct !== null ? (
+                            <>
+                              <strong className="text-emerald-700 text-xs font-black block">
+                                {metrics.satisfactionPct}% ({metrics.satisfactionTotal} {metrics.satisfactionTotal === 1 ? 'response' : 'responses'})
+                              </strong>
+                              <span
+                                className="text-[9.5px] text-slate-500 block mt-0.5 truncate"
+                                title={metrics.satisfactionExplanation}
+                              >
+                                Calc: {metrics.satisfactionCount}/{metrics.satisfactionTotal} satisfied
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <strong className="text-slate-500 text-xs font-bold block">
+                                Not enough data
+                              </strong>
+                              <span className="text-[9.5px] text-slate-400 block mt-0.5">
+                                0 owner responses
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Intent to Purchase Metric Box */}
+                        <div className="bg-purple-50/40 p-2 rounded-xl border border-purple-100">
+                          <span className="text-slate-500 block text-[10px] font-semibold">
+                            Intent to Purchase:
+                          </span>
+                          {metrics.intentPct !== null ? (
+                            <>
+                              <strong className="text-purple-700 text-xs font-black block">
+                                {metrics.intentPct}% ({metrics.intentTotal} {metrics.intentTotal === 1 ? 'response' : 'responses'})
+                              </strong>
+                              <span
+                                className="text-[9.5px] text-slate-500 block mt-0.5 truncate"
+                                title={metrics.intentExplanation}
+                              >
+                                Calc: {metrics.intentPositive}/{metrics.intentTotal} plan to buy/own
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <strong className="text-slate-500 text-xs font-bold block">
+                                Not enough data
+                              </strong>
+                              <span className="text-[9.5px] text-slate-400 block mt-0.5">
+                                0 intent responses
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -400,7 +576,7 @@ export const PublicProductReviews: React.FC = () => {
                     className="w-full py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-purple-600" />
-                    <span>Reviews ({productReviewsList.length})</span>
+                    <span>Reviews ({metrics.reviewCount})</span>
                   </button>
 
                   <button
@@ -416,7 +592,7 @@ export const PublicProductReviews: React.FC = () => {
           })}
         </div>
 
-        {filteredProducts.length === 0 && (
+        {filteredProductsWithMetrics.length === 0 && (
           <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-3">
             <Search className="w-10 h-10 text-slate-300 mx-auto" />
             <h3 className="text-base font-bold text-slate-800">No matching products found</h3>
@@ -437,7 +613,7 @@ export const PublicProductReviews: React.FC = () => {
       </main>
 
       {/* Product Details & Reviews View Modal */}
-      {activeProduct && (
+      {activeProduct && activeMetrics && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto animate-fadeIn">
           <div className="relative w-full max-w-3xl my-6 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Header */}
@@ -449,22 +625,20 @@ export const PublicProductReviews: React.FC = () => {
                 <h2 className="text-xl sm:text-2xl font-black text-white leading-tight">
                   {activeProduct.name}
                 </h2>
-                <div className="flex items-baseline gap-2 mt-1">
+                <div className="flex flex-wrap items-baseline gap-2 mt-1">
                   <span className="text-lg sm:text-xl font-black text-amber-300">
                     ${activeProduct.priceUSD.toLocaleString()} USD
                   </span>
-                  {getProductReviews(activeProduct.id).length > 0 ? (
+                  <span className="text-xs text-purple-300">
+                    (Official Launch MSRP)
+                  </span>
+                  {activeMetrics.avgRating !== null ? (
                     <span className="text-xs text-purple-200">
-                      &bull;{' '}
-                      {(
-                        getProductReviews(activeProduct.id).reduce((s, r) => s + r.rating, 0) /
-                        getProductReviews(activeProduct.id).length
-                      ).toFixed(1)}{' '}
-                      ★ ({getProductReviews(activeProduct.id).length} Verified Reviews)
+                      &bull; {activeMetrics.avgRating} ★ ({activeMetrics.reviewCount} Approved Community {activeMetrics.reviewCount === 1 ? 'Review' : 'Reviews'})
                     </span>
                   ) : (
                     <span className="text-xs text-purple-200">
-                      &bull; Open for Verified Reviews
+                      &bull; Not enough data (0 reviews submitted)
                     </span>
                   )}
                 </div>
@@ -481,25 +655,79 @@ export const PublicProductReviews: React.FC = () => {
 
             {/* Modal Scrollable Body */}
             <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-800">
-              {/* Product Highlights */}
-              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
-                <h4 className="text-xs font-black uppercase tracking-wider text-slate-500">
-                  Top Product Features &amp; Specifications:
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  {activeProduct.topFeatures.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-slate-700 font-semibold">
-                      <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
-                      <span>{feat}</span>
-                    </div>
-                  ))}
+              {/* ============================================================== */}
+              {/* SECTION 1: OFFICIAL SPECIFICATIONS & PUBLISHED PRICING BASELINE */}
+              {/* ============================================================== */}
+              <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200/90 pb-2.5 gap-1">
+                  <div className="flex items-center gap-2">
+                    <Tag className="w-4 h-4 text-slate-700" />
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">
+                      Official Specifications &amp; Pricing Baseline
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-extrabold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200 w-fit">
+                    Manufacturer Baseline &bull; Independent of Community Feedback
+                  </span>
                 </div>
 
-                {/* Pros vs Cons breakdown */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/80">
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Product specifications, technical features, and launch prices are sourced directly from official manufacturer documentation and press releases. They are recorded and maintained independently from public consumer feedback.
+                </p>
+
+                {/* Sourcing & Verification Metadata */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-white p-3 rounded-xl border border-slate-200">
+                  <div>
+                    <span className="text-slate-400 block text-[10px] font-bold uppercase tracking-wider">
+                      Pricing Documentation:
+                    </span>
+                    <strong className="text-slate-800 font-semibold block">
+                      ${activeProduct.priceUSD.toLocaleString()} USD MSRP
+                    </strong>
+                    <span className="text-[11px] text-slate-500">
+                      {activeProduct.priceSource} &bull; {activeProduct.priceDate}
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="text-slate-400 block text-[10px] font-bold uppercase tracking-wider">
+                      Technical Specifications Source:
+                    </span>
+                    <strong className="text-slate-800 font-semibold block">
+                      {activeProduct.specsSource}
+                    </strong>
+                    <span className="text-[11px] text-slate-500">
+                      {activeProduct.specsDate}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Technical Specifications Bullets */}
+                <div className="space-y-1.5">
+                  <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
+                    Core Hardware &amp; Architectural Features:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {activeProduct.topFeatures.map((feat, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-slate-700 font-semibold bg-white p-2 rounded-lg border border-slate-200/80">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <div className="text-xs text-slate-600 bg-white p-3 rounded-xl border border-slate-200/80">
+                  <span className="font-bold text-slate-700 block mb-0.5">Architecture Overview:</span>
+                  <p>{activeProduct.summary}</p>
+                </div>
+
+                {/* Baseline Considerations Breakdown */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 border-t border-slate-200">
                   <div className="space-y-1">
                     <span className="text-[11px] font-bold text-emerald-700 flex items-center gap-1">
-                      <ThumbsUp className="w-3 h-3" /> Standout Highlights:
+                      <ThumbsUp className="w-3 h-3" /> Architectural Strengths:
                     </span>
                     <ul className="text-xs text-slate-600 space-y-0.5 list-disc pl-4">
                       {activeProduct.keyPros.map((pro, i) => (
@@ -509,7 +737,7 @@ export const PublicProductReviews: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     <span className="text-[11px] font-bold text-amber-700 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> Areas for Consideration:
+                      <AlertCircle className="w-3 h-3" /> Baseline Tradeoffs &amp; Considerations:
                     </span>
                     <ul className="text-xs text-slate-600 space-y-0.5 list-disc pl-4">
                       {activeProduct.keyCons.map((con, i) => (
@@ -520,14 +748,21 @@ export const PublicProductReviews: React.FC = () => {
                 </div>
               </div>
 
-              {/* Public Reviews Section */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              {/* ============================================================== */}
+              {/* SECTION 2: PUBLIC COMMUNITY FEEDBACK & REVIEWS */}
+              {/* ============================================================== */}
+              <div className="bg-white p-4 sm:p-5 rounded-2xl border-2 border-purple-200/80 shadow-xs space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-purple-100 pb-3 gap-2">
                   <div className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4 text-purple-600" />
-                    <h3 className="text-base font-extrabold text-slate-900">
-                      Public Reviews &amp; Owner Feedback
-                    </h3>
+                    <div>
+                      <h3 className="text-base font-extrabold text-slate-900 leading-tight">
+                        Public Community Feedback &amp; Reviews
+                      </h3>
+                      <span className="text-[10.5px] text-slate-500 font-medium">
+                        Self-reported consumer submissions (Purchases are unverified)
+                      </span>
+                    </div>
                   </div>
 
                   <button
@@ -536,34 +771,111 @@ export const PublicProductReviews: React.FC = () => {
                       setActiveProduct(null);
                       setReviewingProduct(target);
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer w-fit"
                   >
                     <PlusCircle className="w-3.5 h-3.5" />
                     <span>Add Your Review</span>
                   </button>
                 </div>
 
-                {getProductReviews(activeProduct.id).length > 0 ? (
-                  <div className="space-y-4">
-                    {getProductReviews(activeProduct.id).map((rev) => (
+                {/* Transparency Notice */}
+                <div className="bg-purple-50/70 p-3 rounded-xl border border-purple-200/70 text-purple-950 text-xs space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-purple-900">
+                    <Info className="w-3.5 h-3.5" />
+                    <span>Metrics Calculation &amp; Verification Policy</span>
+                  </div>
+                  <p className="text-[11.5px] text-purple-900/90 leading-relaxed font-normal">
+                    Ratings and percentage scores below are computed strictly from real approved responses. We do not imply purchase verification; reviewer ownership status is self-reported. Items with zero relevant responses display &ldquo;Not enough data&rdquo; rather than a placeholder percentage.
+                  </p>
+                </div>
+
+                {/* Three Metrics Summary Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  {/* Metric 1: Star Rating */}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                    <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">
+                      Approved Rating:
+                    </span>
+                    <div className="text-lg font-black text-amber-500 flex items-center gap-1">
+                      {activeMetrics.avgRating !== null ? (
+                        <>
+                          <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          <span>{activeMetrics.avgRating} / 5.0</span>
+                        </>
+                      ) : (
+                        <span className="text-sm font-bold text-slate-500">Not enough data</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-500 block leading-tight">
+                      {activeMetrics.ratingExplanation}
+                    </span>
+                  </div>
+
+                  {/* Metric 2: Owner Satisfaction */}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                    <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">
+                      Owner Satisfaction:
+                    </span>
+                    <div className="text-lg font-black text-emerald-700">
+                      {activeMetrics.satisfactionPct !== null ? (
+                        `${activeMetrics.satisfactionPct}%`
+                      ) : (
+                        <span className="text-sm font-bold text-slate-500">Not enough data</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-500 block leading-tight">
+                      {activeMetrics.satisfactionExplanation}
+                    </span>
+                  </div>
+
+                  {/* Metric 3: Intent to Purchase */}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                    <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">
+                      Intent to Purchase:
+                    </span>
+                    <div className="text-lg font-black text-purple-700">
+                      {activeMetrics.intentPct !== null ? (
+                        `${activeMetrics.intentPct}%`
+                      ) : (
+                        <span className="text-sm font-bold text-slate-500">Not enough data</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-500 block leading-tight">
+                      {activeMetrics.intentExplanation}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Approved Reviews List */}
+                {activeApprovedReviews.length > 0 ? (
+                  <div className="space-y-4 pt-2">
+                    <h5 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Approved Reviews ({activeApprovedReviews.length}):
+                    </h5>
+                    {activeApprovedReviews.map((rev) => (
                       <div
                         key={rev.id}
-                        className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3"
+                        className="p-4 rounded-2xl bg-slate-50/60 border border-slate-200 shadow-xs space-y-3"
                       >
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                           <div>
                             <div className="flex items-center gap-2">
                               <span className="font-extrabold text-sm text-slate-900">
                                 {rev.authorName}
                               </span>
-                              {rev.verifiedOwner && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
-                                  <ShieldCheck className="w-3 h-3" /> Verified Owner
+                              {/* Ownership Status Badge — Transparent & Non-misleading */}
+                              {rev.isSelfReportedOwner ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                                  Self-reported Owner (Unverified Purchase)
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">
+                                  Prospective Reviewer (Unverified)
                                 </span>
                               )}
                             </div>
                             <span className="text-[11px] text-slate-400">
-                              {rev.authorCity} &bull; {rev.createdAt}
+                              {rev.authorCity || 'Community Contributor'} &bull; {rev.createdAt}
                             </span>
                           </div>
 
@@ -579,19 +891,19 @@ export const PublicProductReviews: React.FC = () => {
                           </div>
                         </div>
 
-                        {/* Answers to User's Specific Questions */}
+                        {/* Detailed Community Survey Responses */}
                         <div className="space-y-2 text-xs">
                           {/* 1. What they feel */}
-                          <div className="bg-purple-50/60 p-2.5 rounded-xl border border-purple-100 text-purple-950 font-medium">
+                          <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-slate-900 font-medium">
                             <span className="font-bold text-purple-900 block mb-0.5">
                               Overall Impression &amp; Feeling:
                             </span>
-                            "{rev.generalFeeling}"
+                            &ldquo;{rev.generalFeeling}&rdquo;
                           </div>
 
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                             {/* 2. Happy with purchase? */}
-                            <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                            <div className="p-2 rounded-lg bg-white border border-slate-200">
                               <span className="text-slate-500 block">Happy with purchase?</span>
                               <strong className="text-slate-900 capitalize">
                                 {rev.happyWithPurchase.replace(/_/g, ' ')}
@@ -599,7 +911,7 @@ export const PublicProductReviews: React.FC = () => {
                             </div>
 
                             {/* 3. Intent to purchase? */}
-                            <div className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                            <div className="p-2 rounded-lg bg-white border border-slate-200">
                               <span className="text-slate-500 block">Intent to purchase:</span>
                               <strong className="text-slate-900 capitalize">
                                 {rev.intentToPurchase.replace(/_/g, ' ')}
@@ -607,13 +919,13 @@ export const PublicProductReviews: React.FC = () => {
                             </div>
 
                             {/* 4. Why intent to purchase? */}
-                            <div className="p-2 rounded-lg bg-slate-50 border border-slate-100 sm:col-span-2">
+                            <div className="p-2 rounded-lg bg-white border border-slate-200 sm:col-span-2">
                               <span className="text-slate-500 block">Reason for intent to purchase:</span>
                               <span className="text-slate-800 font-medium">{rev.intentReason}</span>
                             </div>
 
                             {/* 5. Satisfaction level? */}
-                            <div className="p-2 rounded-lg bg-slate-50 border border-slate-100 sm:col-span-2">
+                            <div className="p-2 rounded-lg bg-white border border-slate-200 sm:col-span-2">
                               <span className="text-slate-500 block">Satisfaction level:</span>
                               <strong className="text-emerald-700 capitalize font-bold">
                                 {rev.satisfactionLevel.replace(/_/g, ' ')}
@@ -642,8 +954,11 @@ export const PublicProductReviews: React.FC = () => {
                   </div>
                 ) : (
                   <div className="p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-300 space-y-2">
-                    <p className="text-xs text-slate-500">
-                      Be the first person in the community to share your thoughts on this product!
+                    <p className="text-xs font-bold text-slate-700">
+                      No approved community reviews yet for this product.
+                    </p>
+                    <p className="text-xs text-slate-500 max-w-md mx-auto">
+                      All owner satisfaction and purchase intent percentages display &ldquo;Not enough data&rdquo; until real community reviews are submitted and approved.
                     </p>
                     <button
                       onClick={() => {
@@ -651,7 +966,7 @@ export const PublicProductReviews: React.FC = () => {
                         setActiveProduct(null);
                         setReviewingProduct(target);
                       }}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-xl font-bold text-xs"
+                      className="mt-2 px-4 py-2 bg-purple-600 text-white rounded-xl font-bold text-xs cursor-pointer hover:bg-purple-700"
                     >
                       Write First Review
                     </button>
@@ -680,6 +995,7 @@ export const PublicProductReviews: React.FC = () => {
               <button
                 onClick={() => setReviewingProduct(null)}
                 className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer"
+                aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -687,11 +1003,11 @@ export const PublicProductReviews: React.FC = () => {
 
             {/* Modal Form */}
             <form onSubmit={handleSubmitReview} className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1 text-xs">
-              <div className="bg-purple-50 p-3 rounded-xl border border-purple-200/60 text-purple-900 text-[11px] leading-relaxed">
-                Your feedback helps thousands of consumers evaluate newly launched products. Please answer honestly based on your real experience or evaluation!
+              <div className="bg-purple-50 p-3 rounded-xl border border-purple-200/60 text-purple-900 text-[11.5px] leading-relaxed">
+                Your feedback helps thousands of consumers evaluate newly launched products. Please answer honestly based on your real experience or evaluation.
               </div>
 
-              {/* Author Info & Rating */}
+              {/* Author Info & Ownership Selection */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="font-bold text-slate-700 block mb-1">
@@ -721,6 +1037,31 @@ export const PublicProductReviews: React.FC = () => {
                 </div>
               </div>
 
+              {/* Ownership Status Selection (Non-Misleading, Self-Reported) */}
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">
+                  Ownership Status (Self-reported) <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={formData.ownershipType}
+                  onChange={(e: any) => setFormData({ ...formData, ownershipType: e.target.value })}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-2 focus:ring-purple-600"
+                >
+                  <option value="self_reported_owner">
+                    I own this product (Self-reported owner; purchase is not verified)
+                  </option>
+                  <option value="prospective_buyer">
+                    I do not own this product yet (Prospective evaluation)
+                  </option>
+                  <option value="tested_only">
+                    I tested or tried this product hands-on
+                  </option>
+                </select>
+                <span className="text-[10px] text-slate-500 mt-1 block">
+                  Transparency Notice: We do not independently verify purchase receipts or transaction logs.
+                </span>
+              </div>
+
               {/* Rating Star Selection */}
               <div>
                 <label className="font-bold text-slate-700 block mb-1">
@@ -734,6 +1075,7 @@ export const PublicProductReviews: React.FC = () => {
                         key={star}
                         onClick={() => setFormData({ ...formData, rating: star })}
                         className="p-1 text-amber-400 hover:scale-110 transition-transform cursor-pointer"
+                        aria-label={`${star} star rating`}
                       >
                         <Star
                           className={`w-6 h-6 ${

@@ -127,7 +127,7 @@ export const HowToEarn: React.FC = () => {
     },
     {
       title: 'Transparent Payment Disbursement',
-      desc: 'Panelist credits are reviewed under standardized research guidelines. Electronic disbursements to verified accounts are processed within 24 to 48 business hours.',
+      desc: 'Panelist credits are reviewed under monthly quality audits on the 1st of each month. Following an eligible cashout request (2,000 coins / $20.00 min), bank transfers are expected within 2–5 business days and cryptocurrency within 24–48 hours after processing.',
       icon: CreditCard,
     },
   ];

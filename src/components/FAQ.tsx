@@ -39,46 +39,53 @@ const FAQ_ITEMS: FAQItem[] = [
   {
     id: 'coin-rate',
     category: 'conversion',
-    categoryLabel: 'Reward Credits',
+    categoryLabel: 'Coin Conversion',
     question: 'How do research study coins convert into rewards?',
-    shortAnswer: '100 Coins = 1 Reward Unit (10 points per coin).',
+    shortAnswer: '100 Coins = $1.00 USD ($0.01 per coin).',
     detailedAnswer: [
-      'Voice Flow 360 uses a transparent, standardized reward coin valuation where 100 coins equals 1 Reward Unit.',
-      'There are no floating exchange rates, hidden algorithmic dilutions, or sudden point devaluations. When a brand research study awards 150 coins, you receive 150 verified reward coins directly in your balance. Participate in studies and earn rewards.',
+      'Voice Flow 360 uses a transparent, fixed conversion rate: 100 coins equals $1.00 USD ($0.01 per coin).',
+      'There are no floating exchange rates, hidden algorithmic dilutions, or sudden point devaluations. When a brand research study awards 150 coins, you receive 150 verified reward coins ($1.50 USD value) in your ledger.',
+      'Accrued coins maintain this published fixed ratio, protecting your accumulated earnings from retroactive devaluation.',
     ],
     keyTakeaways: [
-      '100 Coins = 1 Reward Unit',
-      '500 Coins = Minimum Reward Redemption',
-      '1,000 Coins = Level 1 Reward Tier',
-      '2,500 Coins = Level 2 Reward Tier',
+      '100 Coins = $1.00 USD fixed valuation ($0.01 per coin)',
+      '2,000 Coins ($20.00 USD) = Standard minimum cashout threshold',
+      'Zero algorithmic token dilution or hidden conversion haircuts',
+      'Only reviewed and approved coins become redeemable on 1st of month',
     ],
-    highlightBadge: '100 Coins = 1 Reward Unit',
+    highlightBadge: '100 Coins = $1.00 USD',
   },
   {
     id: 'credit-speed',
     category: 'conversion',
-    categoryLabel: 'Reward Credits',
+    categoryLabel: 'Coin Conversion',
     question: 'How quickly are survey coins credited to my account?',
-    shortAnswer: 'Coins are logged in your account upon survey completion, pending monthly quality review on the 1st of each month.',
+    shortAnswer: 'Coins are logged immediately in Pending Review upon survey completion, and only approved coins become redeemable on the 1st of each month.',
     detailedAnswer: [
-      'The moment you complete a conversational chat survey or trivia session, the reward coins are logged in your account ledger as pending research credits.',
-      'Submissions undergo quality and attentiveness verification during the monthly billing cycle. On the 1st of each month, reviewed and approved earnings transfer to your Redeemable Wallet for cashout.',
+      'The moment you complete a conversational chat survey, the earned reward coins are immediately recorded in your account ledger under Pending Review.',
+      'Throughout the calendar month, submissions undergo quality and attentiveness verification to ensure research authenticity.',
+      'On the 1st of each month, all reviewed and approved coins automatically transfer to your Redeemable Wallet. Note that monthly reward approval (on the 1st of each month) is separate from withdrawal processing (which begins after you submit an eligible cashout request).',
     ],
     keyTakeaways: [
-      'Survey coins logged in your account ledger upon completion',
-      'Monthly review cycle transfers approved coins on the 1st of each month',
-      'Audited balance unlocks cashout once reaching 2,000 Coins ($20.00 USD)',
+      'Coins logged immediately in Pending Review upon completion',
+      'Monthly approval: only reviewed and approved coins become redeemable on the 1st of each month',
+      'Monthly reward approval is distinct from withdrawal processing',
     ],
   },
   {
     id: 'coin-expiration',
     category: 'conversion',
-    categoryLabel: 'Reward Credits',
+    categoryLabel: 'Coin Conversion',
     question: 'Do my earned coins ever expire?',
     shortAnswer: 'No. Your coins never expire as long as your account remains active.',
     detailedAnswer: [
       'Your earned coins belong to you and never expire due to arbitrary calendar deadlines.',
-      'To keep an account active, simply log in at least once every 12 months. You can accumulate coins at your own pace until you are ready to redeem your target cashout amount via Direct Bank Transfer or Cryptocurrency.',
+      'To keep an account active, simply sign in or complete at least one activity within any 12-month period. You can accumulate coins at your own pace until you reach the standardized 2,000 coin ($20.00 USD) minimum threshold to redeem via Direct Bank Transfer or Cryptocurrency.',
+    ],
+    keyTakeaways: [
+      'Earned coins never expire while account is active',
+      '12-month activity window to maintain active status',
+      'Accumulate at your own pace toward the 2,000 coin minimum',
     ],
   },
 
@@ -88,16 +95,16 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'How do survey earnings get added to my Redeemable Wallet?',
-    shortAnswer: 'All survey reward coins are reviewed and transferred to your Redeemable Wallet by the 1st of every month.',
+    shortAnswer: 'Only reviewed and approved coins become redeemable on the 1st of each month.',
     detailedAnswer: [
-      'When you complete conversational feedback surveys and trivia sessions, your earned reward coins are recorded in your account under review to safeguard research integrity.',
-      'By the 1st of every month, following automated quality and compliance verification, your total approved earnings are transferred directly into your Redeemable Wallet.',
-      'Once transferred to your Redeemable Wallet, you can request a disbursement via Direct Bank Transfer or Cryptocurrency.',
+      'When you complete conversational feedback surveys, earned coins enter Pending Review where automated quality checks and human reviews verify answer integrity.',
+      'On the 1st of each calendar month, all reviewed and approved earnings automatically transfer into your Redeemable Wallet. Coins that fail quality or attentiveness standards are not approved.',
+      'It is important to distinguish monthly reward approval from withdrawal processing: monthly approval certifies your survey responses and unlocks the coins into your Redeemable Wallet on the 1st; withdrawal processing begins only when you submit an eligible redemption request (minimum 2,000 Coins / $20.00 USD).',
     ],
     keyTakeaways: [
-      'Monthly audit cycle: transfers on the 1st of every month',
-      'Protects brand research authenticity and ensures reliable disbursements',
-      'Once in Redeemable Wallet, funds are fully unlocked for cashout at 2,000 Coins ($20.00 USD)',
+      'Monthly quality audit cycle: only approved coins transfer on the 1st of each month',
+      'Distinguishes monthly reward approval from withdrawal processing',
+      'Unlocked for withdrawal at 2,000 Coins ($20.00 USD)',
     ],
     highlightBadge: 'Transfers on 1st of Month',
   },
@@ -106,16 +113,17 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'What is the minimum redemption threshold?',
-    shortAnswer: 'Minimum redemption is 2,000 Coins ($20.00 USD) for both Bank Transfer and Cryptocurrency.',
+    shortAnswer: 'Minimum withdrawal is 2,000 coins ($20.00 USD) for bank transfer and cryptocurrency.',
     detailedAnswer: [
-      'To provide an honest, verifiable compensation process with zero platform fees, our minimum withdrawal threshold is standardized across all rails: 2,000 Coins ($20.00 USD).',
-      '• Direct Bank Transfer (ACH / SEPA / Wire): Minimum cashout is 2,000 Coins ($20.00 USD) with $0 platform fee.',
-      '• Cryptocurrency (USDT / BTC): Minimum cashout is 2,000 Coins ($20.00 USD) with standard network miner fee.',
+      'To provide an honest, verifiable compensation process with zero platform fees, our minimum withdrawal threshold is standardized across all payout rails at 2,000 Coins ($20.00 USD).',
+      '• Direct Bank Transfer (ACH / SEPA / Wire): Minimum cashout is 2,000 Coins ($20.00 USD).',
+      '• Cryptocurrency (USDT / BTC): Minimum cashout is 2,000 Coins ($20.00 USD).',
+      'Only reviewed and approved coins currently in your Redeemable Wallet count toward the 2,000 coin threshold. Pending review balances must be approved on the 1st of the month before they can be redeemed.',
     ],
     keyTakeaways: [
-      '2,000 Coins ($20.00 USD) unified cashout threshold',
-      'Direct Bank Transfer and Cryptocurrency supported',
-      'Zero platform fee deducted from your payout',
+      '2,000 Coins ($20.00 USD) minimum withdrawal for bank transfer and cryptocurrency',
+      'Standardized minimum applies equally across both payment rails',
+      'Must have 2,000 approved coins in Redeemable Wallet to withdraw',
     ],
     highlightBadge: 'Min 2,000 Coins ($20.00)',
   },
@@ -124,16 +132,18 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'What are the withdrawal processing requirements?',
-    shortAnswer: 'Earnings are audited during the month and move to your Redeemable Wallet on the 1st of each month. Redemptions require a minimum of 2,000 Coins ($20.00 USD).',
+    shortAnswer: 'Withdrawals require at least 2,000 redeemable coins ($20.00 USD). Only reviewed and approved coins can be withdrawn.',
     detailedAnswer: [
-      'Completed survey earnings enter Pending Review where automated quality checks and human reviews verify answer integrity.',
-      'On the 1st of every month, all approved earnings automatically transfer to your Redeemable Wallet.',
-      'Once in your Redeemable Wallet, you can request a cashout via Bank Transfer or Cryptocurrency as soon as your balance reaches 2,000 Coins ($20.00 USD).',
+      'Our withdrawal process follows three clear operational stages:',
+      '1. Monthly Reward Approval: Throughout the month, coins stay in Pending Review. On the 1st of each month, reviewed and approved coins transfer into your Redeemable Wallet.',
+      '2. Cashout Request: Once your Redeemable Wallet reaches at least 2,000 Coins ($20.00 USD), you can submit a withdrawal request specifying your payment method (Direct Bank Transfer or Cryptocurrency) and destination details.',
+      '3. Withdrawal Processing & Disbursement: Platform administrators verify and process the withdrawal request. Bank transfers are expected 2–5 business days after an eligible withdrawal request is processed. Cryptocurrency transfers are expected 24–48 hours after processing.',
     ],
     keyTakeaways: [
-      'Monthly review cycle: transfers on 1st of each month',
-      '2,000 Coins ($20.00 USD) threshold unlocks withdrawal',
-      'Zero platform fees on Bank Transfer disbursements',
+      'Withdrawal processing is distinct from monthly reward approval',
+      '2,000 Coins ($20.00 USD) minimum redeemable balance required',
+      'Bank transfers: expected 2–5 business days after processing',
+      'Cryptocurrency: expected 24–48 hours after processing',
     ],
   },
   {
@@ -143,15 +153,15 @@ const FAQ_ITEMS: FAQItem[] = [
     question: 'What payout methods are supported?',
     shortAnswer: 'Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC).',
     detailedAnswer: [
-      'We support reliable, operational payment rails for verified participants:',
-      '• Direct Bank Transfer: Direct electronic deposit via ACH, SEPA, or domestic/international wire to your verified bank account (Minimum 2,000 Coins / $20.00 USD).',
+      'We support genuine, operational payment rails for eligible, verified participants:',
+      '• Direct Bank Transfer: Direct electronic deposit via ACH, SEPA, or domestic/international wire to your verified bank account in 40+ countries (Minimum 2,000 Coins / $20.00 USD).',
       '• Cryptocurrency (USDT / BTC): Fast transfer directly to your verified cryptocurrency wallet address (Minimum 2,000 Coins / $20.00 USD).',
-      'We do not promise speculative, unverified payout rails. Only operational bank and crypto channels are provided.',
+      'Both methods require a minimum of 2,000 approved coins ($20.00 USD) in your Redeemable Wallet. Voice Flow 360 does not invent unverified or speculative payout rails.',
     ],
     keyTakeaways: [
       'Bank Transfer: ACH, SEPA, Wire (2,000 Coins / $20 min)',
       'Crypto: USDT / BTC (2,000 Coins / $20 min)',
-      'Zero platform fees on bank transfers',
+      'Zero platform fees charged by Voice Flow 360',
     ],
   },
   {
@@ -159,10 +169,18 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'How long does it take to receive my payout after requesting it?',
-    shortAnswer: 'Redemptions from your Redeemable Wallet are typically processed within 24 to 48 business hours.',
+    shortAnswer: 'Bank transfers are expected 2–5 business days after an eligible request is processed; cryptocurrency is expected 24–48 hours after processing.',
     detailedAnswer: [
-      'Once your earnings are moved to your Redeemable Wallet on the 1st of the month, any cashout request you submit is reviewed and dispatched by platform administrators within 24 to 48 hours.',
-      'Bank transfers typically settle into your checking or savings account within 1 to 3 business days depending on your local bank processing times.',
+      'It is essential to distinguish monthly reward approval from withdrawal processing:',
+      '• Monthly Reward Approval (1st of Month): Survey coins are reviewed and approved on the 1st of every month, transferring into your Redeemable Wallet.',
+      '• Withdrawal Request & Processing: When you submit an eligible withdrawal request from your Redeemable Wallet (minimum 2,000 Coins / $20.00 USD), the request is audited and processed by administrators.',
+      '• Bank Transfers: Expected 2 to 5 business days after the withdrawal request is processed, depending on international ACH/SEPA/wire clearance and recipient institution settlement times.',
+      '• Cryptocurrency: Expected 24 to 48 hours after processing, subject to standard blockchain network confirmations.',
+    ],
+    keyTakeaways: [
+      'Bank transfers: expected 2–5 business days after processing',
+      'Cryptocurrency: expected 24–48 hours after processing',
+      'Withdrawal processing is separate from the 1st-of-month reward approval',
     ],
   },
   {
@@ -170,10 +188,17 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'payouts',
     categoryLabel: 'Payouts & Cashout',
     question: 'Are there any redemption or cashout processing fees?',
-    shortAnswer: 'Zero fees. What you cash out is 100% what you receive in your account.',
+    shortAnswer: 'Voice Flow 360 charges zero platform fees. Intermediary bank fees and blockchain network miner fees are separate and determined by external networks.',
     detailedAnswer: [
-      'Voice Flow 360 does not charge any redemption or processing fees.',
-      'By setting the bank minimum in alignment with banking policies, we absorb all corporate banking overhead so you receive the full value of your redeemable coins. Participate in studies and earn rewards.',
+      'Zero Platform Fees: Voice Flow 360 does not charge any cashout, membership, or administrative fees on your withdrawals ($0.00 platform fee).',
+      'Bank Transfer Fees: While Voice Flow 360 charges zero platform fees, your receiving bank or intermediary correspondent banks may independently apply incoming wire or foreign exchange fees depending on your local institution’s policies.',
+      'Cryptocurrency Network Fees: Voice Flow 360 charges zero platform fees, but cryptocurrency transactions are subject to standard blockchain network miner or gas fees required by the network (e.g. USDT or BTC) at the time of broadcast.',
+      'Because external bank or blockchain fees may apply depending on your provider, we explain our zero platform fees separately from those external third-party costs.',
+    ],
+    keyTakeaways: [
+      '$0.00 platform fee from Voice Flow 360 on all cashouts',
+      'Intermediary bank wire/FX fees determined by recipient institution',
+      'Cryptocurrency transactions subject to standard network miner fees',
     ],
   },
 
@@ -183,36 +208,37 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'eligibility',
     categoryLabel: 'Participation Eligibility',
     question: 'Who is eligible to participate in surveys on Voice Flow 360?',
-    shortAnswer: 'Anyone aged 13 or older (or 18+ depending on jurisdiction) with an internet-connected device.',
+    shortAnswer: 'Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction.',
     detailedAnswer: [
-      'Voice Flow 360 is open to participants globally. Whether you are a student, full-time professional, stay-at-home parent, or retiree, your voice is valuable to consumer brands.',
-      'You only need an active email address and an internet connection. There are no prior qualifications, educational prerequisites, or special equipment needed.',
+      'To participate in Voice Flow 360 research studies and earn rewards, you must be at least 18 years of age and meet the applicable age-of-majority requirement in your jurisdiction.',
+      'Participants must have an active email address and an internet-connected device. Membership is 100% free with no subscription or entry fees.',
+      'Eligible participants must provide genuine, attentive personal feedback based on actual consumer experience. Operating multiple accounts, using automated scripts, or submitting fraudulent data will disqualify responses and forfeit accrued rewards.',
     ],
     keyTakeaways: [
-      'Ages 13+ eligible (or 18+ where local regulations require)',
-      'Worldwide accessibility with global and localized brand studies',
-      '100% free membership — no subscription or entry fee ever',
+      'Must be at least 18 years old and meet applicable age of majority',
+      'Valid internet connection and email address required',
+      '100% free participation — zero entry or registration fees',
     ],
-    highlightBadge: 'Open to All',
+    highlightBadge: 'Ages 18+ & Legal Majority',
   },
   {
     id: 'survey-limit',
     category: 'eligibility',
     categoryLabel: 'Participation Eligibility',
     question: 'How many surveys and quizzes can I take per day? How can I earn more once I reach the limit?',
-    shortAnswer: 'Members can complete up to 5 surveys and quizzes combined per day. For more earnings, invite friends to earn unlimited coins!',
+    shortAnswer: 'Members can complete up to 5 surveys and quizzes combined per day. For more earnings, invite friends to earn coins upon accepted participation!',
     detailedAnswer: [
       'To safeguard authentic data for sponsoring brands and maintain high-quality respondent engagement, Voice Flow 360 permits up to 5 completed surveys and quizzes combined per calendar day.',
       'Once your 5th survey or quiz is finished, daily earning from surveys and quizzes pauses until the midnight daily reset.',
-      'Want to keep earning after reaching the 5-survey limit? You can earn unlimited coins by inviting other people! You have 3 simple options: copy your link, share via WhatsApp, or share directly on your social profiles. Customer will be paid 300 Coins only when someone joins from the invitations. Participate in studies and earn rewards.',
+      'Want to keep earning after reaching the 5-survey limit? You can earn bonus coins by inviting others to join! When someone registers through your invitation and completes their first eligible study, you receive 300 bonus coins.',
     ],
     keyTakeaways: [
-      'Maximum 5 survey & quiz completions per day (5 daily earnings)',
+      'Maximum 5 survey & quiz completions per day',
       'New survey & quiz slots unlock automatically at daily reset',
-      'Earn unlimited bonus coins by inviting friends (+300 Coins paid when friend joins)',
+      'Earn 300 bonus coins when an invited friend completes their first study',
       '3 simple sharing options: Copy link, share on WhatsApp, or share on social profiles',
     ],
-    highlightBadge: 'Max 5 Surveys / Day • Unlimited Referrals',
+    highlightBadge: 'Max 5 Surveys / Day',
   },
   {
     id: 'device-compatibility',
@@ -245,8 +271,8 @@ const FAQ_ITEMS: FAQItem[] = [
     question: 'Is there a sign-up bonus for new members?',
     shortAnswer: 'Yes! New members receive a 50 coin welcome bonus upon registration.',
     detailedAnswer: [
-      'As soon as you register your free account, 50 coins are credited to your account balance to kickstart your earning journey. Participate in studies and earn rewards.',
-      'You can also collect daily streak bonuses by checking in each day and completing the daily trivia challenge.',
+      'As soon as you register your free account, 50 coins are credited to your account balance to kickstart your earning journey.',
+      'Welcome bonus coins transfer to your Redeemable Wallet following the monthly review cycle on the 1st of the month, counting toward the 2,000 coin minimum withdrawal threshold.',
     ],
   },
   {
@@ -254,10 +280,11 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'account',
     categoryLabel: 'Account & Security',
     question: 'How does the Referral Program work and how much can I earn?',
-    shortAnswer: 'Earn 300 coins per referred friend plus a 10% lifetime dividend on their completed surveys.',
+    shortAnswer: 'Earn 300 coins per referred friend who completes their first eligible study, plus a 10% lifetime dividend on their survey earnings.',
     detailedAnswer: [
       'Every member receives a personalized referral code and direct share link in the "Invite & Earn 300" tab.',
-      'When your friend registers and completes their first survey, you receive a 300 coin reward. Additionally, you earn an ongoing 10% dividend on all survey coins they accumulate, credited automatically without deducting from their payout. Participate in studies and earn rewards.',
+      'When your friend registers and completes their first eligible survey, you receive a 300 coin reward. Additionally, you earn an ongoing 10% dividend on all survey coins they accumulate, credited automatically without deducting from their payout.',
+      'Referral earnings undergo the same monthly quality review before transferring to your Redeemable Wallet on the 1st of each month.',
     ],
     keyTakeaways: [
       '300 Bonus Coins upon friend’s first completed study',
@@ -289,7 +316,7 @@ export const FAQ: React.FC = () => {
   });
 
   // Interactive Calculator State
-  const [calcCoins, setCalcCoins] = useState<number>(500);
+  const [calcCoins, setCalcCoins] = useState<number>(2000);
 
   const toggleItem = (id: string) => {
     setOpenItems((prev) => ({
@@ -342,24 +369,23 @@ export const FAQ: React.FC = () => {
     };
   }, []);
 
-  const calculatedCredits = Math.floor(calcCoins / 100);
   const calculatedUsd = (calcCoins / 100).toFixed(2);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10 animate-fadeIn text-slate-900">
       <SEOHead
         title="Frequently Asked Questions (FAQ) - Coin Conversion, Payouts & Eligibility"
-        description="Find clear answers to common questions about Voice Flow 360: reward coins, redemption thresholds, survey eligibility, and redemption methods. Participate in studies and earn rewards."
+        description="Clear answers to common questions about Voice Flow 360: 100 coins = $1 USD conversion, 2,000 coin ($20) minimum withdrawal for bank transfer and cryptocurrency, monthly approval on the 1st of each month, and age eligibility."
         keywords={[
           'voice flow 360 faq',
+          '100 coins equals 1 dollar',
           'coin conversion rate',
           'survey payout threshold',
-          'how much are coins worth',
-          'survey eligibility requirements',
-          'bank transfer cashout minimum',
-          'crypto withdrawal threshold',
-          '12 hour survey limit',
-          'earn money survey questions',
+          '2000 coins 20 dollars',
+          'survey eligibility requirements age 18',
+          'bank transfer cashout processing 2-5 days',
+          'crypto withdrawal 24-48 hours',
+          'monthly reward approval 1st of month',
         ]}
         canonicalPath="/faq"
         structuredData={faqSchemaData}
@@ -375,7 +401,7 @@ export const FAQ: React.FC = () => {
           Frequently Asked Questions
         </h1>
         <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-          Clear, transparent rules regarding our reward coins valuation, 1st-of-the-month wallet review cycle, and standardized 2,000 Coins ($20.00 USD) minimum cashout policy across all payment rails. Participate in studies and earn rewards.
+          Clear, transparent rules regarding our reward coins valuation (100 Coins = $1.00 USD), 1st-of-the-month approval cycle, and standardized 2,000 Coins ($20.00 USD) minimum cashout policy across bank transfers and cryptocurrency. Eligible participants must be at least 18 years old and meet the applicable age-of-majority requirement.
         </p>
       </div>
 
@@ -397,9 +423,9 @@ export const FAQ: React.FC = () => {
             <Calendar className="w-6 h-6 text-purple-600" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Monthly Transfer</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Monthly Approval</p>
             <p className="text-xl font-extrabold text-slate-900">1st of Every Month</p>
-            <p className="text-xs text-purple-700 font-semibold">Reviewed &amp; added to wallet</p>
+            <p className="text-xs text-purple-700 font-semibold">Only approved coins become redeemable</p>
           </div>
         </div>
 
@@ -408,8 +434,8 @@ export const FAQ: React.FC = () => {
             <Award className="w-6 h-6 text-emerald-600" />
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Minimum Redemption</p>
-            <p className="text-xl font-extrabold text-slate-900">Min 2,000 Coins ($20)</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Minimum Withdrawal</p>
+            <p className="text-xl font-extrabold text-slate-900">2,000 Coins ($20.00)</p>
             <p className="text-xs text-emerald-600 font-semibold">Bank Transfer &amp; Crypto</p>
           </div>
         </div>
@@ -426,16 +452,16 @@ export const FAQ: React.FC = () => {
                 <span>Interactive Earnings Estimator</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold mt-2">
-                Reward Credits &amp; Redemption Calculator
+                Coin Conversion &amp; Withdrawal Calculator
               </h2>
               <p className="text-slate-300 text-xs sm:text-sm">
-                Calculate your estimated reward credits and check redemption eligibility across payout methods. Participate in studies and earn rewards.
+                Calculate your estimated USD cash value (100 Coins = $1.00 USD) and check withdrawal eligibility against our standardized 2,000 coin ($20.00 USD) minimum threshold.
               </p>
             </div>
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-right shrink-0">
-              <span className="text-xs text-purple-200 font-medium block">Reward Credits</span>
+              <span className="text-xs text-purple-200 font-medium block">Estimated Cash Value</span>
               <span className="text-2xl sm:text-3xl font-extrabold text-amber-300">
-                {calculatedCredits} <span className="text-sm font-normal text-white">Credits</span>
+                ${calculatedUsd} <span className="text-sm font-normal text-white">USD</span>
               </span>
             </div>
           </div>
@@ -443,7 +469,9 @@ export const FAQ: React.FC = () => {
           <div className="space-y-3">
             <div className="flex justify-between items-center text-xs text-slate-300">
               <span>Adjust Coin Amount:</span>
-              <span className="font-extrabold text-white text-sm">{calcCoins.toLocaleString()} coins ({calculatedCredits} Credits)</span>
+              <span className="font-extrabold text-white text-sm">
+                {calcCoins.toLocaleString()} coins (${calculatedUsd} USD)
+              </span>
             </div>
             <input
               id="faq-coin-converter-slider"
@@ -456,10 +484,10 @@ export const FAQ: React.FC = () => {
               className="w-full h-2.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400"
             />
             <div className="flex justify-between text-[11px] text-slate-400">
-              <span>500 coins</span>
-              <span>2,000 coins (Min cashout)</span>
-              <span>5,000 coins</span>
-              <span>10,000 coins</span>
+              <span>500 coins ($5.00)</span>
+              <span>2,000 coins ($20.00 min withdrawal)</span>
+              <span>5,000 coins ($50.00)</span>
+              <span>10,000 coins ($100.00)</span>
             </div>
           </div>
 
@@ -467,25 +495,25 @@ export const FAQ: React.FC = () => {
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
               <span className="text-[11px] text-slate-300 block">Bank Transfer (Min 2,000)</span>
               <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 2000 ? 'text-emerald-400' : 'text-amber-300'}`}>
-                {calcCoins >= 2000 ? 'Eligible ($20+)' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
+                {calcCoins >= 2000 ? 'Eligible ($20+) • 2–5 days' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">Crypto USDT (Min 2,000)</span>
+              <span className="text-[11px] text-slate-300 block">Crypto USDT/BTC (Min 2,000)</span>
               <span className={`text-xs sm:text-sm font-bold block mt-1 ${calcCoins >= 2000 ? 'text-emerald-400' : 'text-amber-300'}`}>
-                {calcCoins >= 2000 ? 'Eligible ($20+)' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
+                {calcCoins >= 2000 ? 'Eligible ($20+) • 24–48 hrs' : `Needs ${(2000 - calcCoins).toLocaleString()} more`}
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">Estimated USD Value</span>
+              <span className="text-[11px] text-slate-300 block">Conversion Rate</span>
               <span className="text-xs sm:text-sm font-bold text-amber-300 block mt-1">
-                ${calculatedUsd} USD
+                100 Coins = $1.00 USD
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/10 text-center">
-              <span className="text-[11px] text-slate-300 block">Transfer to Redeemable</span>
+              <span className="text-[11px] text-slate-300 block">Monthly Approval</span>
               <span className="text-xs sm:text-sm font-bold text-purple-300 block mt-1">
-                Every 1st of Month
+                1st of Every Month
               </span>
             </div>
           </div>
@@ -519,9 +547,9 @@ export const FAQ: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2">
             {[
               { id: 'all', label: 'All Questions' },
-              { id: 'conversion', label: 'Coin Conversion Rates' },
-              { id: 'payouts', label: 'Payout Thresholds' },
-              { id: 'eligibility', label: 'Survey Eligibility' },
+              { id: 'conversion', label: 'Coin Conversion' },
+              { id: 'payouts', label: 'Payouts & Cashout' },
+              { id: 'eligibility', label: 'Participation Eligibility' },
               { id: 'account', label: 'Account & Security' },
             ].map((tab) => (
               <button
@@ -567,7 +595,7 @@ export const FAQ: React.FC = () => {
             <AlertCircle className="w-10 h-10 text-slate-400 mx-auto" />
             <h3 className="text-base font-bold text-slate-800">No questions matched your query</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
-              Try searching with broader terms like "conversion", "paypal", "coins", or switch category filters.
+              Try searching with broader terms like "conversion", "bank transfer", "coins", or switch category filters.
             </p>
             <button
               onClick={() => {
@@ -664,7 +692,7 @@ export const FAQ: React.FC = () => {
           <div>
             <h3 className="text-base font-bold text-slate-900">Participate in studies and earn rewards</h3>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Browse dozens of active brand research studies, contribute your insights for up to 250 coins per study, and redeem rewards with our standardized 2,000 coin ($20.00 USD) threshold. Participate in studies and earn rewards.
+              Browse active brand research studies, contribute your insights, and withdraw your approved earnings once reaching the 2,000 coin ($20.00 USD) threshold via Direct Bank Transfer or Cryptocurrency.
             </p>
           </div>
           <button

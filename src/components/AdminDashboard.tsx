@@ -1074,16 +1074,16 @@ export const AdminDashboard: React.FC = () => {
                 <div className="p-3 bg-white rounded-xl border border-amber-200/60 text-xs space-y-1">
                   <div className="flex justify-between text-slate-600">
                     <span>100 Coins:</span>
-                    <span className="font-black text-slate-900">1 Reward Credit</span>
+                    <span className="font-black text-slate-900">$1.00 USD</span>
                   </div>
                   <div className="flex justify-between text-slate-600">
-                    <span>500 Coins (Redemption min):</span>
-                    <span className="font-black text-slate-900">5 Reward Credits</span>
+                    <span>2,000 Coins (Redemption min):</span>
+                    <span className="font-black text-slate-900">$20.00 USD</span>
                   </div>
                   <div className="flex justify-between text-slate-600 border-t border-slate-100 pt-1">
                     <span>Active User Coin Balance Liability:</span>
                     <span className="font-black text-amber-700">
-                      {Math.floor(totalAvailableLiability / 100).toLocaleString()} Credits
+                      ${(totalAvailableLiability / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
                     </span>
                   </div>
                 </div>

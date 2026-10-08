@@ -24,83 +24,83 @@ export const NewsUpdates: React.FC = () => {
 
   const tags = [
     { id: 'all', label: 'All Updates' },
-    { id: 'releases', label: 'Feature Releases' },
-    { id: 'payouts', label: 'Payout Reports' },
-    { id: 'partnerships', label: 'New Brands' },
-    { id: 'community', label: 'Community' },
+    { id: 'releases', label: 'Platform Features' },
+    { id: 'rewards', label: 'Rewards & Policies' },
+    { id: 'editorial', label: 'Editorial & Research' },
+    { id: 'security', label: 'Quality & Privacy' },
   ];
 
   const articles = [
     {
       id: 'news-1',
-      title: 'Voice Flow 360 Ecosystem Upgrade: Instant Public Earning & Speed Quizzes',
+      title: 'Conversational Survey Engine & Daily Participation Pacing',
       date: 'September 2026',
       tag: 'releases',
-      tagLabel: 'Feature Release',
+      tagLabel: 'Platform Feature',
       tagColor: 'bg-purple-100 text-purple-800',
       icon: Sparkles,
       iconColor: 'bg-purple-600',
       readTime: '2 min read',
       summary:
-        'We have completely overhauled the entry gateway! All visitors can now dive straight into the Survey Catalog and Speed Quizzes with zero upfront registration friction. Start earning coins on question #1.',
+        'Our interactive chat interface guides participants through structured conversational surveys, logging earned coins directly to pending balances with daily participation pacing to preserve survey attentiveness.',
       details: [
-        'Instant guest-to-member persistent wallet synchronization',
-        'Speed trivia challenges with instant correct-answer bonus multipliers',
-        'Enhanced mobile chat interface with adaptive question bubbles',
+        'Immediate recording of completed survey coins into your Pending Review ledger',
+        'Daily participation pacing of up to 5 completed surveys/quizzes to safeguard focus and answer quality',
+        'Responsive web application optimized for desktop and mobile browsers without requiring app store downloads',
       ],
     },
     {
       id: 'news-2',
-      title: 'Monthly Payout Record: Over $145,000 Dispatched to Global Survey Participants',
+      title: 'Transparent Rewards Policy & Monthly Quality Review Cycle',
       date: 'August 2026',
-      tag: 'payouts',
-      tagLabel: 'Payout Report',
+      tag: 'rewards',
+      tagLabel: 'Rewards Policy',
       tagColor: 'bg-emerald-100 text-emerald-800',
       icon: Coins,
       iconColor: 'bg-emerald-600',
-      readTime: '3 min read',
+      readTime: '2 min read',
       summary:
-        'Last month was our biggest reward distribution to date! Over 18,200 cashout requests were successfully fulfilled across Direct Bank Transfer and Cryptocurrency rails with zero platform fees.',
+        'Voice Flow 360 operates a clear, verifiable rewards framework: 100 coins = $1.00 USD, a standardized 2,000 coin ($20.00 USD) withdrawal threshold, and an audited monthly approval cycle.',
       details: [
-        'Average withdrawal processing speed reduced to under 4 hours',
-        'Zero redemption fees on all standard coin transfers',
-        'Top earner of the month accrued 24,500 coins (~$245.00)',
+        'Pending survey credits are held during the calendar month for quality verification before becoming withdrawable',
+        'On the 1st of each month, reviewed and approved coins transfer automatically into your Redeemable Wallet',
+        'Disbursements via Direct Bank Transfer (expected 2–5 business days after processing) and Cryptocurrency (expected 24–48 hours after processing) with zero platform fees',
       ],
     },
     {
       id: 'news-3',
-      title: '6 Global Tech & Lifestyle Brands Join Voice Flow 360 Partner Directory',
+      title: 'Launch of Independent Brand Intelligence & Editorial Analysis Desk',
       date: 'August 2026',
-      tag: 'partnerships',
-      tagLabel: 'New Brands',
+      tag: 'editorial',
+      tagLabel: 'Research Desk',
       tagColor: 'bg-indigo-100 text-indigo-800',
       icon: Megaphone,
       iconColor: 'bg-indigo-600',
       readTime: '2 min read',
       summary:
-        'We welcome expanded conversational survey campaigns from Nike, Spotify, Tesla, Starbucks, Apple, and Netflix. Check out the dedicated Brand Insights portal to see live research metrics.',
+        'We launched the Brand Insights library, publishing independent editorial analysis of products, brand strategies, and market trends based on publicly available documentation, corporate filings, and verified benchmarks.',
       details: [
-        'Exclusive 1.5x coin bonuses on AI & Sustainability feedback categories',
-        'Direct brand-sponsored mystery drops available daily at 12:00 PM UTC',
-        'Direct qualitative feedback synthesized for product R&D teams',
+        'Direct citations to manufacturer technical specifications and public regulatory filings',
+        'Clear editorial labels distinguishing secondary desk research from genuine empirical survey data',
+        'Objective product evaluations across consumer electronics, audio, gaming, and software sectors',
       ],
     },
     {
       id: 'news-4',
-      title: 'Platform Security & Anti-Fraud Engine 2.0 Deployment',
+      title: 'Response Quality Auditing & Privacy Protection Architecture',
       date: 'July 2026',
-      tag: 'releases',
-      tagLabel: 'Security',
+      tag: 'security',
+      tagLabel: 'Quality & Privacy',
       tagColor: 'bg-amber-100 text-amber-800',
       icon: ShieldCheck,
       iconColor: 'bg-amber-600',
-      readTime: '3 min read',
+      readTime: '2 min read',
       summary:
-        'To ensure our research studies receive 100% human, authentic perspectives and that honest community members get maximum rewards, we deployed our upgraded AI bot-filtration protocols.',
+        'To preserve research integrity for participating organizations, our multi-stage quality review screens submissions for rushed completion times, contradictory responses, repetitive filler, and automated bot activity.',
       details: [
-        'Zero impact on genuine conversational survey takers',
-        'Sub-second payout risk verifications without withholding user balances',
-        'Secure TLS/HTTPS transport encryption for survey submissions',
+        'Attentiveness and consistency audits applied to survey responses prior to monthly reward approval',
+        'Granular cookie consent controls integrated with Google Consent Mode v2, strictly respecting Essential Only choices',
+        'Anonymous survey reporting ensuring personal participant details are never sold or shared with external parties',
       ],
     },
   ];
@@ -119,14 +119,14 @@ export const NewsUpdates: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12 space-y-10 animate-fadeIn">
       <SEOHead
-        title="News, Earning Strategies & Platform Updates"
-        description="Stay updated with the latest Voice Flow 360 platform releases, new paying brand partners, payout reports, and high-yield survey drops."
+        title="News, Platform Updates & Operational Policies"
+        description="Stay updated with the latest Voice Flow 360 platform releases, transparent rewards policy standards, quality review procedures, and independent editorial research publications."
         keywords={[
-          'survey platform updates',
-          'earning strategies',
-          'survey drops news',
-          'payout milestone reports',
-          'new brand partnerships',
+          'voice flow 360 news',
+          'platform releases',
+          'rewards policy updates',
+          'survey quality review',
+          'editorial research publications',
         ]}
         canonicalPath="/news-updates"
       />
@@ -141,7 +141,7 @@ export const NewsUpdates: React.FC = () => {
             News, Updates &amp; Releases
           </h1>
           <p className="text-sm text-slate-500">
-            Stay informed on platform enhancements, payout milestones, and upcoming survey drops.
+            Stay informed on platform enhancements, rewards policies, and editorial research publications.
           </p>
         </div>
 
@@ -243,9 +243,9 @@ export const NewsUpdates: React.FC = () => {
             <Bell className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-xl font-extrabold">Never Miss New Brand Research Study Drops</h3>
+            <h3 className="text-xl font-extrabold">Stay Informed on Platform &amp; Research Updates</h3>
             <p className="text-xs text-purple-200 mt-0.5">
-              Subscribe to get alerts when verified brand studies and research cohorts launch.
+              Subscribe to get alerts when platform enhancements, rewards policies, and editorial publications are released.
             </p>
           </div>
         </div>
@@ -253,13 +253,13 @@ export const NewsUpdates: React.FC = () => {
         {subscribed ? (
           <div className="bg-white/10 rounded-2xl p-4 border border-emerald-400/30 flex items-center gap-3 text-emerald-300 text-sm font-bold">
             <CheckCircle className="w-5 h-5" />
-            <span>Thank you for subscribing! You will receive priority notifications for newly dropped campaigns.</span>
+            <span>Thank you for subscribing! You will receive notifications for platform releases and editorial publications.</span>
           </div>
         ) : (
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-xl">
             <input
               type="email"
-              placeholder="Enter your email for campaign alerts..."
+              placeholder="Enter your email for platform updates..."
               value={emailInput}
               onChange={(e) => setEmailInput(e.target.value)}
               required
@@ -269,7 +269,7 @@ export const NewsUpdates: React.FC = () => {
               type="submit"
               className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg transition-all cursor-pointer whitespace-nowrap"
             >
-              Get Campaign Alerts
+              Get Updates
             </button>
           </form>
         )}

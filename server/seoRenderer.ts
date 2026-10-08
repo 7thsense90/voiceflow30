@@ -170,6 +170,7 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     case '/sitemap.html':
       return renderSitemapDirectorySeo(origin);
 
+    case '/brand-directory':
     case '/brands':
       return renderBrandDirectorySeo(origin);
 
@@ -1559,15 +1560,15 @@ function renderSitemapDirectorySeo(origin: string): PageSeoResult {
  * 13. Brand Directory SSR (/brands)
  */
 function renderBrandDirectorySeo(origin: string): PageSeoResult {
-  const canonicalUrl = `${origin}/brands`;
-  const title = '100+ Partner Brands Directory - Market Research Insights | Voice Flow 360';
-  const description = 'Search through 100+ global brands partnering with Voice Flow 360 for consumer feedback and survey rewards.';
+  const canonicalUrl = `${origin}/brand-directory`;
+  const title = '100+ Cataloged Brands Directory - Market Research Insights | Voice Flow 360';
+  const description = 'Search through 100+ global brands cataloged on Voice Flow 360 for independent consumer feedback and survey evaluations.';
 
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-5xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-8">
       <header class="border-b border-slate-200 pb-6 space-y-2">
-        <h1 class="text-3xl font-extrabold text-slate-900">100+ Verified Consumer Brands</h1>
-        <p class="text-slate-600 text-sm">Explore market research profiles, verified surveys, and consumer satisfaction scores.</p>
+        <h1 class="text-3xl font-extrabold text-slate-900">100+ Cataloged Consumer Brands</h1>
+        <p class="text-slate-600 text-sm">Explore market research profiles, independent surveys, and consumer satisfaction scores without commercial partnership implications.</p>
       </header>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         ${RAW_100_BRANDS.slice(0, 30).map((b) => `
@@ -1789,8 +1790,8 @@ function renderPublicProductReviewsSeo(origin: string): PageSeoResult {
                   </span>
                 `).join('')}
               </div>
-              <div class="text-[11px] text-emerald-700 font-bold pt-1">
-                &bull; ${p.satisfactionRate}% Satisfied &bull; ${p.intentToPurchaseRate}% Purchase Intent
+              <div class="text-[11px] text-slate-600 font-medium pt-1">
+                &bull; MSRP: $${p.priceUSD.toLocaleString()} USD &bull; Release: ${escapeHtml(p.releaseYear)} &bull; ${escapeHtml(p.specsSource)}
               </div>
             </div>
           `).join('')}

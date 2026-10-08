@@ -20,6 +20,7 @@ import {
   Layers,
   Sparkles,
   TrendingUp,
+  Info,
 } from 'lucide-react';
 import { RAW_100_BRANDS } from '../data/brandsData';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
@@ -164,7 +165,7 @@ export const BrandDirectory: React.FC = () => {
             <span className="text-slate-300">•</span>
             <span className="inline-flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-slate-400" />
-              <span>100 Verified Brands Covered</span>
+              <span>100 Cataloged Brands Covered</span>
             </span>
           </div>
         </div>
@@ -174,7 +175,15 @@ export const BrandDirectory: React.FC = () => {
             Brand Intelligence &amp; Consumer Insights Directory
           </h1>
           <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-            Independent empirical research articles, verified customer ratings, and strategic market analyses evaluating customer retention, reliability, and satisfaction drivers across 100 global brands.
+            Independent empirical research articles, objective survey evaluations, and strategic market analyses evaluating customer retention, reliability, and satisfaction drivers across 100 global brands.
+          </p>
+        </div>
+
+        {/* Editorial & Non-Affiliation Disclosure */}
+        <div className="p-3.5 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-700 text-xs flex items-start gap-2.5">
+          <Info className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+          <p className="leading-relaxed">
+            <strong>Editorial &amp; Non-Affiliation Notice:</strong> All brand names, logos, and trademarks displayed in this directory are the intellectual property of their respective owners. Their presentation is strictly for independent consumer sentiment research, editorial benchmark reporting, and market categorization. Listing does not imply any partnership, sponsorship, endorsement, or commercial affiliation with Voice Flow 360.
           </p>
         </div>
 

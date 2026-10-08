@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SEOHead } from './SEOHead';
+import { Link } from './Link';
 
 export const PageWrapper: React.FC<{
   title: string;
@@ -97,7 +98,7 @@ export const PrivacyPolicy: React.FC = () => (
 
     <h3>9. Data Security &amp; Contact Information</h3>
     <p>
-      We employ robust technical and organizational security measures to protect your information. If you have questions regarding this Privacy Policy, our advertising integrations, or wish to exercise your privacy rights, please contact our Data Protection Officer at <a href="mailto:privacy@voiceflow360.com" className="font-semibold text-purple-600">privacy@voiceflow360.com</a> or via our <a href="#contact" className="font-semibold text-purple-600">Contact Us</a> page.
+      We employ robust technical and organizational security measures to protect your information. If you have questions regarding this Privacy Policy, our advertising integrations, or wish to exercise your privacy rights, please contact our Data Protection Officer at <a href="mailto:privacy@voiceflow360.com" className="font-semibold text-purple-600">privacy@voiceflow360.com</a> or via our <Link to="/contact" className="font-semibold text-purple-600 hover:underline">Contact Us</Link> page.
     </p>
     
     <p className="text-sm text-slate-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
@@ -118,7 +119,7 @@ export const TermsOfService: React.FC = () => (
     
     <h3>3. Earning and Redeeming Rewards</h3>
     <p>
-      Coins earned through completed, accepted surveys undergo monthly quality reviews before transferring to your Redeemable Wallet on the 1st of each calendar month. Redemptions require reaching our standardized minimum threshold of 2,000 Coins ($20.00 USD) and are disbursed via our authorized payment rails: Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC). All redemptions are subject to the detailed <a href="/rewards" className="font-semibold text-purple-600 hover:underline">Rewards &amp; Withdrawals Policy</a>. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated scripts, contradictory answers, or violation of these terms.
+      Coins earned through completed, accepted surveys undergo monthly quality reviews before transferring to your Redeemable Wallet on the 1st of each calendar month. Redemptions require reaching our standardized minimum threshold of 2,000 Coins ($20.00 USD) and are disbursed via our authorized payment rails: Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC). All redemptions are subject to the detailed <Link to="/rewards-and-withdrawals" className="font-semibold text-purple-600 hover:underline">Rewards &amp; Withdrawals Policy</Link>. We reserve the right to audit, adjust, or invalidate coins earned through fraudulent activity, automated scripts, contradictory answers, or violation of these terms.
     </p>
     
     <h3>4. Prohibited Conduct</h3>
@@ -126,7 +127,7 @@ export const TermsOfService: React.FC = () => (
     
     <h3>5. Modifications to Service &amp; Fixed Conversion Ratio Policy</h3>
     <p>
-      We reserve the right to modify platform operational features, available survey campaigns, and technical infrastructure. However, in accordance with our published <a href="/rewards" className="font-semibold text-purple-600 hover:underline">Rewards &amp; Withdrawals Policy</a>, all already-earned and credited coins maintain our published fixed conversion ratio of <strong>100 Coins = $1.00 USD ($0.01 per coin)</strong>. Any prospective modifications to minimum payout thresholds or disbursement rails will be announced with at least 30 days&apos; advance notice to active participants, ensuring no retroactive devaluation of accrued rewards. Contact <a href="mailto:legal@voiceflow360.com" className="font-semibold text-purple-600">legal@voiceflow360.com</a> for legal inquiries.
+      We reserve the right to modify platform operational features, available survey campaigns, and technical infrastructure. However, in accordance with our published <Link to="/rewards-and-withdrawals" className="font-semibold text-purple-600 hover:underline">Rewards &amp; Withdrawals Policy</Link>, all already-earned and credited coins maintain our published fixed conversion ratio of <strong>100 Coins = $1.00 USD ($0.01 per coin)</strong>. Any prospective modifications to minimum payout thresholds or disbursement rails will be announced with at least 30 days&apos; advance notice to active participants, ensuring no retroactive devaluation of accrued rewards. Contact <a href="mailto:legal@voiceflow360.com" className="font-semibold text-purple-600">legal@voiceflow360.com</a> for legal inquiries.
     </p>
     
     <p className="text-sm text-slate-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>

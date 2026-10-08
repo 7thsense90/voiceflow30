@@ -387,7 +387,7 @@ Drawing upon secondary desk research, CD PROJEKT S.A. investor disclosures, and 
 ### From Crisis to Masterpiece: A Brand Resurrected
 Consumer sentiment toward CD PROJEKT RED currently sits at an astounding **86% positive sentiment rating** and a **Brand Trust Score of 89/100**, marking one of the steepest brand rehabilitations in modern consumer tech history.
 
-- **What People Say:** "They didn't run away; they rolled up their sleeves and made Cyberpunk 2077 into one of the greatest games ever crafted." Survey respondents praise the *Phantom Liberty* expansion and the *Update 2.0* overhaul as benchmarks of corporate accountability.
+- **What People Say:** "They didn't run away; they rolled up their sleeves and made Cyberpunk 2077 into one of the greatest games ever crafted." Players and critics praise the *Phantom Liberty* expansion and the *Update 2.0* overhaul as benchmarks of corporate accountability.
 - **What People Feel:** Gamers express a deep, almost literary attachment to CDPR's characters. Relationships with Geralt, Ciri, V, and Johnny Silverhand evoke emotional investment comparable to prestige television dramas like *Game of Thrones* or *Succession*.
 - **What People Think:** The consensus is that the strategic move to Unreal Engine 5 for *The Witcher 4* (Project Polaris) and *Orion* (Cyberpunk sequel) was an engineering masterstroke that eliminates engine bottlenecks.
 
@@ -608,7 +608,7 @@ Synthesized through secondary desk research from Capcom financial reports, offic
 ### The Gold Standard of Japanese Game Craftsmanship
 Consumer sentiment toward Capcom in 2026 is virtually unprecedented, boasting an **89% positive sentiment score** and a **Brand Trust Score of 92/100**.
 
-- **What People Say:** "Capcom is on the greatest hot streak in video game history." Survey respondents universally celebrate the studio's technical reliability, highlighting that games arrive complete, polished, and free of game-breaking bugs.
+- **What People Say:** "Capcom is on the greatest hot streak in video game history." Gamers and reviewers universally celebrate the studio's technical reliability, highlighting that games arrive complete, polished, and free of game-breaking bugs.
 - **What People Feel:** Pure exhilaration. Whether parrying a lethal blow in *Street Fighter 6*, outlasting a terrifying pursuer in *Resident Evil*, or severing a wyvern's tail in *Monster Hunter*, Capcom games deliver physical, tactile satisfaction.
 - **What People Think:** Consumers regard the proprietary **RE Engine** as one of the greatest technical assets in modern computer graphics, delivering stunning photorealism while maintaining blistering 60+ FPS framerates on mainstream hardware.
 
@@ -829,7 +829,7 @@ Synthesizing data from secondary desk research, Square Enix Holdings financial d
 ### The Magic of Fantasy Meets Multiplatform Freedom
 Consumer sentiment toward Square Enix in 2026 is experiencing an energetic upswing, registering an **80% positive sentiment score** and a **Brand Trust Score of 85/100**.
 
-- **What People Say:** "Final Fantasy VII Rebirth is a love letter to the golden era of video games." Survey respondents celebrate the immense scale, emotional weight, and delightful mini-game variety of recent releases.
+- **What People Say:** "Final Fantasy VII Rebirth is a love letter to the golden era of video games." Fans and critics celebrate the immense scale, emotional weight, and delightful mini-game variety of recent releases.
 - **What People Feel:** Lifelong players report a nostalgic reverence that borders on spiritual. Hearing iconic musical melodies like *To Zanarkand* or *Aerith's Theme* instantly evokes profound memories of youth and companionship.
 - **What People Think:** Gamers overwhelmingly applaud the company's formal decision to terminate exclusive console lock-in periods, demanding that future masterpieces arrive simultaneously on PC, PlayStation, Xbox, and Nintendo devices.
 

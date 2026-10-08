@@ -5,7 +5,10 @@ export interface PublicProductReview {
   authorCity?: string;
   rating: number; // 1 to 5
   createdAt: string;
-  verifiedOwner: boolean;
+  // Ownership status is self-reported by community contributors; purchase is NOT verified
+  ownershipType: 'self_reported_owner' | 'prospective_buyer' | 'tested_only';
+  isSelfReportedOwner: boolean;
+  status: 'approved' | 'pending' | 'rejected'; // Only approved reviews count toward public ratings and metrics
   generalFeeling: string;
   happyWithPurchase: 'very_happy' | 'happy' | 'neutral' | 'unhappy' | 'not_purchased_yet';
   intentToPurchase: 'already_purchased' | 'definitely_will_buy' | 'considering' | 'unlikely_to_buy' | 'no_intent';
@@ -25,14 +28,15 @@ export interface LaunchedProduct {
   releaseYear: string;
   badge: string;
   image: string;
-  rating: number;
-  reviewCount: number;
-  satisfactionRate: number; // percentage
-  intentToPurchaseRate: number; // percentage
   topFeatures: string[];
   summary: string;
   keyPros: string[];
   keyCons: string[];
+  // Baseline specification & price tracking (maintained independently from community feedback)
+  specsSource: string;
+  specsDate: string;
+  priceSource: string;
+  priceDate: string;
 }
 
 export const PRODUCT_CATEGORIES = [
@@ -48,7 +52,7 @@ export const PRODUCT_CATEGORIES = [
 ] as const;
 
 // Base generator helper to assemble 105+ newly launched products concisely
-const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' | 'satisfactionRate' | 'intentToPurchaseRate'>> = [
+const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'specsSource' | 'specsDate' | 'priceSource' | 'priceDate'>> = [
   // --- Smartphones & Mobile (14 items) ---
   {
     id: 'prod-1',
@@ -566,18 +570,18 @@ const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' |
   },
   {
     id: 'prod-35',
-    name: 'Sony WF-1000XM5 Earbuds',
+    name: 'Sony WF-1000XM6 Earbuds',
     brand: 'Sony',
     category: 'audio',
     categoryLabel: 'Audio & Headphones',
-    priceUSD: 299,
-    releaseYear: '2023 / 2024',
+    priceUSD: 330,
+    releaseYear: '2026',
     badge: 'Flagship In-Ear',
     image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=80',
-    topFeatures: ['Dynamic Driver X Technology', 'Dual Feedback Noise Sensors', 'Polyurethane Foam Noise Isolation Tips', 'LDAC & 360 Reality Audio'],
-    summary: '25% smaller than their predecessor with glossy sides and deep memory foam tips that physically seal out urban ambient noise.',
-    keyPros: ['Superior noise isolation with foam tips', 'Deep warm bass response', 'Multipoint Bluetooth pairing'],
-    keyCons: ['Glossy casing can be slippery to extract from case', 'Foam tips need regular cleaning'],
+    topFeatures: ['HD Noise Cancelling Processor QN3e', '4 Microphones Per Earbud Sensor Array', 'Mastering Studio Acoustic Tuning', 'LDAC & Bluetooth LE Audio'],
+    summary: 'Next-generation flagship noise cancelling earbuds powered by the high-speed QN3e processor with quad microphones per earbud and studio-grade audio fidelity.',
+    keyPros: ['Next-gen QN3e processor noise cancellation', 'Rich studio-tuned acoustic clarity with LDAC', 'Multipoint Bluetooth 5.3 pairing'],
+    keyCons: ['Higher launch MSRP at $329.99', 'Foam tips require routine maintenance'],
   },
   {
     id: 'prod-36',
@@ -1037,18 +1041,18 @@ const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' |
   // --- Wearables & Health Tech (10 items) ---
   {
     id: 'prod-66',
-    name: 'Apple Watch Ultra 2 (Black Titanium)',
+    name: 'Apple Watch Ultra 4 (Titanium)',
     brand: 'Apple',
     category: 'wearables',
     categoryLabel: 'Wearables & Health',
     priceUSD: 799,
-    releaseYear: '2024 / 2025',
+    releaseYear: '2026',
     badge: 'Adventure Rugged',
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=80',
-    topFeatures: ['Satin Black Diamond-Like Carbon Coating', '3000 nits Brightest Apple Display', 'Dual-Frequency L1 & L5 Precision GPS', 'Up to 72 Hours in Low Power Mode'],
-    summary: 'Dressed in sleek satin black titanium with dive computer depth gauge and precision GPS for endurance athletes.',
-    keyPros: ['Black titanium looks striking in casual & pro wear', 'Screen is readable in direct blazing sun', 'Multi-day battery life'],
-    keyCons: ['Large 49mm case can look huge on smaller wrists', 'Blood oxygen monitoring temporarily restricted in US models'],
+    topFeatures: ['Apple S11 SiP with 4-Core Neural Engine', 'Up to 50 Hours Everyday (84 Hours Low Power)', 'New Health Sensing System & Recovery HRV', '100m Water Resistance & 40m Scuba Diving'],
+    summary: 'Built for extreme endurance with the S11 chip, 50-hour battery life, 3,000 nits sapphire display, and certified EN13319 dive gauge.',
+    keyPros: ['50-hour normal battery life outlasts ultra-marathons', 'S11 chip powers local watchOS 27 Audio Intelligence', 'Fast charge yields 18 hours in 15 minutes'],
+    keyCons: ['Substantial 49mm titanium profile', 'Continuous cuffless blood pressure remains unverified future R&D'],
   },
   {
     id: 'prod-67',
@@ -1082,18 +1086,18 @@ const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' |
   },
   {
     id: 'prod-69',
-    name: 'Apple Watch Series 10',
+    name: 'Apple Watch Series 12',
     brand: 'Apple',
     category: 'wearables',
     categoryLabel: 'Wearables & Health',
     priceUSD: 399,
-    releaseYear: '2024 / 2025',
-    badge: 'Thinnest Apple Watch',
+    releaseYear: '2026',
+    badge: 'Next-Gen Health',
     image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop&q=80',
-    topFeatures: ['Wide-Angle OLED (40% Brighter Off-Axis)', '10% Thinner 9.7mm Polished Titanium / Aluminum', 'Sleep Apnea Notifications', 'Fast Charge 80% in 30 Minutes'],
-    summary: 'Larger screen area than the Ultra in a sleeker, thinner profile that slips comfortably under tight dress shirt cuffs.',
-    keyPros: ['Display is easy to read at an angle while typing', 'Noticeably thinner and lighter on wrist', 'Charges fast while showering'],
-    keyCons: ['Battery still requires daily charging (18-24 hrs)', 'Glossy Jet Black version attracts micro-scratches'],
+    topFeatures: ['Apple S11 SiP with Neural Engine', 'Upgraded Optical Health Sensing System', 'Ceramic Shield 2 (60% Tougher than Ion-X)', 'Up to 24 Hours Battery Life (38h Low Power)'],
+    summary: 'Features the S11 processor, Ceramic Shield 2 durability, all-new daily readiness scoring, and fast charging up to 12 hours in 15 minutes.',
+    keyPros: ['Enhanced Health Sensing System with daily readiness scoring', 'Ceramic Shield 2 substantially improves scratch resistance', '24-hour normal battery life with 15-minute quick charge'],
+    keyCons: ['Requires watchOS 27 compatible iPhone', 'Non-invasive optical glucose monitoring remains unreleased future R&D'],
   },
   {
     id: 'prod-70',
@@ -1641,25 +1645,25 @@ const RAW_PRODUCTS_SEEDS: Array<Omit<LaunchedProduct, 'rating' | 'reviewCount' |
   },
 ];
 
-// Generate populated 105 products with realistic verified baseline review metrics
-export const LAUNCHED_PRODUCTS: LaunchedProduct[] = RAW_PRODUCTS_SEEDS.map((p, index) => {
-  // Deterministic seed variations
-  const seedMultiplier = (index * 7 + 13) % 17;
-  const rating = Number((4.3 + (seedMultiplier / 17) * 0.6).toFixed(1));
-  const reviewCount = 28 + ((index * 19 + 7) % 120);
-  const satisfactionRate = 86 + ((index * 3) % 12);
-  const intentToPurchaseRate = 74 + ((index * 5) % 24);
+// Generate 105 products with official specifications baseline and pricing documentation
+// (Community ratings, owner satisfaction, and purchase intent percentages are NOT simulated
+// and are computed strictly from real approved user reviews in PublicProductReviews)
+export const LAUNCHED_PRODUCTS: LaunchedProduct[] = RAW_PRODUCTS_SEEDS.map((p) => {
+  const is2026 = p.releaseYear.includes('2026');
+  const is2025 = p.releaseYear.includes('2025');
+  const recordPeriod = is2026 ? 'February 2026' : is2025 ? '2025' : '2024 / 2025';
 
   return {
     ...p,
-    rating,
-    reviewCount,
-    satisfactionRate,
-    intentToPurchaseRate,
+    specsSource: `Official ${p.brand} Documentation & Technical Specifications`,
+    specsDate: `Recorded: ${recordPeriod}`,
+    priceSource: `Official ${p.brand} Published Launch MSRP (USD)`,
+    priceDate: `Recorded: ${recordPeriod}`,
   };
 });
 
 // Initial Seed Community Reviews covering the user's requested questions:
+// Note: All ownership statuses are self-reported by community contributors; purchases are NOT verified.
 export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
   {
     id: 'rev-1',
@@ -1668,7 +1672,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'Austin, TX',
     rating: 5,
     createdAt: 'October 1, 2026',
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner',
+    isSelfReportedOwner: true,
+    status: 'approved',
     generalFeeling: 'The camera speed and titanium build make this feel like a true pro creative instrument.',
     happyWithPurchase: 'very_happy',
     intentToPurchase: 'already_purchased',
@@ -1684,7 +1690,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'Chicago, IL',
     rating: 4,
     createdAt: 'September 28, 2026',
-    verifiedOwner: false,
+    ownershipType: 'prospective_buyer',
+    isSelfReportedOwner: false,
+    status: 'approved',
     generalFeeling: 'Strong technological upgrade, but wait for black friday carrier deals if you own a 15 Pro.',
     happyWithPurchase: 'happy',
     intentToPurchase: 'considering',
@@ -1700,7 +1708,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'Seattle, WA',
     rating: 5,
     createdAt: 'October 2, 2026',
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner',
+    isSelfReportedOwner: true,
+    status: 'approved',
     generalFeeling: 'Finally I can play games at 60 FPS without blurry performance mode compromises.',
     happyWithPurchase: 'very_happy',
     intentToPurchase: 'already_purchased',
@@ -1716,7 +1726,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'Denver, CO',
     rating: 5,
     createdAt: 'September 29, 2026',
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner',
+    isSelfReportedOwner: true,
+    status: 'approved',
     generalFeeling: 'The absolute king of noise cancellation for frequent flyers and noisy offices.',
     happyWithPurchase: 'very_happy',
     intentToPurchase: 'already_purchased',
@@ -1732,7 +1744,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'Atlanta, GA',
     rating: 5,
     createdAt: 'October 3, 2026',
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner',
+    isSelfReportedOwner: true,
+    status: 'approved',
     generalFeeling: 'Saves 30 minutes every morning and my hair has never felt so silky without burnt ends.',
     happyWithPurchase: 'very_happy',
     intentToPurchase: 'already_purchased',
@@ -1748,7 +1762,9 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     authorCity: 'San Diego, CA',
     rating: 4,
     createdAt: 'October 4, 2026',
-    verifiedOwner: true,
+    ownershipType: 'self_reported_owner',
+    isSelfReportedOwner: true,
+    status: 'approved',
     generalFeeling: 'The most fun, low-friction camera gadget I have purchased all year.',
     happyWithPurchase: 'happy',
     intentToPurchase: 'already_purchased',
@@ -1758,3 +1774,106 @@ export const INITIAL_PRODUCT_REVIEWS: PublicProductReview[] = [
     whatTheyDontLike: 'Battery gives about 14 minutes of flight so carrying extra battery packs is necessary.',
   },
 ];
+
+export interface ProductCalculatedMetrics {
+  reviewCount: number;
+  avgRating: string | null;
+  ratingExplanation: string;
+  satisfactionPct: number | null;
+  satisfactionCount: number;
+  satisfactionTotal: number;
+  satisfactionExplanation: string;
+  intentPct: number | null;
+  intentPositive: number;
+  intentTotal: number;
+  intentExplanation: string;
+  hasEnoughData: boolean;
+}
+
+export function calculateProductMetrics(
+  productId: string,
+  reviewsList: PublicProductReview[]
+): ProductCalculatedMetrics {
+  const approvedReviews = reviewsList.filter(
+    (r) => r.productId === productId && r.status === 'approved'
+  );
+
+  const reviewCount = approvedReviews.length;
+
+  // Rating: calculate only from real approved reviews
+  const avgRating =
+    reviewCount > 0
+      ? (
+          approvedReviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
+        ).toFixed(1)
+      : null;
+
+  const ratingExplanation =
+    reviewCount > 0
+      ? `Calculated from ${reviewCount} approved community ${
+          reviewCount === 1 ? 'review' : 'reviews'
+        } (1–5 scale).`
+      : 'Not enough data — 0 approved reviews submitted.';
+
+  // Owner satisfaction: calculate from respondents who evaluated satisfaction or are self-reported owners
+  const relevantSatisfactionReviews = approvedReviews.filter(
+    (r) =>
+      r.isSelfReportedOwner ||
+      r.happyWithPurchase !== 'not_purchased_yet' ||
+      r.satisfactionLevel !== 'not_applicable'
+  );
+  const satisfactionTotal = relevantSatisfactionReviews.length;
+  const satisfiedCount = relevantSatisfactionReviews.filter(
+    (r) =>
+      r.satisfactionLevel === 'extremely_satisfied' ||
+      r.satisfactionLevel === 'satisfied' ||
+      r.happyWithPurchase === 'very_happy' ||
+      r.happyWithPurchase === 'happy'
+  ).length;
+
+  const satisfactionPct =
+    satisfactionTotal > 0
+      ? Math.round((satisfiedCount / satisfactionTotal) * 100)
+      : null;
+
+  const satisfactionExplanation =
+    satisfactionTotal > 0
+      ? `${satisfiedCount} of ${satisfactionTotal} self-reported ${
+          satisfactionTotal === 1 ? 'owner' : 'owners'
+        } reported satisfied or very happy (${satisfactionPct}%).`
+      : 'Not enough data — 0 relevant owner responses.';
+
+  // Intent to purchase: calculate from respondents who answered intent
+  const relevantIntentReviews = approvedReviews.filter((r) => r.intentToPurchase);
+  const intentTotal = relevantIntentReviews.length;
+  const highIntentCount = relevantIntentReviews.filter(
+    (r) =>
+      r.intentToPurchase === 'already_purchased' ||
+      r.intentToPurchase === 'definitely_will_buy'
+  ).length;
+
+  const intentPct =
+    intentTotal > 0 ? Math.round((highIntentCount / intentTotal) * 100) : null;
+
+  const intentExplanation =
+    intentTotal > 0
+      ? `${highIntentCount} of ${intentTotal} ${
+          intentTotal === 1 ? 'respondent reports' : 'respondents report'
+        } already purchased or definitely planning to buy (${intentPct}%).`
+      : 'Not enough data — 0 purchase intent responses.';
+
+  return {
+    reviewCount,
+    avgRating,
+    ratingExplanation,
+    satisfactionPct,
+    satisfactionCount: satisfiedCount,
+    satisfactionTotal,
+    satisfactionExplanation,
+    intentPct,
+    intentPositive: highIntentCount,
+    intentTotal,
+    intentExplanation,
+    hasEnoughData: reviewCount > 0,
+  };
+}

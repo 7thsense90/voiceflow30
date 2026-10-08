@@ -169,7 +169,7 @@ With *Grand Theft Auto V* having sold over **200 million copies**—making it th
 Consumer sentiment surrounding Rockstar Games demonstrates extraordinary cultural resonance. In our qualitative analysis of public consumer commentary, the brand logged an estimated **92% positive sentiment rating** and a virtually peerless **Brand Trust Rating of 96/100**.
 
 - **What People Say:** "Rockstar doesn’t compete with other game companies; other game companies schedule their release dates around Rockstar." Players consistently state that titles like *Red Dead Redemption 2* and *Grand Theft Auto V* are so overwhelmingly detailed that competing open-world games feel flat, lifeless, and mechanical by comparison.
-- **What People Feel:** Survey respondents describe an intense sense of **immersion and escapism**. Riding a horse through the foggy swamps of Lemoyne or cruising down Vinewood Boulevard at sunset evokes authentic emotional peace, while pulling off an elaborate multi-stage heist with friends delivers unadulterated cinematic joy.
+- **What People Feel:** Players describe an intense sense of **immersion and escapism**. Riding a horse through the foggy swamps of Lemoyne or cruising down Vinewood Boulevard at sunset evokes authentic emotional peace, while pulling off an elaborate multi-stage heist with friends delivers unadulterated cinematic joy.
 - **What People Think:** Consumers view Rockstar as an uncompromising artistic titan. While gamers are notoriously impatient with other publishers, they gladly grant Rockstar a full decade to develop sequels because the studio has never once delivered a mainline disappointment.
 
 ---

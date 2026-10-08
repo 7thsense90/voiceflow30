@@ -28,14 +28,19 @@ export const SitemapDirectory: React.FC = () => {
     { path: '/surveys', title: 'Survey Catalog & Live Drops', desc: 'Browse available conversational surveys and sponsor brand drops.' },
     { path: '/quizzes', title: 'Daily Speed Quizzes', desc: 'Test general knowledge and brand trivia for instant coin multipliers.' },
     { path: '/my-earnings', title: 'My Earnings & Withdrawal Portal', desc: 'Cashout via Direct Bank Transfer and Cryptocurrency.' },
-    { path: '/brands', title: '100+ Cataloged Brands Directory', desc: 'Discover cataloged consumer brands and product lines.' },
+    { path: '/brand-directory', title: 'Brand Directory & Consumer Insights', desc: 'Search through 100+ global brands cataloged on Voice Flow 360 for independent consumer feedback and survey evaluations.' },
+    { path: '/product-reviews', title: 'Public Product Reviews (100+ Tech Launches)', desc: 'Genuine community feedback, USD pricing, and manufacturer baseline specifications for newly launched consumer devices.' },
     { path: '/brand-insights', title: 'Brand Insights & Analytics', desc: 'Aggregate customer sentiment scores and industry research.' },
-    { path: '/news', title: 'News, Releases & Payout Reports', desc: 'Monthly transparency bulletins and platform updates.' },
+    { path: '/brand-research-studies', title: 'Brand Research Studies Index', desc: 'Long-form editorial research studies evaluating customer satisfaction and brand loyalty.' },
+    { path: '/research-methodology', title: 'Research Methodology & Editorial Standards', desc: 'Methodological framework for desk research, empirical synthesis, and consumer panel auditing.' },
+    { path: '/rewards-and-withdrawals', title: 'Rewards & Withdrawals Policy', desc: 'Transparent conversion rates (100 Coins = $1.00 USD), minimum thresholds, and disbursement schedules.' },
+    { path: '/news', title: 'News, Platform Updates & Operational Policies', desc: 'Platform enhancements, rewards policy standards, and research publications.' },
     { path: '/referrals', title: 'Referral Program', desc: 'Earn 300 bonus coins plus 10% lifetime referral earnings.' },
     { path: '/faq', title: 'Frequently Asked Questions', desc: 'Instant answers to payout thresholds, security audits, and rules.' },
-    { path: '/privacy', title: 'Privacy Policy & Google Disclosures', desc: 'Privacy practices, data rights, and cookie preferences.' },
+    { path: '/privacy', title: 'Privacy Policy & Disclosures', desc: 'Privacy practices, data rights, and cookie preferences.' },
     { path: '/terms', title: 'Terms of Service', desc: 'Platform rules, user agreements, and anti-fraud guidelines.' },
-    { path: '/contact', title: 'Contact Support & Partnerships', desc: 'Member assistance and enterprise brand contact desk.' },
+    { path: '/earnings-disclaimer', title: 'Earnings & Honorarium Disclaimer', desc: 'Disclosure regarding survey availability, response acceptance, and realistic participant expectations.' },
+    { path: '/contact', title: 'Contact Support & Inquiries', desc: 'Member assistance and enterprise brand inquiry desk.' },
   ];
 
   const brandStudies = Object.entries(BRAND_STUDY_PATHS).map(([brandId, path]) => {
@@ -51,7 +56,7 @@ export const SitemapDirectory: React.FC = () => {
     };
   });
 
-  const partnerBrands = RAW_100_BRANDS.map((b) => ({
+  const catalogedBrands = RAW_100_BRANDS.map((b) => ({
     path: `/brands/${b.id}`,
     title: `${b.name} (${b.sector})`,
     desc: b.description,
@@ -68,11 +73,11 @@ export const SitemapDirectory: React.FC = () => {
     (s) => !q || s.title.toLowerCase().includes(q) || s.path.toLowerCase().includes(q) || s.sector.toLowerCase().includes(q)
   );
 
-  const filteredBrands = partnerBrands.filter(
+  const filteredBrands = catalogedBrands.filter(
     (b) => !q || b.title.toLowerCase().includes(q) || b.path.toLowerCase().includes(q) || b.sector.toLowerCase().includes(q)
   );
 
-  const totalIndexed = coreRoutes.length + brandStudies.length + partnerBrands.length;
+  const totalIndexed = coreRoutes.length + brandStudies.length + catalogedBrands.length;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
@@ -149,7 +154,7 @@ export const SitemapDirectory: React.FC = () => {
           </span>
           <span className="flex items-center gap-1.5 text-emerald-700">
             <Building2 className="w-4 h-4" />
-            <span>{partnerBrands.length} Cataloged Brands</span>
+            <span>{catalogedBrands.length} Cataloged Brands</span>
           </span>
         </div>
       </div>

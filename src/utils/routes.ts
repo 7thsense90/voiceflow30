@@ -89,7 +89,15 @@ export const APP_ROUTES: RouteItem[] = [
     path: '/brands',
     view: 'brand-directory',
     title: 'Cataloged Brands Directory - Market Research Insights',
-    description: 'Search through 100+ global brands cataloged on Voice Flow 360 for consumer feedback and survey rewards.',
+    description: 'Search through 100+ global brands cataloged on Voice Flow 360 for independent consumer feedback and survey evaluations.',
+    changefreq: 'daily',
+    priority: 0.85,
+  },
+  {
+    path: '/brand-directory',
+    view: 'brand-directory',
+    title: 'Brand Directory & Consumer Insights - Voice Flow 360',
+    description: 'Explore the complete directory of 100+ global brands cataloged on Voice Flow 360 for independent consumer research and sentiment evaluations.',
     changefreq: 'daily',
     priority: 0.85,
   },
@@ -114,8 +122,8 @@ export const APP_ROUTES: RouteItem[] = [
   {
     path: '/news',
     view: 'news-updates',
-    title: 'News, Releases & Monthly Payout Reports',
-    description: 'Official bulletins, feature updates, new brand partnerships, and monthly payout transparency statistics.',
+    title: 'News, Platform Updates & Operational Policies',
+    description: 'Official bulletins, feature updates, rewards policy standards, and editorial research publications.',
     changefreq: 'weekly',
     priority: 0.75,
   },
@@ -365,7 +373,12 @@ export function parseRoute(pathname: string): ParsedRoute {
   if (cleanPath === '/my-earnings' || cleanPath === '/earnings' || cleanPath === '/wallet') {
     return { view: 'earnings' };
   }
-  if (cleanPath === '/brands' || cleanPath === '/brands/') {
+  if (
+    cleanPath === '/brands' ||
+    cleanPath === '/brands/' ||
+    cleanPath === '/brand-directory' ||
+    cleanPath === '/brand-directory/'
+  ) {
     return { view: 'brand-directory' };
   }
   if (cleanPath === '/brand-insights') {
@@ -398,6 +411,14 @@ export function parseRoute(pathname: string): ParsedRoute {
   }
   if (cleanPath === '/terms') {
     return { view: 'terms' };
+  }
+  if (
+    cleanPath === '/earnings-disclaimer' ||
+    cleanPath === '/earnings-disclaimer/' ||
+    cleanPath === '/disclaimer' ||
+    cleanPath === '/disclaimer/'
+  ) {
+    return { view: 'earnings-disclaimer' };
   }
   if (cleanPath === '/contact') {
     return { view: 'contact' };
@@ -539,9 +560,9 @@ export function getPathForView(
     case 'wallet':
       return '/my-earnings';
     case 'brand-directory':
-      return '/brands';
+      return '/brand-directory';
     case 'brand-detail':
-      return brandId ? `/brands/${brandId}` : '/brands';
+      return brandId ? `/brands/${brandId}` : '/brand-directory';
     case 'brand-insights':
       return '/brand-insights';
     case 'news':
@@ -563,6 +584,9 @@ export function getPathForView(
       return '/privacy';
     case 'terms':
       return '/terms';
+    case 'earnings-disclaimer':
+    case 'disclaimer':
+      return '/earnings-disclaimer';
     case 'contact':
       return '/contact';
     case 'rewards':
