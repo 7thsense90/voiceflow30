@@ -24,7 +24,7 @@ export const Link: React.FC<LinkProps> = ({
   target,
   ...props
 }) => {
-  const { currentView, setCurrentView, selectedBrandId, setSelectedBrandId } = useApp();
+  const { currentView, setCurrentView, selectedBrandId, setSelectedBrandId, setSelectedMethodologySlug } = useApp();
 
   const isExternal = to.startsWith('http://') || to.startsWith('https://') || to.startsWith('mailto:') || to.startsWith('tel:');
 
@@ -60,6 +60,11 @@ export const Link: React.FC<LinkProps> = ({
 
     if (parsed.brandId) {
       setSelectedBrandId(parsed.brandId);
+    }
+    if (parsed.methodologySlug !== undefined) {
+      setSelectedMethodologySlug(parsed.methodologySlug);
+    } else if (parsed.view === 'research-methodology') {
+      setSelectedMethodologySlug(null);
     }
     setCurrentView(parsed.view, true, parsed.brandId, to);
   };

@@ -314,7 +314,7 @@ export const BrandDetail: React.FC = () => {
                 className="px-4 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-xl transition-all shrink-0 flex items-center gap-1.5 cursor-pointer no-underline"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Read Editorial Analysis ↗</span>
+                <span>Read Analysis ↗</span>
               </Link>
             </div>
           )}

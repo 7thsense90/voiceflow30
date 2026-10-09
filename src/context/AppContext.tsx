@@ -393,11 +393,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (brandId !== undefined) {
       setSelectedBrandIdState(brandId);
     }
+    if (customPath) {
+      const parsedCustom = parseRoute(customPath);
+      if (parsedCustom.methodologySlug !== undefined) {
+        setSelectedMethodologySlugState(parsedCustom.methodologySlug);
+      } else if (view === 'research-methodology') {
+        setSelectedMethodologySlugState(null);
+      }
+      if (parsedCustom.articleSlug !== undefined) {
+        setSelectedArticleSlugState(parsedCustom.articleSlug);
+      }
+    } else if (view === 'research-methodology') {
+      setSelectedMethodologySlugState(null);
+    }
+
     if (pushHistory && typeof window !== 'undefined') {
       const activeBrand = brandId !== undefined ? brandId : selectedBrandId;
-      const targetPath = customPath || getPathForView(view, activeBrand, selectedArticleSlug);
+      const targetPath = customPath || getPathForView(view, activeBrand, selectedMethodologySlug || selectedArticleSlug);
       if (window.location.pathname !== targetPath) {
-        window.history.pushState({ view, brandId: activeBrand }, '', targetPath);
+        const parsedTarget = parseRoute(targetPath);
+        window.history.pushState(
+          {
+            view,
+            brandId: activeBrand,
+            articleSlug: parsedTarget.articleSlug,
+            methodologySlug: parsedTarget.methodologySlug,
+          },
+          '',
+          targetPath
+        );
       }
     }
     if (typeof window !== 'undefined') {
