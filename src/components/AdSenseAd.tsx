@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { checkAdPlacementAllowed } from '../utils/adPolicy';
+import { checkAdPlacementAllowed, cleanupAdArtifacts } from '../utils/adPolicy';
 import { hasAdvertisingConsent, CONSENT_EVENT_NAME } from '../utils/cookieConsent';
 import { useApp } from '../context/AppContext';
 
@@ -43,7 +43,11 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
   // Listen to cookie consent updates in real time
   useEffect(() => {
     const handleConsentChange = () => {
-      setHasConsent(hasAdvertisingConsent());
+      const consentNow = hasAdvertisingConsent();
+      setHasConsent(consentNow);
+      if (!consentNow) {
+        cleanupAdArtifacts();
+      }
     };
 
     window.addEventListener(CONSENT_EVENT_NAME, handleConsentChange);
@@ -66,9 +70,10 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
           adsbygoogle.push({});
         }
       } catch (err) {
-        // Suppress push note if already pushed or blocked by privacy filter
         console.debug('AdSense placement note:', err);
       }
+    } else if (!allowCheck.isAllowed || !hasConsent || !isEnabled) {
+      cleanupAdArtifacts();
     }
   }, [allowCheck.isAllowed, hasConsent, isEnabled, client]);
 

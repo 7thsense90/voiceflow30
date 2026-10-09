@@ -118,9 +118,9 @@ export function calculateBrandResearchMetrics(
         sampleSize: responseCount,
         fieldworkDescription: 'Continuous opt-in panel survey on Voice Flow 360.',
         recruitmentMethod: 'Registered consumer panel participants.',
-        incentiveDescription: '100 reward coins per verified, accepted response.',
+        incentiveDescription: '100 reward coins per completed, quality-screened response.',
         screeningMethod: 'Self-reported brand product experience and automated attention verification.',
-        calculationNotes: 'Ratings require a minimum sample of verified responses before statistical aggregation.',
+        calculationNotes: 'Ratings require a minimum sample of approved responses before statistical aggregation.',
         limitations: 'Opt-in non-probability sample; findings reflect panel participants and do not claim national representativeness.',
       },
     };

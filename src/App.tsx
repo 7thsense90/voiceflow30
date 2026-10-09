@@ -37,10 +37,20 @@ import { BrandCaseStudiesView } from './components/BrandCaseStudiesView';
 import { NotFoundView } from './components/NotFoundView';
 import { Footer } from './components/Footer';
 import { Link } from './components/Link';
+import { checkAdPlacementAllowed, cleanupAdArtifacts } from './utils/adPolicy';
 
 const MainAppContent: React.FC = () => {
   const { currentUser, currentView, activeChatCampaign, setCurrentView, selectedBrandId, selectedArticleSlug } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Strict Policy Enforcement: Purge ad scripts, iframes, and auto-ads on excluded/unallowed client-side routes
+  useEffect(() => {
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+    const allowCheck = checkAdPlacementAllowed(currentPath, currentView);
+    if (!allowCheck.isAllowed) {
+      cleanupAdArtifacts();
+    }
+  }, [currentView]);
 
   const isChat = currentView === 'chat' && activeChatCampaign;
   const isAuthView = currentView === 'login' || currentView === 'register';

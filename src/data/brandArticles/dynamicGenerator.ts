@@ -87,37 +87,37 @@ export function generateBrandSEOArticle(brand: BrandMeta): BrandSEOArticle | und
 
   const geographyLines = stats.geography.length > 0
     ? stats.geography
-        .map((g) => `* **${g.region}:** **${g.sharePercentage}% share** (${g.count} verified respondents)`)
+        .map((g) => `* **${g.region}:** **${g.sharePercentage}% share** (${g.count} survey respondents)`)
         .join('\n')
     : '* Not enough geographically-tagged responses yet to break this down.';
 
   const fullMarkdown = `
-# ${brand.name} User Research Study — Based on Verified Voice Flow 360 Responses (2026)
+# ${brand.name} User Research Study — Consumer Survey Findings (2026)
 
-*This study is compiled entirely from real, completed Voice Flow 360 surveys. All figures below reflect ${verifiedCount.toLocaleString()} verified respondent${verifiedCount === 1 ? '' : 's'} who answered questions about ${brand.name}; nothing here is estimated or assumed.*
+*This study is compiled entirely from real, completed Voice Flow 360 surveys. All figures below reflect ${verifiedCount.toLocaleString()} approved respondent${verifiedCount === 1 ? '' : 's'} who answered questions about ${brand.name}; nothing here is estimated or assumed.*
 
 ## Executive Summary
-Based on ${verifiedCount.toLocaleString()} verified Voice Flow 360 respondents, ${brand.name} shows a Customer Satisfaction (CSAT) score of **${csat}%** (share of respondents rating their experience 4-5 stars) and a Net Promoter Score of **${nps >= 0 ? '+' : ''}${nps}** (from ${stats.npsSampleSize.toLocaleString()} respondents who answered our 1-10 recommendation question).
+Based on ${verifiedCount.toLocaleString()} approved Voice Flow 360 survey respondents, ${brand.name} shows a Customer Satisfaction (CSAT) score of **${csat}%** (share of respondents rating their experience 4-5 stars) and a Net Promoter Score of **${nps >= 0 ? '+' : ''}${nps}** (from ${stats.npsSampleSize.toLocaleString()} respondents who answered our 1-10 recommendation question).
 
 ---
 
-## Verified Satisfaction Metrics
+## Consumer Satisfaction Metrics
 
 * **Average Star Rating:** **${uxScore} / 5.0** (${verifiedCount.toLocaleString()} respondents)
 * **Customer Satisfaction (CSAT):** **${csat}%** rated 4-5 stars
 * **Net Promoter Score (NPS):** **${nps >= 0 ? '+' : ''}${nps}** (n=${stats.npsSampleSize.toLocaleString()})
-${stats.yesRate !== null ? `* **Positive Yes/No Response Rate:** **${stats.yesRate}%**\n` : ''}* **Verified Sample Size:** **${verifiedCount.toLocaleString()} completed Voice Flow 360 responses**
+${stats.yesRate !== null ? `* **Positive Yes/No Response Rate:** **${stats.yesRate}%**\n` : ''}* **Sample Size:** **${verifiedCount.toLocaleString()} completed survey responses**
 
 ---
 
-## What Verified Respondents Said
+## What Survey Participants Said
 ${realQuoteTexts.length > 0
     ? realQuoteTexts.slice(0, 6).map((q) => `> "${q}"`).join('\n\n')
     : '*Not enough free-text responses yet to feature direct quotes for this brand.*'}
 
 ---
 
-## Verified Geographic Distribution
+## Geographic Distribution of Participants
 Based on the disclosed country of respondents who completed a ${brand.name} survey:
 
 ${geographyLines}
@@ -130,24 +130,36 @@ ${brand.description}
 
 ---
 
+## Research Methodology & Fieldwork Disclosures
+
+* **Sample Size:** ${verifiedCount.toLocaleString()} completed, quality-audited survey responses.
+* **Fieldwork Timing:** Continuous opt-in feedback collected on Voice Flow 360.
+* **Recruitment Method:** Voluntary consumer panel participants registered on Voice Flow 360.
+* **Incentives:** 100 reward coins ($1.00 USD equivalent value) per accepted evaluation session.
+* **Quality & Screening:** Automated attention screening, completion time auditing, and duplicate filtering.
+* **Calculation Method:** CSAT represents percentage of ratings >= 4 on a 1-5 scale. NPS is % Promoters (9-10) minus % Detractors (0-6).
+* **Limitations:** Findings reflect an opt-in convenience sample of platform panel participants and do not claim national demographic representativeness.
+
+---
+
 ## Frequently Asked Questions (FAQs)
 
 ### How was this ${brand.name} research study produced?
-Every figure on this page is computed directly from completed Voice Flow 360 chat-based surveys — real respondents answering real questions about ${brand.name}. This page updates as more responses come in; it does not use estimated, modeled, or placeholder data.
+Every figure on this page is computed directly from completed Voice Flow 360 chat-based surveys — real respondents answering questions about ${brand.name}. This page updates as more responses come in; it does not use estimated or modeled data.
 
 ### How can I participate in ${brand.name} surveys and earn rewards?
 Registered Voice Flow 360 users can complete ${brand.name} feedback campaigns directly from their dashboard, earning redeemable coins exchangeable for cash payouts via Direct Bank Transfer or Cryptocurrency once reaching the standardized 2,000 Coins ($20.00 USD) threshold following monthly quality reviews on the 1st of each month.
 
 ### What is the current Net Promoter Score (NPS) for ${brand.name}?
-Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${brand.name}'s Net Promoter Score is **${nps >= 0 ? '+' : ''}${nps}**. This will be updated automatically as more responses are collected.
+Based on ${stats.npsSampleSize.toLocaleString()} survey respondents so far, ${brand.name}'s Net Promoter Score is **${nps >= 0 ? '+' : ''}${nps}**. This will be updated automatically as more responses are collected.
 `;
 
   const article: BrandSEOArticle = {
     brandId: brand.id,
     brandName: brand.name,
     slug: `${slugName}-user-research-study`,
-    metaTitle: `${brand.name} User Research Study — Verified Consumer Data | Voice Flow 360`,
-    metaDescription: `Real, verified Voice Flow 360 consumer research for ${brand.name}, based on ${verifiedCount.toLocaleString()} completed survey responses. CSAT ${csat}%, NPS ${nps >= 0 ? '+' : ''}${nps}.`,
+    metaTitle: `${brand.name} User Research Study — Consumer Survey Data | Voice Flow 360`,
+    metaDescription: `Empirical Voice Flow 360 consumer research for ${brand.name}, based on ${verifiedCount.toLocaleString()} completed survey responses. CSAT ${csat}%, NPS ${nps >= 0 ? '+' : ''}${nps}.`,
     targetKeywords: [
       `${brand.name.toLowerCase()} user research study`,
       `${brand.name.toLowerCase()} consumer insights`,
@@ -173,7 +185,7 @@ Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${
       neutralSentiment: neutral,
       negativeSentiment: critical,
       verifiedResponsesAnalyzed: verifiedCount,
-      globalMarketRank: `${verifiedCount.toLocaleString()} verified responses`,
+      globalMarketRank: `${verifiedCount.toLocaleString()} survey responses`,
     },
     // Age/gender/income are intentionally left empty: Voice Flow 360 does not
     // currently collect this from respondents, so there is no real data to
@@ -189,7 +201,7 @@ Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${
       regions: stats.geography.map((g) => ({
         region: g.region,
         sharePercentage: g.sharePercentage,
-        keyMarkets: `${g.count.toLocaleString()} verified respondent${g.count === 1 ? '' : 's'}`,
+        keyMarkets: `${g.count.toLocaleString()} survey respondent${g.count === 1 ? '' : 's'}`,
         growthTrend: '',
       })),
       dominantTerritory: stats.geography[0]?.region || 'Not enough data yet',
@@ -234,7 +246,7 @@ Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${
       },
       {
         question: `What is ${brand.name}'s current Net Promoter Score?`,
-        answer: `Based on ${stats.npsSampleSize.toLocaleString()} verified respondents so far, ${brand.name}'s Net Promoter Score is ${nps >= 0 ? '+' : ''}${nps}. This updates automatically as more responses come in.`,
+        answer: `Based on ${stats.npsSampleSize.toLocaleString()} survey respondents so far, ${brand.name}'s Net Promoter Score is ${nps >= 0 ? '+' : ''}${nps}. This updates automatically as more responses come in.`,
       },
     ],
     fullArticleMarkdown: fullMarkdown,

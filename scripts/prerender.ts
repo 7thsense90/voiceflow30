@@ -36,9 +36,21 @@ async function runPrerender() {
   // Homepage and root variants
   routeSet.add('/');
 
-  // All registered application routes
+  // Private routes excluded from static generation and indexing
+  const privatePaths = new Set([
+    '/dashboard',
+    '/my-earnings',
+    '/profile',
+    '/wallet',
+    '/earnings',
+    '/login',
+    '/register',
+    '/admin',
+  ]);
+
+  // All registered application public routes
   for (const route of APP_ROUTES) {
-    if (route.path) {
+    if (route.path && !privatePaths.has(route.path)) {
       routeSet.add(route.path);
     }
   }
@@ -68,10 +80,7 @@ async function runPrerender() {
     '/referrals',
     '/surveys',
     '/start-earning',
-    '/dashboard',
     '/quizzes',
-    '/my-earnings',
-    '/profile',
   ];
   for (const p of corePaths) {
     routeSet.add(p);

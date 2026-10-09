@@ -18,11 +18,48 @@
 export const AD_ALLOWED_PUBLIC_PATHS = [
   '/brand-research-studies',
   '/research-methodology',
+  '/brand-insights',
 ] as const;
 
 export interface AdPolicyCheckResult {
   isAllowed: boolean;
   reason?: string;
+}
+
+/**
+ * Removes any injected AdSense script tags, ad iframes, auto-ads, and unfilled ad blocks
+ * from the DOM when transitioning to an excluded route or when consent is denied.
+ */
+export function cleanupAdArtifacts(): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    // 1. Remove ad script element
+    const scriptEl = document.getElementById('google-adsense-script');
+    if (scriptEl && scriptEl.parentNode) {
+      scriptEl.parentNode.removeChild(scriptEl);
+    }
+
+    // 2. Remove all ad tags, iframes, and auto-ads inserted by Google
+    const adSelectors = [
+      '.google-auto-placed',
+      'iframe[id*="aswift"]',
+      'iframe[id*="google_ads"]',
+      'div[id^="google_ads"]',
+      'div[id^="aswift"]',
+      'ins.adsbygoogle[data-ad-status]',
+    ];
+
+    adSelectors.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((el) => {
+        try {
+          el.remove();
+        } catch (_) {}
+      });
+    });
+  } catch (err) {
+    console.debug('Ad cleanup note:', err);
+  }
 }
 
 /**
@@ -38,7 +75,7 @@ export function checkAdPlacementAllowed(
 
   // 1. Hard exclusions - Never allow ads on customer dashboards, survey sessions, wallets, withdrawal pages or administrative areas
   const forbiddenViews = [
-    // Customer Dashboards
+    // Customer Dashboards & Workspace
     'dashboard',
     'customer-dashboard',
     'user-dashboard',
@@ -76,6 +113,9 @@ export function checkAdPlacementAllowed(
     'referrals',
     'invite',
     'contact',
+
+    // Generic directory indexes without editorial articles
+    'brand-directory',
   ];
 
   if (forbiddenViews.includes(cleanView)) {
@@ -101,7 +141,9 @@ export function checkAdPlacementAllowed(
     cleanPath.includes('/admin') ||
     cleanPath.includes('/login') ||
     cleanPath.includes('/register') ||
-    cleanPath.includes('/profile')
+    cleanPath.includes('/profile') ||
+    cleanPath === '/brand-directory' ||
+    cleanPath === '/brands'
   ) {
     return {
       isAllowed: false,
@@ -117,13 +159,29 @@ export function checkAdPlacementAllowed(
     };
   }
 
-  // 3. Permitted editorial pages
-  if (
-    cleanPath.startsWith('/brand-research-studies/') ||
-    cleanPath === '/brand-research-studies' ||
-    cleanPath.startsWith('/research-methodology') ||
+  // 3. Permitted public editorial content allowlist:
+  // - Brand research study detail (/brand-research-studies/:slug) and directory
+  // - Research methodology educational articles (/research-methodology/:slug) and library
+  // - Brand user research deep dive studies (/brand-insights/:slug, /brands/:slug/user-research-study)
+  const isBrandResearchStudyPath =
+    cleanPath.startsWith('/brand-research-studies/') || cleanPath === '/brand-research-studies';
+  const isResearchMethodologyPath =
+    cleanPath.startsWith('/research-methodology/') || cleanPath === '/research-methodology';
+  const isBrandInsightStudyPath =
+    (cleanPath.startsWith('/brand-insights/') && cleanPath !== '/brand-insights') ||
+    cleanPath.endsWith('/user-research-study');
+
+  const isAllowedView =
     cleanView === 'brand-research-study-detail' ||
-    cleanView === 'research-methodology'
+    cleanView === 'brand-research-studies' ||
+    cleanView === 'research-methodology' ||
+    cleanView === 'brand-study';
+
+  if (
+    isBrandResearchStudyPath ||
+    isResearchMethodologyPath ||
+    isBrandInsightStudyPath ||
+    isAllowedView
   ) {
     return { isAllowed: true };
   }

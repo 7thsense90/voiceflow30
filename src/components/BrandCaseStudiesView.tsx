@@ -742,7 +742,7 @@ export const BrandCaseStudiesView: React.FC = () => {
                       <span>&bull;</span>
                       <span>
                         {spotlightStudy.totalResponses > 0
-                          ? `${spotlightStudy.totalResponses.toLocaleString()} verified responses`
+                          ? `${spotlightStudy.totalResponses.toLocaleString()} survey responses`
                           : 'Market Analysis'}
                       </span>
                     </div>

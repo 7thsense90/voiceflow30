@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from './SEOHead';
-import { AdSenseAd } from './AdSenseAd';
 import { Link } from './Link';
 import { Pagination } from './Pagination';
 import {
@@ -550,14 +549,6 @@ export const BrandDirectory: React.FC = () => {
           )}
         </div>
       )}
-
-      {/* Google AdSense Directory Placement */}
-      <AdSenseAd
-        slot="5544332211"
-        format="auto"
-        label="Advertisement"
-        adPlacementKey="enableDirectoryBannerAd"
-      />
     </div>
   );
 };

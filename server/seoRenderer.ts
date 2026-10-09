@@ -35,6 +35,7 @@ export interface PageSeoResult {
   structuredData?: Record<string, unknown>;
   htmlContent: string;
   is404?: boolean;
+  robots?: string;
 }
 
 function escapeHtml(str: string): string {
@@ -214,16 +215,20 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
       return renderSurveysCatalogSeo(origin);
 
     case '/start-earning':
-    case '/dashboard':
       return renderStartEarningSeo(origin);
 
+    case '/dashboard':
     case '/profile':
     case '/login':
     case '/register':
     case '/my-earnings':
     case '/earnings':
     case '/wallet':
-      return renderStartEarningSeo(origin);
+      return {
+        ...renderStartEarningSeo(origin),
+        canonicalUrl: `${origin}${cleanPath}`,
+        robots: 'noindex, nofollow',
+      };
 
     case '/brand-case-studies':
     case '/case-studies':
@@ -2058,6 +2063,16 @@ export function injectSeoAndContent(htmlTemplate: string, requestPath: string): 
   const keywordsTag = `<meta name="keywords" content="${escapeHtml(seo.keywords)}" />`;
   if (/<meta[^>]*name=["']keywords["'][^>]*>/i.test(result)) {
     result = result.replace(/<meta[^>]*name=["']keywords["'][^>]*>/i, keywordsTag);
+  }
+
+  // 4b. Update or replace <meta name="robots"> if specified
+  if (seo.robots) {
+    const robotsTag = `<meta name="robots" content="${escapeHtml(seo.robots)}" />`;
+    if (/<meta[^>]*name=["']robots["'][^>]*>/i.test(result)) {
+      result = result.replace(/<meta[^>]*name=["']robots["'][^>]*>/i, robotsTag);
+    } else {
+      result = result.replace('</head>', `  ${robotsTag}\n</head>`);
+    }
   }
 
   // 5. Update Open Graph Tags (og:title, og:description, og:url, og:type)

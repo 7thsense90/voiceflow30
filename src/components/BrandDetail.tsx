@@ -384,7 +384,7 @@ export const BrandDetail: React.FC = () => {
                 ))
               ) : (
                 <li className="text-xs text-slate-500 italic">
-                  No verified praises recorded yet from completed panel surveys.
+                  No customer praise recorded yet from completed panel surveys.
                 </li>
               )}
             </ul>
@@ -451,7 +451,7 @@ export const BrandDetail: React.FC = () => {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <h2 className="text-lg font-black text-slate-900">
-              Verified Respondent Feed ({filteredResponses.length} Responses)
+              Quality-Audited Panel Feed ({filteredResponses.length} Responses)
             </h2>
             <input
               type="text"
@@ -480,7 +480,7 @@ export const BrandDetail: React.FC = () => {
                           <span className="text-xs font-black text-slate-800">{resp.userName}</span>
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                         </div>
-                        <span className="text-[10px] text-slate-400 font-medium">{resp.userEmail}</span>
+                        <span className="text-[10px] text-slate-400 font-medium">Panelist &bull; Quality Audited</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 rounded-lg text-amber-700 text-[10px] font-black border border-amber-200">

@@ -31,7 +31,6 @@ import { useApp } from '../context/AppContext';
 import { RAW_100_BRANDS, BrandMeta } from '../data/brandsData';
 import { calculateBrandResearchMetrics } from '../utils/brandMetrics';
 import { getPublishedBrandArticles, getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
-import { AdSenseAd } from './AdSenseAd';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
 import { getUniqueBrandInsight, getUniqueBrandSentiment } from '../data/brandUniqueInsights';
 import { getBrandBenchmarkMetric } from '../data/brandBenchmarks';
@@ -651,14 +650,6 @@ export const BrandInsights: React.FC = () => {
             </button>
           </div>
         </section>
-
-        {/* Compliant Ad Placement */}
-        <AdSenseAd
-          slot="4433221100"
-          format="auto"
-          label="Advertisement"
-          adPlacementKey="enableDirectoryBannerAd"
-        />
       </div>
     </div>
   );

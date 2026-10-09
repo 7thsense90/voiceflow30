@@ -488,7 +488,7 @@ export const AdminBrandInquiriesTab: React.FC = () => {
                 <span className="text-slate-900 font-bold text-sm block mt-0.5">
                   {selectedInquiry.methodology.replace(/_/g, ' ')}
                 </span>
-                <span className="text-slate-600">Sample: {selectedInquiry.sampleSize} verified respondents</span>
+                <span className="text-slate-600">Target Sample: {selectedInquiry.sampleSize} respondents</span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">

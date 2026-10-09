@@ -355,7 +355,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     s.minCryptoWithdrawalCoins = 2000;
     if (!s.referralRewardCoins) s.referralRewardCoins = 300;
     if (s.adsenseEnabled === undefined) s.adsenseEnabled = true;
-    if (!s.adClientPubId || s.adClientPubId === 'ca-pub-2513423020167554') s.adClientPubId = 'ca-pub-9382580390401269';
+    if (!s.adClientPubId || s.adClientPubId !== 'ca-pub-9382580390401269') s.adClientPubId = 'ca-pub-9382580390401269';
     if (s.enableStickyAnchorAd === undefined) s.enableStickyAnchorAd = true;
     if (s.enableDirectoryBannerAd === undefined) s.enableDirectoryBannerAd = true;
     if (s.enableArticleInContentAd === undefined) s.enableArticleInContentAd = true;

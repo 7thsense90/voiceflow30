@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { SEOHead } from './SEOHead';
-import { AdSenseAd } from './AdSenseAd';
 import {
   Megaphone,
   Sparkles,
@@ -227,14 +226,6 @@ export const NewsUpdates: React.FC = () => {
           );
         })}
       </div>
-
-      {/* Google AdSense In-Article Responsive Banner */}
-      <AdSenseAd
-        slot="9876543210"
-        format="auto"
-        label="Advertisement"
-        adPlacementKey="enableNewsFeedAd"
-      />
 
       {/* Newsletter / Notifications Box */}
       <div className="bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-950 text-white rounded-3xl p-8 sm:p-10 shadow-xl space-y-6">

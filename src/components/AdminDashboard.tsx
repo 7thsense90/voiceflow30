@@ -421,9 +421,7 @@ export const AdminDashboard: React.FC = () => {
   // AdSense Optimization switches
   const [adsenseEnabledInput, setAdsenseEnabledInput] = useState(settings.adsenseEnabled !== false);
   const [adClientPubIdInput, setAdClientPubIdInput] = useState(
-    (settings.adClientPubId && settings.adClientPubId !== 'ca-pub-2513423020167554')
-      ? settings.adClientPubId
-      : 'ca-pub-9382580390401269'
+    settings.adClientPubId || 'ca-pub-9382580390401269'
   );
   const [enableStickyAnchorInput, setEnableStickyAnchorInput] = useState(settings.enableStickyAnchorAd !== false);
   const [enableDirectoryBannerInput, setEnableDirectoryBannerInput] = useState(settings.enableDirectoryBannerAd !== false);

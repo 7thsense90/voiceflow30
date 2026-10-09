@@ -52,7 +52,7 @@ export const AboutVoiceFlow360: React.FC = () => {
     },
     {
       title: 'Data Privacy & Ethics',
-      description: 'Your data belongs to you. Responses are aggregated anonymously to preserve consumer privacy while delivering actionable market truths.',
+      description: 'Your privacy matters. Responses are aggregated into benchmark reports while strictly protecting personal account and payment identifiers.',
       icon: ShieldCheck,
       tag: 'Data Privacy & Security',
     },
