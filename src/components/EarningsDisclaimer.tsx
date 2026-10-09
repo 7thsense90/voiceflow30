@@ -128,7 +128,7 @@ export const EarningsDisclaimer: React.FC = () => {
           <strong>Minimum Withdrawal Threshold:</strong> 2,000 reviewed and approved coins ($20.00 USD) for Direct Bank Transfer (ACH, SEPA, Wire) and Cryptocurrency (USDT, BTC).
         </li>
         <li>
-          <strong>Eligibility:</strong> Participants must be at least 18 years of age and meet the applicable legal age-of-majority requirement in their jurisdiction.
+          <strong>Eligibility:</strong> Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction.
         </li>
         <li>
           <strong>Monthly Review Approval vs. Withdrawal Processing:</strong> Coins earned through completed surveys are initially recorded as <em>Pending Quality Review</em> during the active calendar month. Only successfully reviewed and approved coins transfer to your Redeemable Wallet on the <strong>1st of each calendar month</strong>. Once an eligible withdrawal request is submitted:

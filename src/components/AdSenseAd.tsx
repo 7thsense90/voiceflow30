@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { checkAdPlacementAllowed } from '../utils/adPolicy';
 import { hasAdvertisingConsent, CONSENT_EVENT_NAME } from '../utils/cookieConsent';
+import { useApp } from '../context/AppContext';
 
 interface AdSenseAdProps {
   slot?: string;
@@ -12,6 +13,19 @@ interface AdSenseAdProps {
   articleStatus?: string;
 }
 
+function ensureAdSenseScriptLoaded(clientId: string) {
+  if (typeof window === 'undefined') return;
+  const scriptId = 'google-adsense-script';
+  if (!document.getElementById(scriptId)) {
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`;
+    document.head.appendChild(script);
+  }
+}
+
 export const AdSenseAd: React.FC<AdSenseAdProps> = ({
   slot,
   client = 'ca-pub-9382580390401269',
@@ -21,8 +35,9 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
   label = 'Advertisement',
   articleStatus = 'published',
 }) => {
+  const { settings, currentView } = useApp();
   const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-  const allowCheck = checkAdPlacementAllowed(currentPath, undefined, articleStatus);
+  const allowCheck = checkAdPlacementAllowed(currentPath, currentView, articleStatus);
   const [hasConsent, setHasConsent] = useState<boolean>(() => hasAdvertisingConsent());
 
   // Listen to cookie consent updates in real time
@@ -40,34 +55,27 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
     };
   }, []);
 
+  const isEnabled = settings.adsenseEnabled !== false;
+
   useEffect(() => {
-    if (allowCheck.isAllowed && hasConsent && typeof window !== 'undefined') {
+    if (allowCheck.isAllowed && hasConsent && isEnabled && typeof window !== 'undefined') {
+      ensureAdSenseScriptLoaded(client);
       try {
         const adsbygoogle = (window as unknown as { adsbygoogle?: unknown[] }).adsbygoogle;
         if (adsbygoogle) {
           adsbygoogle.push({});
         }
       } catch (err) {
-        // Suppress AdSense push errors if already loaded or blocked by privacy extension
-        console.debug('AdSense unit note:', err);
+        // Suppress push note if already pushed or blocked by privacy filter
+        console.debug('AdSense placement note:', err);
       }
     }
-  }, [allowCheck.isAllowed, hasConsent]);
+  }, [allowCheck.isAllowed, hasConsent, isEnabled, client]);
 
-  if (!allowCheck.isAllowed) {
+  // Strict Policy: Do not render ads or empty promotional placeholders on unallowed routes,
+  // when consent has not been granted, or when adsense is globally disabled.
+  if (!allowCheck.isAllowed || !hasConsent || !isEnabled) {
     return null;
-  }
-
-  // If user declined advertising cookies, do not load or push Google AdSense ads
-  if (!hasConsent) {
-    return (
-      <div className={`my-8 p-4 bg-slate-50/70 border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 ${className}`}>
-        <span className="font-semibold text-slate-500">Sponsored Intelligence Area</span>
-        <p className="text-[11px] text-slate-400 mt-0.5">
-          Advertising cookies declined — no tracking or personalized ads loaded.
-        </p>
-      </div>
-    );
   }
 
   return (

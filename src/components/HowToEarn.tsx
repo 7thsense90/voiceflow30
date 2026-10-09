@@ -501,7 +501,7 @@ export const HowToEarn: React.FC = () => {
 
         {/* Disclaimer note */}
         <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-500 leading-relaxed text-center">
-          <strong>Research Honorarium Disclaimer:</strong> Voice Flow 360 compensates panelists solely for voluntary time and feedback contributed to market research studies. Participation does not constitute employment, partnership, or financial investment. Honorarium credits hold no cash value until redeemed through approved disbursement rails in accordance with platform terms.
+          <strong>Research Honorarium Disclaimer:</strong> Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction. Voice Flow 360 compensates panelists solely for voluntary time and feedback contributed to market research studies. Participation does not constitute employment, partnership, or financial investment. Honorarium credits hold no cash value until redeemed through approved disbursement rails in accordance with platform terms.
         </div>
 
         {/* Actionable Call to Action Banner */}

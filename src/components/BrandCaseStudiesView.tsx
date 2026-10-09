@@ -11,6 +11,7 @@ import {
   BrandSEOArticle,
 } from '../data/brandArticles';
 import { RAW_100_BRANDS } from '../data/brandsData';
+import { calculateBrandResearchMetrics } from '../utils/brandMetrics';
 import {
   BookOpen,
   Search,
@@ -61,7 +62,7 @@ interface UnifiedCaseStudy {
 }
 
 export const BrandCaseStudiesView: React.FC = () => {
-  const { researchArticles, navigateToResearchArticle, setCurrentView, currentUser, responses } = useApp();
+  const { researchArticles, navigateToResearchArticle, setCurrentView, currentUser, campaigns, responses } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -96,22 +97,12 @@ export const BrandCaseStudiesView: React.FC = () => {
     const list: UnifiedCaseStudy[] = [];
     const seenIds = new Set<string>();
 
-    // 1. Source-based brand articles: Labeled Editorial Analysis, with stats strictly from real records
+    // 1. Source-based brand articles: Labeled Editorial Analysis, with stats strictly from approved production records
     getPublishedBrandArticles().forEach((art) => {
       seenIds.add(art.brandId);
       const brandMeta = RAW_100_BRANDS.find((b) => b.id === art.brandId);
-      const brandResps = responses.filter((r) => r.brandId === art.brandId && !r.isHidden);
-      let totalRating = 0;
-      let ratingCount = 0;
-      brandResps.forEach((r) => {
-        r.answers.forEach((ans) => {
-          if (typeof ans.answer === 'number' && ans.answer >= 1 && ans.answer <= 5) {
-            totalRating += ans.answer;
-            ratingCount++;
-          }
-        });
-      });
-      const calcRating = ratingCount > 0 ? Number((totalRating / ratingCount).toFixed(1)) : 0;
+      const metrics = calculateBrandResearchMetrics(art.brandId, responses, campaigns);
+      const readTime = art.wordCount ? Math.max(3, Math.ceil(art.wordCount / 200)) : (art.readingTimeMinutes || 6);
 
       list.push({
         id: art.brandId,
@@ -123,9 +114,9 @@ export const BrandCaseStudiesView: React.FC = () => {
         coverImage: brandMeta?.logo || 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&auto=format&fit=crop&q=80',
         category: brandMeta?.category || 'brands',
         sectorName: brandMeta?.sector || 'Market Research',
-        rating: calcRating,
-        totalResponses: brandResps.length,
-        readTimeMinutes: art.readingTimeMinutes || 6,
+        rating: metrics.numericRating,
+        totalResponses: metrics.responseCount,
+        readTimeMinutes: readTime,
         publishedDate: art.lastUpdated || art.publishDate || 'September 2026',
         isDeepDive: true,
         studyType: 'Editorial Analysis',
@@ -170,7 +161,7 @@ export const BrandCaseStudiesView: React.FC = () => {
       });
 
     return list;
-  }, [researchArticles, responses]);
+  }, [researchArticles, campaigns, responses]);
 
   // Sector categories definition with icons and normalized mapping
   const sectorCategories = useMemo(() => {

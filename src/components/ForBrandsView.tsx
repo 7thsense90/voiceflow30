@@ -40,7 +40,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Flagship Voice',
     description: 'Dynamic chat survey collecting natural spoken voice recordings and typed responses with semantic AI sentiment analysis.',
     bestFor: 'Nuanced emotional reactions, product sentiment, genuine tone-of-voice feedback',
-    turnaround: '48 Hours',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'concept_feature_validation',
@@ -48,7 +48,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Pre-Launch',
     description: 'Present product mockups, value propositions, and upcoming features to target audiences before committing engineering resources.',
     bestFor: 'Roadmap prioritization, feature demand testing, MVP viability checks',
-    turnaround: '48 - 72 Hours',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'pricing_sensitivity',
@@ -56,7 +56,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Economics',
     description: 'Scientific 4-point price testing assessing point of marginal cheapness, optimal price point, and point of marginal expensiveness.',
     bestFor: 'SaaS pricing, retail MSRP optimization, subscription tier calibration',
-    turnaround: '3 - 5 Days',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'brand_perception_awareness',
@@ -64,7 +64,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Brand Health',
     description: 'Measure unaided & aided recall, brand affinity, Net Promoter Score (NPS), and qualitative associations against competitors.',
     bestFor: 'Brand positioning, rebranding evaluation, campaign ROI tracking',
-    turnaround: '3 - 5 Days',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'usability_product_feedback',
@@ -72,7 +72,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'UX Testing',
     description: 'Gather feedback on digital customer journeys, onboarding flows, packaging design, and unboxing satisfaction.',
     bestFor: 'App/web UX, consumer goods unboxing, purchase friction identification',
-    turnaround: '48 - 72 Hours',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'competitor_benchmark',
@@ -80,7 +80,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Market Intel',
     description: 'Head-to-head consumer sentiment comparison pitting your brand against top 3 industry incumbents across key purchase drivers.',
     bestFor: 'Dethroning competitors, positioning battlecards, gap analysis',
-    turnaround: '3 - 5 Days',
+    turnaround: 'Timeline confirmed after scope review',
   },
   {
     id: 'custom_study',
@@ -88,7 +88,7 @@ const METHODOLOGIES: MethodologyInfo[] = [
     badge: 'Bespoke',
     description: 'Custom question trees, conditional logic, multi-stage longitudinal panels, or specialized niche demographic screening.',
     bestFor: 'Complex enterprise research, institutional whitepapers, investor diligence',
-    turnaround: '1 - 2 Weeks',
+    turnaround: 'Timeline confirmed after scope review',
   },
 ];
 
@@ -96,12 +96,12 @@ const PRICING_TIERS = [
   {
     name: 'Starter Pulse',
     price: 'Standard Package',
-    sampleSize: '250 Verified Respondents',
-    turnaround: '48 Hours Delivery',
+    sampleSize: 'Target sample size: up to 250 respondents',
+    turnaround: 'Estimated delivery after feasibility confirmation',
     tag: 'Quick Validation',
     popular: false,
     features: [
-      'Up to 250 verified consumer responses',
+      'Target sample size: up to 250 respondents (subject to recruitment feasibility)',
       'Conversational chat survey deployment',
       'Aggregated NPS and CSAT sentiment metrics',
       'Age and gender demographic breakdowns',
@@ -111,33 +111,33 @@ const PRICING_TIERS = [
   {
     name: 'Growth Deep-Dive',
     price: 'Growth Package',
-    sampleSize: '750 Verified Respondents',
-    turnaround: '48 - 72 Hours Delivery',
+    sampleSize: 'Target sample size: up to 750 respondents',
+    turnaround: 'Estimated delivery after feasibility confirmation',
     tag: 'Most Popular',
     popular: true,
     features: [
-      'Up to 750 multi-country respondents',
-      'Audio voice transcripts + text insights',
+      'Target sample size: up to 750 respondents (subject to demographic quotas)',
+      'Audio voice transcripts + verbatim text insights',
       'Targeted demographic and geographic screening',
       'AI sentiment cluster & theme analysis',
       'Interactive cross-tabulation dashboard',
-      'Executive Summary Presentation Deck (PDF)',
+      'Executive Summary Presentation Report (PDF)',
     ],
   },
   {
     name: 'Enterprise Scale',
     price: 'Enterprise Bespoke',
-    sampleSize: '1,500 - 5,000+ Respondents',
-    turnaround: '3 - 5 Days Delivery',
+    sampleSize: 'Target sample size: 1,500 – 5,000+ respondents',
+    turnaround: 'Estimated delivery after feasibility confirmation',
     tag: 'Enterprise & Agencies',
     popular: false,
     features: [
-      '1,500+ targeted panel participants',
+      'Target sample size: 1,500+ participants (subject to recruitment feasibility)',
       'Van Westendorp price modeling or custom logic',
       'Competitor benchmark cross-comparison',
       'Dedicated Market Research Project Manager',
       'Custom quota balancing by region/age/income',
-      'Brand Insights live report publication option',
+      'Raw data export and synthesized insights reporting',
     ],
   },
 ];
@@ -326,7 +326,7 @@ export const ForBrandsView: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-            Reach target consumer cohorts for qualitative audio feedback, Net Promoter Scores, and demographic cross-tabulation in 48 to 72 hours.
+            Reach target consumer cohorts for qualitative audio feedback, Net Promoter Scores, and demographic cross-tabulation with timeline confirmed after scope review.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
@@ -353,8 +353,8 @@ export const ForBrandsView: React.FC = () => {
               <div className="text-xs text-slate-400 mt-1 font-medium">Consumer Cohorts</div>
             </div>
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
-              <div className="text-2xl sm:text-3xl font-black text-indigo-400">48-72h</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Average Report Turnaround</div>
+              <div className="text-xl sm:text-2xl font-black text-indigo-400">Scoped</div>
+              <div className="text-xs text-slate-400 mt-1 font-medium">Timeline Confirmed After Scope Review</div>
             </div>
             <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 text-center">
               <div className="text-2xl sm:text-3xl font-black text-emerald-400">Multi-Market</div>
@@ -429,13 +429,16 @@ export const ForBrandsView: React.FC = () => {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 text-xs font-semibold">
               <Eye className="w-3.5 h-3.5" />
-              Explore Live Case Studies
+              Independent Editorial Market Research
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-white">
-              Want to see what our research deliverables look like?
+              Want to see our editorial research methodologies?
             </h3>
             <p className="text-sm text-purple-200 max-w-xl">
-              Browse our published <strong>Brand Insights</strong> studies for global brands like Nike, Apple, Sony, Starbucks, and Tesla to see real customer sentiment metrics.
+              Browse our published <strong>Brand Insights</strong> editorial studies across 100 brands to examine our structured methodology and analysis format.
+            </p>
+            <p className="text-xs text-purple-300/80 max-w-xl">
+              <em>Note: Editorial brand articles published on Voice Flow 360 are independent desk research compiled by our editorial team. They are not commissioned client case studies and do not imply commercial partnerships or endorsements by the featured brands.</em>
             </p>
           </div>
           <button

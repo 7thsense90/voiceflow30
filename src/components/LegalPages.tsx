@@ -35,17 +35,42 @@ export const PrivacyPolicy: React.FC = () => (
   >
     <h3>1. Information We Collect</h3>
     <p>
-      When you use Voice Flow 360, we may collect personal information such as your name, email address, demographic preferences (for survey targeting), and payment or wallet details to facilitate coin reward redemptions. We also collect usage data, device telemetry, and browser information to maintain system security, detect bot fraud, and optimize survey matching.
+      When you use Voice Flow 360, we collect information necessary to operate our research panel, match you with survey campaigns, and process coin reward redemptions:
     </p>
+    <ul className="list-disc pl-6 space-y-2 text-slate-600">
+      <li>
+        <strong>Account &amp; Profile Identifiers:</strong> Name, email address, password, demographic attributes (such as country, region, age bracket, and industry category), and payout details (bank routing/account or cryptocurrency wallet address) for reward disbursement.
+      </li>
+      <li>
+        <strong>Survey Responses &amp; Audio Input:</strong> Typed survey answers, scale ratings, multiple-choice selections, and, when you choose to use voice features, spoken audio recordings and their automated transcriptions.
+      </li>
+      <li>
+        <strong>Technical &amp; Telemetry Data:</strong> IP address, device type, browser characteristics, and completion velocity telemetry used strictly for automated quality verification, bot suppression, and fraud prevention.
+      </li>
+    </ul>
     
-    <h3>2. How We Use Your Information</h3>
+    <h3>2. How We Handle Survey Responses, Audio &amp; Verbatim Answers</h3>
     <p>
-      We use your information to provide, maintain, and improve our services, process payout transactions, prevent fraud, send system updates, and deliver authentic market research to brand partners in an aggregated, anonymized format.
+      We use your responses to provide consumer sentiment research to brand researchers and partners:
     </p>
+    <ul className="list-disc pl-6 space-y-2 text-slate-600">
+      <li>
+        <strong>Aggregated Reports &amp; Verbatim Insights:</strong> Sponsoring brand clients and researchers receive access to aggregated benchmark reports, statistical summaries (CSAT, NPS, rating averages), transcribed answers, and verbatim quotation excerpts.
+      </li>
+      <li>
+        <strong>Spoken Audio Recordings:</strong> Spoken audio recordings are transcribed and evaluated for sentiment tone. Audio snippets and transcripts may be reviewed for quality audits and shared in research deliverables. Individual responses are not described as completely anonymous because verbatim text or audio recordings can reflect distinctive personal perspectives.
+      </li>
+      <li>
+        <strong>Protection of Account Identifiers:</strong> Sponsoring brands and external research clients never receive your account password, email address, bank account details, or cryptocurrency wallet identifiers.
+      </li>
+    </ul>
     
     <h3>3. Data Sharing and Disclosure</h3>
     <p>
-      We do not sell your personal data. We only share information with trusted third-party service providers (such as cloud hosting infrastructure and payout processors) strictly as required to operate our services.
+      We do not sell personal contact lists. We disclose data only in the following contexts: (a) with trusted cloud infrastructure providers and payout processors to operate the platform and deliver disbursements; (b) with sponsoring research clients in the form of survey responses, transcripts, and aggregated datasets as described above; and (c) when legally required by subpoena, court order, or applicable law.
+    </p>
+    <p>
+      <strong>Participant Consent &amp; Available Controls:</strong> By submitting a survey or recording voice responses, you consent to the processing, transcription, and research sharing of those submissions. You may review your profile, cease participation at any time, or request account closure and data deletion by contacting our Data Protection Officer at <a href="mailto:privacy@voiceflow360.com" className="font-semibold text-purple-600">privacy@voiceflow360.com</a>.
     </p>
     
     <h3>4. Google AdSense &amp; Third-Party Advertising Policy</h3>
@@ -91,9 +116,9 @@ export const PrivacyPolicy: React.FC = () => (
       Under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), California residents have the right to know what personal information is collected, request deletion of their personal information, and opt out of the sale or sharing of their personal information for cross-context behavioral advertising. Voice Flow 360 does not sell personal information for monetary consideration.
     </p>
 
-    <h3>8. Children&apos;s Online Privacy Protection (COPPA)</h3>
+    <h3>8. Age Eligibility &amp; Protection of Minors</h3>
     <p>
-      Voice Flow 360 is intended strictly for users who are at least 18 years of age (or the legal age of majority in their jurisdiction). We do not knowingly collect personal information from children under 13. If you become aware that a child has provided us with personal information, please contact us immediately.
+      Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction. We do not knowingly collect personal information from individuals under the legal age of majority. If you become aware that an ineligible individual has provided us with personal information, please contact us immediately.
     </p>
 
     <h3>9. Data Security &amp; Contact Information</h3>
@@ -115,7 +140,9 @@ export const TermsOfService: React.FC = () => (
     <p>By accessing and using Voice Flow 360, you accept and agree to be bound by these Terms of Service. If you do not agree, you must not use our platform.</p>
     
     <h3>2. User Eligibility</h3>
-    <p>You must be at least 18 years old or the age of majority in your jurisdiction to participate in surveys and redeem rewards on our platform.</p>
+    <p>
+      Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction to register, participate in surveys, or earn and redeem rewards.
+    </p>
     
     <h3>3. Earning and Redeeming Rewards</h3>
     <p>

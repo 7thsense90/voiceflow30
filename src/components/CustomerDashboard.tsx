@@ -3,7 +3,6 @@ import { useApp } from '../context/AppContext';
 import { Campaign, CampaignCategory } from '../types';
 import { SurveyQualityCooldownBanner } from './SurveyQualityCooldownBanner';
 import { SEOHead } from './SEOHead';
-import { AdsterraNativeBanner } from './AdsterraNativeBanner';
 import { AuthModal } from './AuthModal';
 import { createPortal } from 'react-dom';
 import {
@@ -890,14 +889,6 @@ export const CustomerDashboard: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Dedicated Sponsored Partner Native Banner - Placed at page bottom with generous separation from user CTAs */}
-      <div className="pt-4 mt-4 border-t border-slate-200/60">
-        <AdsterraNativeBanner
-          label="Sponsored Partner Deals & Extra Opportunities"
-          variant="card"
-        />
-      </div>
     </div>
   );
 };

@@ -29,7 +29,6 @@ export const SitemapDirectory: React.FC = () => {
     { path: '/for-brands', title: 'For Brands & Enterprises', desc: 'B2B market research inquiries, consumer sentiment studies, and targeted panels.' },
     { path: '/surveys', title: 'Survey Catalog & Live Drops', desc: 'Browse available conversational surveys and sponsor brand drops.' },
     { path: '/quizzes', title: 'Daily Speed Quizzes', desc: 'Test general knowledge and brand trivia for instant coin multipliers.' },
-    { path: '/my-earnings', title: 'My Earnings & Withdrawal Portal', desc: 'Cashout via Direct Bank Transfer and Cryptocurrency.' },
     { path: '/brand-directory', title: 'Brand Directory & Consumer Insights', desc: 'Search through 100+ global brands cataloged on Voice Flow 360 for independent consumer feedback and survey evaluations.' },
     { path: '/product-reviews', title: 'Public Product Reviews (100+ Tech Launches)', desc: 'Genuine community feedback, USD pricing, and manufacturer baseline specifications for newly launched consumer devices.' },
     { path: '/brand-insights', title: 'Brand Insights & Analytics', desc: 'Aggregate customer sentiment scores and industry research.' },

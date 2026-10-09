@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { RAW_100_BRANDS } from '../data/brandsData';
 import { getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
+import { calculateBrandResearchMetrics, getApprovedProductionResponses } from '../utils/brandMetrics';
 import { BrandSEOArticleView } from './BrandSEOArticleView';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
 import { ShieldCheck, BarChart2, Activity } from 'lucide-react';
@@ -45,96 +46,36 @@ export const BrandDetail: React.FC = () => {
   }
 
   const brandCampaign = campaigns.find((c) => c.brandId === brand.id);
-  const brandResponses = responses.filter(
-    (r) => (r.brandId === brand.id || (brandCampaign && r.campaignId === brandCampaign.id)) && !r.isHidden
+  const brandResponses = useMemo(
+    () => getApprovedProductionResponses(brand.id, responses, campaigns),
+    [brand.id, responses, campaigns]
   );
   const article = getBrandArticle(brand.id);
 
-  // Compute stats strictly from real records
+  // Compute stats strictly from approved production records
   const realStats = useMemo(() => {
-    if (brandResponses.length === 0) {
-      return {
-        hasData: false,
-        count: 0,
-        avgRating: null,
-        csat: null,
-        nps: null,
-      };
-    }
-    let totalRating = 0;
-    let ratingCount = 0;
-    let highRatings = 0;
-    let promoters = 0;
-    let detractors = 0;
-    let npsCount = 0;
-
-    brandResponses.forEach((r) => {
-      r.answers.forEach((ans) => {
-        if (typeof ans.answer === 'number' && ans.answer >= 1 && ans.answer <= 5) {
-          totalRating += ans.answer;
-          ratingCount++;
-          if (ans.answer >= 4) highRatings++;
-        }
-        if (typeof ans.answer === 'number' && ans.answer >= 0 && ans.answer <= 10) {
-          npsCount++;
-          if (ans.answer >= 9) promoters++;
-          else if (ans.answer <= 6) detractors++;
-        }
-      });
-    });
-
-    const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
-    const csat = ratingCount > 0 ? Math.round((highRatings / ratingCount) * 100) : null;
-    const nps = npsCount > 0 ? Math.round(((promoters - detractors) / npsCount) * 100) : null;
-
+    const m = calculateBrandResearchMetrics(brand.id, responses, campaigns);
     return {
-      hasData: true,
-      count: brandResponses.length,
-      avgRating,
-      csat,
-      nps,
+      hasData: m.hasEnoughData,
+      count: m.responseCount,
+      avgRating: m.avgRating,
+      csat: m.csat,
+      nps: m.nps,
+      disclosures: m.disclosures,
+      praiseQuotes: m.praiseQuotes,
+      improvementQuotes: m.improvementQuotes,
+      qualitativeQuotes: m.qualitativeQuotes,
     };
-  }, [brandResponses]);
+  }, [brand.id, responses, campaigns]);
 
-  // Derive insights from the responses
   const insights = useMemo(() => {
-    let totalRating = 0;
-    let ratingCount = 0;
-    
-    const likes: string[] = [];
-    const improvements: string[] = [];
-    const suggestions: string[] = [];
-
-    const positiveWords = ['love', 'great', 'fast', 'good', 'excellent', 'amazing', 'best', 'nice', 'benchmark', 'smooth', 'rock-solid', 'durability'];
-    const negativeWords = ['slow', 'bad', 'poor', 'expensive', 'hard', 'difficult', 'issue', 'bug', 'price', 'premium', 'frequent'];
-    const suggestionWords = ['should', 'could', 'wish', 'add', 'suggest', 'recommend', 'better if', 'maybe', 'introduce', 'family plan', 'rewards', 'discount'];
-
-    brandResponses.forEach((r) => {
-      r.answers.forEach((a) => {
-        if (typeof a.answer === 'number') {
-          if (a.answer <= 5 && a.answer >= 1) {
-            totalRating += a.answer;
-            ratingCount++;
-          }
-        } else {
-          const textAnswer = String(a.answer).toLowerCase();
-          if (textAnswer.length > 15) {
-            if (suggestionWords.some((w) => textAnswer.includes(w))) {
-              if (suggestions.length < 8) suggestions.push(String(a.answer));
-            } else if (negativeWords.some((w) => textAnswer.includes(w))) {
-              if (improvements.length < 8) improvements.push(String(a.answer));
-            } else if (positiveWords.some((w) => textAnswer.includes(w))) {
-              if (likes.length < 8) likes.push(String(a.answer));
-            }
-          }
-        }
-      });
-    });
-
-    const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
-
-    return { avgRating, likes, improvements, suggestions };
-  }, [brandResponses]);
+    return {
+      avgRating: realStats.avgRating,
+      likes: realStats.praiseQuotes,
+      improvements: realStats.improvementQuotes,
+      suggestions: realStats.qualitativeQuotes.slice(0, 5),
+    };
+  }, [realStats]);
 
   const filteredResponses = brandResponses.filter(
     (r) =>
@@ -228,19 +169,21 @@ export const BrandDetail: React.FC = () => {
           <div className="text-center p-3 bg-amber-50/70 rounded-2xl border border-amber-100 min-w-[100px]">
             <div className="text-xl font-black text-slate-900 flex items-center justify-center gap-1">
               <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-              {insights.avgRating ?? '—'}
+              {realStats.avgRating ?? '—'}
             </div>
             <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wide">
-              {insights.avgRating ? 'Avg Rating' : 'No ratings yet'}
+              {realStats.avgRating ? 'Avg Rating' : 'Not enough data'}
             </div>
           </div>
 
           <div className="text-center p-3 bg-purple-50/70 rounded-2xl border border-purple-100 min-w-[100px]">
             <div className="text-xl font-black text-purple-900 flex items-center justify-center gap-1">
               <MessageSquare className="w-4 h-4 text-purple-600" />
-              {brandResponses.length}
+              {realStats.count}
             </div>
-            <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wide">Responses</div>
+            <div className="text-[10px] font-bold text-purple-700 uppercase tracking-wide">
+              {realStats.count === 1 ? 'Response' : 'Responses'}
+            </div>
           </div>
 
           {brandCampaign && (
@@ -277,7 +220,7 @@ export const BrandDetail: React.FC = () => {
           }`}
         >
           <MessageSquare className="w-4 h-4" />
-          <span>Verified Survey Responses ({brandResponses.length})</span>
+          <span>Survey Responses ({realStats.count})</span>
         </button>
         {hasBrandArticle(brand.id) && (
           <Link
@@ -319,49 +262,81 @@ export const BrandDetail: React.FC = () => {
             </div>
           )}
 
-          {/* Genuine Empirical Survey Research: Rendered ONLY when calculated from real records */}
+          {/* Genuine Survey Research: Rendered ONLY when calculated from approved production records */}
           {realStats.hasData ? (
             <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-wider">
-                      Empirical Study
+                      Consumer Research
                     </span>
                     <span className="text-xs text-slate-500 font-medium">
-                      Live Panel Records
+                      Quality-Audited Panel Submissions
                     </span>
                   </div>
                   <h3 className="text-xl font-black text-slate-900">
-                    {brand.name} Empirical Consumer Benchmark Audit
+                    {brand.name} Consumer Feedback &amp; Evaluation Overview
                   </h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    Calculated from {realStats.count} real verified response{realStats.count === 1 ? '' : 's'}
+                    Calculated from {realStats.count} approved survey response{realStats.count === 1 ? '' : 's'}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  {realStats.avgRating && (
+                  {realStats.avgRating ? (
                     <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                       <div className="text-xs font-bold text-slate-500">Average Rating</div>
                       <div className="text-base font-black text-amber-500">{realStats.avgRating} ★</div>
                     </div>
+                  ) : (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">Average Rating</div>
+                      <div className="text-xs font-semibold text-slate-400">Not enough data</div>
+                    </div>
                   )}
-                  {realStats.csat !== null && (
+                  {realStats.csat !== null ? (
                     <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                       <div className="text-xs font-bold text-slate-500">CSAT Score</div>
                       <div className="text-base font-black text-emerald-600">{realStats.csat}%</div>
                     </div>
+                  ) : (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">CSAT Score</div>
+                      <div className="text-xs font-semibold text-slate-400">Not enough data</div>
+                    </div>
                   )}
-                  {realStats.nps !== null && (
+                  {realStats.nps !== null ? (
                     <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
                       <div className="text-xs font-bold text-slate-500">NPS Rating</div>
                       <div className="text-base font-black text-purple-600">
                         {realStats.nps > 0 ? '+' : ''}{realStats.nps}
                       </div>
                     </div>
+                  ) : (
+                    <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                      <div className="text-xs font-bold text-slate-500">NPS Rating</div>
+                      <div className="text-xs font-semibold text-slate-400">Not enough data</div>
+                    </div>
                   )}
                 </div>
+              </div>
+
+              {/* Research Methodology & Fieldwork Disclosures */}
+              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-2">
+                <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-purple-600" />
+                  <span>Research Methodology &amp; Fieldwork Disclosures</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 text-[11px]">
+                  <div><strong className="text-slate-700">Sample Size:</strong> {realStats.disclosures.sampleSize} approved responses</div>
+                  <div><strong className="text-slate-700">Recruitment:</strong> {realStats.disclosures.recruitmentMethod}</div>
+                  <div><strong className="text-slate-700">Participant Incentive:</strong> {realStats.disclosures.incentiveDescription}</div>
+                  <div><strong className="text-slate-700">Quality Checks:</strong> {realStats.disclosures.screeningMethod}</div>
+                </div>
+                <p className="text-[11px] text-slate-500 pt-1 border-t border-slate-200">
+                  <strong className="text-slate-600">Limitations:</strong> {realStats.disclosures.limitations}
+                </p>
               </div>
             </div>
           ) : (
@@ -372,10 +347,10 @@ export const BrandDetail: React.FC = () => {
                 </span>
               </div>
               <h3 className="text-xl font-black text-slate-900">
-                {brand.name} Verified Panel Evaluation
+                {brand.name} Panel Evaluation
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
-                We display response counts and ratings only when calculated from real records. No verified survey responses have been submitted for {brand.name} yet. Complete our conversational study to record the first evaluation and earn coin honorariums!
+                We display response counts and ratings only when supported by genuine approved production records. Not enough data has been recorded for {brand.name} yet. Complete our conversational study to record the first evaluation and earn coin honorariums!
               </p>
               {brandCampaign && (
                 <div className="pt-2">

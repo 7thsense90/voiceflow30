@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { RAW_100_BRANDS, BrandMeta } from '../data/brandsData';
+import { calculateBrandResearchMetrics } from '../utils/brandMetrics';
 import { getPublishedBrandArticles, getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
 import { AdSenseAd } from './AdSenseAd';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
@@ -36,7 +37,7 @@ import { getUniqueBrandInsight, getUniqueBrandSentiment } from '../data/brandUni
 import { getBrandBenchmarkMetric } from '../data/brandBenchmarks';
 
 export const BrandInsights: React.FC = () => {
-  const { brands, responses, setCurrentView } = useApp();
+  const { brands, campaigns, responses, setCurrentView } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'rating' | 'feedback' | 'name'>('rating');
@@ -75,36 +76,15 @@ export const BrandInsights: React.FC = () => {
         keyProduct,
       };
 
-      const brandResponses = responses.filter(
-        (r) => r.brandId === brand.id
-      );
-
-      // Compute star rating from rating questions
-      let totalStars = 0;
-      let starsCount = 0;
-      const qualitativeQuotes: string[] = [];
-
-      brandResponses.forEach((r) => {
-        r.answers.forEach((ans) => {
-          if (typeof ans.answer === 'number' && ans.answer <= 5 && ans.answer >= 1 && ans.questionId.endsWith('_1')) {
-            totalStars += ans.answer;
-            starsCount++;
-          }
-          if (typeof ans.answer === 'string' && ans.answer.length > 20) {
-            qualitativeQuotes.push(ans.answer);
-          }
-        });
-      });
-
-      // Calculate authentic metrics strictly from real records
-      const avgStar = starsCount > 0 ? (totalStars / starsCount).toFixed(1) : null;
-      const realResponseCount = brandResponses.length;
+      const metrics = calculateBrandResearchMetrics(brand.id, responses, campaigns);
+      const avgStar = metrics.avgRating;
+      const realResponseCount = metrics.responseCount;
       const topInsight = getUniqueBrandInsight(
         brand.id,
         brand.name,
         keyProduct,
         sector,
-        qualitativeQuotes
+        metrics.qualitativeQuotes
       );
       const keySentiment = getUniqueBrandSentiment(brand.id, sector);
 
@@ -150,7 +130,7 @@ export const BrandInsights: React.FC = () => {
         categoryBucket,
       };
     });
-  }, [brands, responses]);
+  }, [brands, campaigns, responses]);
 
   const categories = useMemo(() => {
     const counts: Record<string, number> = {};

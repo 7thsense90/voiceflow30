@@ -210,12 +210,12 @@ const FAQ_ITEMS: FAQItem[] = [
     question: 'Who is eligible to participate in surveys on Voice Flow 360?',
     shortAnswer: 'Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction.',
     detailedAnswer: [
-      'To participate in Voice Flow 360 research studies and earn rewards, you must be at least 18 years of age and meet the applicable age-of-majority requirement in your jurisdiction.',
+      'Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction to participate in Voice Flow 360 research studies and earn rewards.',
       'Participants must have an active email address and an internet-connected device. Membership is 100% free with no subscription or entry fees.',
       'Eligible participants must provide genuine, attentive personal feedback based on actual consumer experience. Operating multiple accounts, using automated scripts, or submitting fraudulent data will disqualify responses and forfeit accrued rewards.',
     ],
     keyTakeaways: [
-      'Must be at least 18 years old and meet applicable age of majority',
+      'Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction',
       'Valid internet connection and email address required',
       '100% free participation — zero entry or registration fees',
     ],

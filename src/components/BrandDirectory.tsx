@@ -23,10 +23,11 @@ import {
   Info,
 } from 'lucide-react';
 import { RAW_100_BRANDS } from '../data/brandsData';
+import { calculateBrandResearchMetrics } from '../utils/brandMetrics';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
 import { getUniqueBrandSentiment, BRAND_UNIQUE_INSIGHTS_MAP } from '../data/brandUniqueInsights';
 import { getBrandBenchmarkMetric } from '../data/brandBenchmarks';
-import { getBrandStudyPath } from '../data/brandArticles';
+import { getBrandStudyPath, getBrandArticle } from '../data/brandArticles';
 
 export const BrandDirectory: React.FC = () => {
   const { brands, campaigns, responses } = useApp();
@@ -47,23 +48,9 @@ export const BrandDirectory: React.FC = () => {
     return brands.map((brand) => {
       const rawMeta = RAW_100_BRANDS.find((b) => b.id === brand.id);
       const brandCampaign = campaigns.find((c) => c.brandId === brand.id);
-      const brandResponses = responses.filter(
-        (r) => (r.brandId === brand.id || (brandCampaign && r.campaignId === brandCampaign.id)) && !r.isHidden
-      );
-
-      let totalRating = 0;
-      let ratingCount = 0;
-      brandResponses.forEach((r) => {
-        r.answers.forEach((ans) => {
-          if (typeof ans.answer === 'number' && ans.answer <= 5 && ans.answer >= 1 && ans.questionId.endsWith('_1')) {
-            totalRating += ans.answer;
-            ratingCount++;
-          }
-        });
-      });
+      const metrics = calculateBrandResearchMetrics(brand.id, responses, campaigns);
 
       const sec = rawMeta?.sector || brand.category;
-      const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : null;
       const keySentiment = getUniqueBrandSentiment(brand.id, sec);
       const uniqueInsight = BRAND_UNIQUE_INSIGHTS_MAP[brand.id];
       const studyUrl = getBrandStudyPath(brand.id);
@@ -72,10 +59,13 @@ export const BrandDirectory: React.FC = () => {
         brand,
         rawMeta,
         brandCampaign,
-        responsesCount: brandResponses.length,
+        responsesCount: metrics.responseCount,
+        hasEnoughData: metrics.hasEnoughData,
         keySentiment,
-        avgRating,
-        numericRating: avgRating ? parseFloat(avgRating) : 0,
+        avgRating: metrics.avgRating,
+        numericRating: metrics.numericRating,
+        csatScore: metrics.csat,
+        npsScore: metrics.nps,
         studyUrl,
         leadQuote: uniqueInsight?.insightQuote || brand.description,
         keyDrivers: uniqueInsight?.satisfactionDrivers || [],
@@ -117,6 +107,13 @@ export const BrandDirectory: React.FC = () => {
   // Featured lead article for editorial magazine presentation
   const heroArticle = filtered.length > 0 ? filtered[0] : null;
   const gridArticles = filtered.length > 1 ? filtered.slice(1) : filtered;
+  const heroStudyArticle = useMemo(() => {
+    return heroArticle ? getBrandArticle(heroArticle.brand.id) : null;
+  }, [heroArticle]);
+  const heroReadTime = useMemo(() => {
+    if (!heroStudyArticle) return 5;
+    return heroStudyArticle.readingTimeMinutes || Math.max(3, Math.ceil((heroStudyArticle.wordCount || 1000) / 200));
+  }, [heroStudyArticle]);
 
   // Pagination for brand publications
   const [currentPage, setCurrentPage] = useState(1);
@@ -137,7 +134,7 @@ export const BrandDirectory: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10 animate-fadeIn">
       <SEOHead
         title="Brand Intelligence & Consumer Research Directory | Voice Flow 360"
-        description="Comprehensive empirical research publications and verified consumer evaluation benchmarks across 100 enterprise and consumer brands."
+        description="Comprehensive market research publications and consumer evaluation benchmarks across 100 enterprise and consumer brands."
         keywords={[
           'brand intelligence directory',
           'consumer research studies',
@@ -165,7 +162,7 @@ export const BrandDirectory: React.FC = () => {
             <span className="text-slate-300">•</span>
             <span className="inline-flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-slate-400" />
-              <span>100 Cataloged Brands Covered</span>
+              <span>{brands.length} Cataloged Brands Covered</span>
             </span>
           </div>
         </div>
@@ -175,7 +172,7 @@ export const BrandDirectory: React.FC = () => {
             Brand Intelligence &amp; Consumer Insights Directory
           </h1>
           <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
-            Independent empirical research articles, objective survey evaluations, and strategic market analyses evaluating customer retention, reliability, and satisfaction drivers across 100 global brands.
+            Independent empirical research articles, objective survey evaluations, and strategic market analyses evaluating customer retention, reliability, and satisfaction drivers across {brands.length} global brands.
           </p>
         </div>
 
@@ -274,7 +271,7 @@ export const BrandDirectory: React.FC = () => {
             }}
             className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
           >
-            Show All 100 Brand Studies
+            Show All {brands.length} Brand Studies
           </button>
         </div>
       ) : (
@@ -314,7 +311,7 @@ export const BrandDirectory: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-3 pt-3 border-t border-white/10">
-                      {heroArticle.responsesCount > 0 ? (
+                      {heroArticle.hasEnoughData && heroArticle.avgRating ? (
                         <>
                           <div className="flex items-center gap-1.5 text-amber-400 font-black text-sm">
                             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
@@ -322,12 +319,14 @@ export const BrandDirectory: React.FC = () => {
                           </div>
                           <span className="text-white/30">•</span>
                           <span className="text-xs text-slate-300 font-medium">
-                            {heroArticle.responsesCount} Verified {heroArticle.responsesCount === 1 ? 'Response' : 'Responses'}
+                            {heroArticle.responsesCount} Survey {heroArticle.responsesCount === 1 ? 'Response' : 'Responses'}
                           </span>
                         </>
                       ) : (
                         <span className="text-xs text-purple-300 font-semibold">
-                          Active Survey • Open for Panelists
+                          {heroArticle.responsesCount > 0
+                            ? `${heroArticle.responsesCount} Survey ${heroArticle.responsesCount === 1 ? 'Response' : 'Responses'} • Not enough data for rating`
+                            : 'Active Survey • Open for Panelists'}
                         </span>
                       )}
                     </div>
@@ -346,18 +345,22 @@ export const BrandDirectory: React.FC = () => {
                     <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
                       <span className="inline-flex items-center gap-1 font-semibold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-md border border-purple-100">
                         <FileText className="w-3.5 h-3.5" />
-                        <span>1,200+ Word Empirical Analysis</span>
+                        <span>Editorial Market Analysis</span>
                       </span>
                       <span>•</span>
                       <span className="inline-flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>5 min read</span>
+                        <span>{heroReadTime} min read</span>
                       </span>
-                      <span>•</span>
-                      <span className="inline-flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>{heroArticle.csatScore}% CSAT Benchmark</span>
-                      </span>
+                      {heroArticle.csatScore !== null && (
+                        <>
+                          <span>•</span>
+                          <span className="inline-flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>{heroArticle.csatScore}% CSAT Score</span>
+                          </span>
+                        </>
+                      )}
                     </div>
 
                     <Link to={heroArticle.studyUrl} className="group/title block">
@@ -432,7 +435,7 @@ export const BrandDirectory: React.FC = () => {
                           </div>
                         ) : (
                           <span className="text-[11px] font-semibold text-slate-400">
-                            Survey Open
+                            {responsesCount > 0 ? 'Not enough data' : 'Survey Open'}
                           </span>
                         )}
                       </div>
@@ -478,23 +481,23 @@ export const BrandDirectory: React.FC = () => {
                         {leadQuote}
                       </p>
 
-                      {/* Research Metrics Row: Calculated from Real Records Only */}
+                      {/* Research Metrics Row: Calculated from Approved Production Records */}
                       <div className="pt-2 flex items-center justify-between text-[11px] text-slate-500 font-medium border-t border-slate-100">
                         {responsesCount > 0 ? (
                           <>
                             <span className="inline-flex items-center gap-1 text-purple-700 font-semibold">
                               <Users className="w-3 h-3 text-purple-600" />
-                              <span>{responsesCount} Verified {responsesCount === 1 ? 'Response' : 'Responses'}</span>
+                              <span>{responsesCount} Survey {responsesCount === 1 ? 'Response' : 'Responses'}</span>
                             </span>
                             <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
                               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                              <span>Live Panel Audit</span>
+                              <span>Automated Quality Screened</span>
                             </span>
                           </>
                         ) : (
                           <>
                             <span className="inline-flex items-center gap-1 text-slate-400">
-                              <span>Survey Active</span>
+                              <span>Not enough data</span>
                             </span>
                             <span className="inline-flex items-center gap-1 text-purple-600 font-semibold">
                               <span>Open for Evaluations</span>
@@ -517,7 +520,7 @@ export const BrandDirectory: React.FC = () => {
                         to={studyUrl}
                         className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 hover:text-purple-900 transition-colors group/link"
                       >
-                        <span>Editorial Analysis</span>
+                        <span>Read Analysis</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
                       </Link>
                     </div>
@@ -541,7 +544,7 @@ export const BrandDirectory: React.FC = () => {
                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
-              itemName="brand publications"
+              itemName="Articles"
               className="mt-8"
             />
           )}

@@ -17,7 +17,6 @@ Allow: /for-brands
 Allow: /start-earning
 Allow: /surveys
 Allow: /quizzes
-Allow: /my-earnings
 Allow: /brands
 Allow: /brands/*
 Allow: /brand-insights
@@ -37,7 +36,7 @@ Allow: /sitemap-directory
 Allow: /sitemap.xml
 Allow: /sitemap
 
-# Restrict private member, auth, and admin consoles
+# Restrict private member, wallet, auth, and admin consoles
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /api/
@@ -45,6 +44,8 @@ Disallow: /profile
 Disallow: /login
 Disallow: /register
 Disallow: /wallet
+Disallow: /my-earnings
+Disallow: /dashboard
 
 # XML Sitemap Location
 Sitemap: https://voiceflow360.com/sitemap.xml

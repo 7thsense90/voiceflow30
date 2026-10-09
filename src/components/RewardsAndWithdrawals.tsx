@@ -159,7 +159,7 @@ export const RewardsAndWithdrawals: React.FC = () => {
             <ul className="space-y-3 text-xs text-slate-600">
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
-                <span><strong>Age Requirement:</strong> You must be at least 18 years of age (or the legal age of majority in your jurisdiction) to participate.</span>
+                <span><strong>Age Requirement:</strong> Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />

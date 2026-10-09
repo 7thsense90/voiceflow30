@@ -431,8 +431,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     .
                   </label>
                 </div>
-                <p className="text-[10px] text-slate-400 pl-6 leading-relaxed">
-                  Study availability and compensation vary based on eligibility criteria. No reward is guaranteed without accepted responses.
+                <p className="text-[10px] text-slate-500 pl-6 leading-relaxed font-medium">
+                  Participants must be at least 18 years old and meet the applicable age-of-majority requirement in their jurisdiction. Study availability and compensation vary based on eligibility criteria. No reward is guaranteed without accepted responses.
                 </p>
               </div>
             </>

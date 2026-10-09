@@ -469,7 +469,6 @@ Allow: /for-brands
 Allow: /start-earning
 Allow: /surveys
 Allow: /quizzes
-Allow: /my-earnings
 Allow: /brands
 Allow: /brands/*
 Allow: /brand-insights
@@ -491,8 +490,16 @@ Allow: /sitemap-directory
 Allow: /sitemap.xml
 Allow: /sitemap
 
+# Restrict private member, wallet, auth, and admin consoles
 Disallow: /admin
+Disallow: /admin/*
 Disallow: /api/
+Disallow: /my-earnings
+Disallow: /wallet
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /login
+Disallow: /register
 
 Sitemap: https://voiceflow360.com/sitemap.xml
 `;
@@ -526,7 +533,6 @@ Sitemap: https://voiceflow360.com/sitemap.xml
       { path: '/for-brands', priority: '0.9', changefreq: 'weekly' },
       { path: '/surveys', priority: '0.9', changefreq: 'hourly' },
       { path: '/quizzes', priority: '0.85', changefreq: 'daily' },
-      { path: '/my-earnings', priority: '0.8', changefreq: 'daily' },
       { path: '/brands', priority: '0.85', changefreq: 'daily' },
       { path: '/brand-insights', priority: '0.85', changefreq: 'daily' },
       { path: '/news', priority: '0.75', changefreq: 'weekly' },

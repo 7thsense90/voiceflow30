@@ -25,19 +25,19 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   // Sony Audio & Cameras / Electronics
   br_sony_electronics: {
     productSpecs: {
-      label: 'Sony WF-1000XM6 Official Product Specifications',
-      url: 'https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm6-b',
-      note: 'Official Sony specifications: HD Noise Cancelling Processor QN3e, 4 microphones per earbud, 8.4mm driver, LDAC, IPX4, $329.99 MSRP',
+      label: 'Sony WF-1000XM5 Official Product Specifications',
+      url: 'https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm5-b',
+      note: 'Official Sony specifications: HD Noise Cancelling Processor QN2e, Integrated Processor V2, Dynamic Driver X, LDAC, IPX4, $299.99 MSRP (Current flagship in-ear model)',
     },
     announcementOrFilings: {
-      label: 'Sony Electronics Official WF-1000XM6 Press Launch Announcement',
-      url: 'https://presscentre.sony.eu/pressreleases/for-the-silence-for-the-music-sony-introduces-the-wf-1000xm6-truly-wireless-noise-cancelling-headphones',
-      note: 'Sony official press release (February 12, 2026) introducing WF-1000XM6 truly wireless noise-cancelling earbuds ($329.99 MSRP)',
+      label: 'Sony Official WF-1000XM5 Launch Press Announcement',
+      url: 'https://presscentre.sony.eu/pressreleases/for-the-silence-for-the-music-sony-introduces-the-wf-1000xm5-truly-wireless-noise-cancelling-headphones-3265743',
+      note: 'Sony official press release introducing flagship WF-1000XM5 truly wireless noise-cancelling headphones',
     },
     verifiedReviews: {
-      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM6)',
-      url: 'https://www.rtings.com/headphones/reviews/sony/wf-1000xm6-truly-wireless',
-      note: 'Objective active noise isolation attenuation, frequency response consistency, LDAC throughput, and battery benchmarks',
+      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM5)',
+      url: 'https://www.rtings.com/headphones/reviews/sony/wf-1000xm5-truly-wireless',
+      note: 'Lab measurements for active noise cancellation, isolation attenuation, frequency response consistency, and wireless battery runtime',
     },
   },
   br_sonyaudio: {
@@ -132,19 +132,19 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   // Apple
   br_apple: {
     productSpecs: {
-      label: 'Apple Watch Series 12 & Apple Watch Ultra 4 Official Technical Specifications',
-      url: 'https://www.apple.com/apple-watch-series-12/specs/',
-      note: 'Apple S11 SiP, Health Sensing System, Ceramic Shield 2, 24h / 50h battery runtimes, WR50 / WR100 water resistance ($399 / $799 MSRP)',
+      label: 'Apple Watch Series 10 & Apple Watch Ultra 2 Official Technical Specifications',
+      url: 'https://www.apple.com/apple-watch-series-10/',
+      note: 'Apple S10 SiP, wide-angle OLED display, sleep apnea notifications, Titanium & Aluminum cases, WR50 / WR100 water resistance ($399 / $799 MSRP)',
     },
     announcementOrFilings: {
-      label: 'Apple Inc. Official Press Launch Announcement (Series 12 & Ultra 4)',
-      url: 'https://www.apple.com/newsroom/2026/09/apple-introduces-apple-watch-series-12-and-apple-watch-ultra-4/',
-      note: 'Official debut announcement (September 9, 2026) introducing Apple Watch Series 12 and Ultra 4, watchOS 27, and Apple Intelligence features',
+      label: 'Apple Inc. Official Press Launch Announcement (Series 10 & Ultra 2)',
+      url: 'https://www.apple.com/newsroom/2024/09/apple-introduces-apple-watch-series-10/',
+      note: 'Official debut announcement introducing Apple Watch Series 10, wide-angle OLED display, and Apple Watch Ultra 2 in black titanium',
     },
     verifiedReviews: {
-      label: 'The Verge Comprehensive Hardware Review (Apple Watch Series 12 & Ultra 4)',
-      url: 'https://www.theverge.com/reviews/apple-watch-series-12-ultra-4-review',
-      note: 'Independent wearable battery endurance benchmarks, optical heart rate sensor testing vs. chest strap ECG, and titanium casing evaluations',
+      label: 'The Verge Comprehensive Hardware Review (Apple Watch Series 10)',
+      url: 'https://www.theverge.com/24251296/apple-watch-series-10-review',
+      note: 'Independent wearable battery endurance benchmarks, display viewing angle tests, and sleep apnea detection evaluations',
     },
   },
   // Samsung
