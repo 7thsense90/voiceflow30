@@ -4,6 +4,7 @@ import { hasAdvertisingConsent, CONSENT_EVENT_NAME } from '../utils/cookieConsen
 
 interface AdSenseAdProps {
   slot?: string;
+  client?: string;
   format?: 'auto' | 'fluid' | 'rectangle' | 'horizontal';
   responsive?: boolean;
   className?: string;
@@ -13,6 +14,7 @@ interface AdSenseAdProps {
 
 export const AdSenseAd: React.FC<AdSenseAdProps> = ({
   slot,
+  client = 'ca-pub-9382580390401269',
   format = 'auto',
   responsive = true,
   className = '',
@@ -74,7 +76,7 @@ export const AdSenseAd: React.FC<AdSenseAdProps> = ({
       <ins
         className="adsbygoogle block w-full text-center"
         style={{ display: 'block' }}
-        data-ad-client="ca-pub-2513423020167554"
+        data-ad-client={client || "ca-pub-9382580390401269"}
         data-ad-slot={slot || '9876543210'}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}

@@ -29,7 +29,7 @@ export const INITIAL_SETTINGS: PlatformSettings = {
   botPenaltyCutoffPercent: 60, // 60% penalty deduction for bot and mock responses
   qualityAuditEnabled: true,
   adsenseEnabled: true,
-  adClientPubId: 'ca-pub-2513423020167554',
+  adClientPubId: 'ca-pub-9382580390401269',
   enableStickyAnchorAd: true,
   enableDirectoryBannerAd: true,
   enableArticleInContentAd: true,

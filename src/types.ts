@@ -203,7 +203,7 @@ export interface PlatformSettings {
   qualityAuditEnabled: boolean;
   // Google AdSense Global Optimization & Placement Switches
   adsenseEnabled?: boolean; // Global master killswitch for AdSense ads
-  adClientPubId?: string; // Publisher ID, default "ca-pub-2513423020167554"
+  adClientPubId?: string; // Publisher ID, default "ca-pub-9382580390401269"
   enableStickyAnchorAd?: boolean; // Bottom sticky anchor ad banner on mobile/desktop
   enableDirectoryBannerAd?: boolean; // Brand Directory leaderboard unit
   enableArticleInContentAd?: boolean; // In-depth Brand Research study articles in-content ad

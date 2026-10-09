@@ -442,7 +442,7 @@ async function startServer() {
   });
 
   // Google AdSense Authorized Digital Sellers (ads.txt)
-  const adsTxtContent = "google.com, pub-2513423020167554, DIRECT, f08c47fec0942fa0\ngoogle.com, pub-9382580390401269, DIRECT, f08c47fec0942fa0\n";
+  const adsTxtContent = "google.com, pub-9382580390401269, DIRECT, f08c47fec0942fa0\n";
   app.all(["/ads.txt", "/ads.txt/", "/app-ads.txt"], (_req, res) => {
     res.header("Content-Type", "text/plain; charset=utf-8");
     res.header("Cache-Control", "public, max-age=86400");

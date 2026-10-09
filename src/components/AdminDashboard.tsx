@@ -420,7 +420,11 @@ export const AdminDashboard: React.FC = () => {
 
   // AdSense Optimization switches
   const [adsenseEnabledInput, setAdsenseEnabledInput] = useState(settings.adsenseEnabled !== false);
-  const [adClientPubIdInput, setAdClientPubIdInput] = useState(settings.adClientPubId || 'ca-pub-2513423020167554');
+  const [adClientPubIdInput, setAdClientPubIdInput] = useState(
+    (settings.adClientPubId && settings.adClientPubId !== 'ca-pub-2513423020167554')
+      ? settings.adClientPubId
+      : 'ca-pub-9382580390401269'
+  );
   const [enableStickyAnchorInput, setEnableStickyAnchorInput] = useState(settings.enableStickyAnchorAd !== false);
   const [enableDirectoryBannerInput, setEnableDirectoryBannerInput] = useState(settings.enableDirectoryBannerAd !== false);
   const [enableArticleInContentInput, setEnableArticleInContentInput] = useState(settings.enableArticleInContentAd !== false);
@@ -2989,7 +2993,7 @@ export const AdminDashboard: React.FC = () => {
                     type="text"
                     value={adClientPubIdInput}
                     onChange={(e) => setAdClientPubIdInput(e.target.value.trim())}
-                    placeholder="ca-pub-2513423020167554"
+                    placeholder="ca-pub-9382580390401269"
                     className="w-full px-3.5 py-2 text-xs font-mono font-bold bg-white border border-indigo-300 rounded-xl focus:outline-none"
                   />
                   <span className="text-[10px] text-slate-500">
