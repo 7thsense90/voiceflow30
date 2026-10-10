@@ -226,12 +226,13 @@ export const sonyElectronicsArticle: BrandSEOArticle = {
   brandId: 'br_sony_electronics',
   brandName: 'Sony Audio & Cameras',
   slug: 'sony-wh1000xm-alpha-cameras-consumer-research-study',
-  metaTitle: 'Sony Audio & Cameras Consumer Sentiment, Alpha & XM Series Study (2026)',
+  metaTitle: 'Sony Audio & Cameras Consumer Sentiment, Alpha & 1000X Series Study (2026)',
   metaDescription: 'In-depth 2026 market intelligence report on Sony Electronics. Explore user satisfaction across WF-1000XM5 earbuds, WH-1000XM5 headphones, Alpha mirrorless cameras, G-Master glass, and SWOT analysis.',
   targetKeywords: [
     'Sony Electronics consumer sentiment 2026',
     'Sony WF-1000XM5 customer satisfaction and specifications',
     'Sony WH-1000XM5 customer satisfaction',
+    'Sony 1000X series acoustic benchmarks',
     'Sony Alpha 7 IV mirrorless camera rating',
     'Sony LDAC high-resolution audio review',
     'Sony G-Master lenses professional demographics',
@@ -423,8 +424,9 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
   - Sony's current over-ear flagship continues to be the WH-1000XM5, featuring an Auto NC Optimizer with 8 microphones, 30mm carbon fiber composite drivers, dual processors (V1/QN1), and 30 hours of battery runtime.
   - *Direct Verified Sources:* [Sony WH-1000XM5 Official Specifications](https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm5-b) and [RTINGS Objective Lab Review (WH-1000XM5)](https://www.rtings.com/headphones/reviews/sony/wh-1000xm5-wireless).
 
-- **Verified Flagship Production Scope:**
+- **Model Alignment & Verification Scope: WH-1000XM5 & WF-1000XM5:**
   - Sony's verified production audio flagships across 2024–2026 are the **WF-1000XM5** (in-ear) and **WH-1000XM5** (over-ear). All acoustic benchmarks, technical specifications, and user sentiment evaluations in this study reflect shipping commercial hardware verified against Sony technical documentation and independent laboratory acoustic measurements.
+  - All claims in this study are strictly calibrated to match the cited models and verified RTINGS acoustic measurements; prospective claims regarding future unannounced revisions (such as an XM6 generation) are excluded to ensure complete factual concordance with official specifications.
 
 ---
 

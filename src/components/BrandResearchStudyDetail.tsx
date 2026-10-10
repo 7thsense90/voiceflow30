@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { getBrandSourceLinks } from '../utils/brandSources';
+import { INITIAL_RESEARCH_ARTICLES } from '../data/initialResearchArticles';
 import { AdSenseAd } from './AdSenseAd';
 import { SEOHead } from './SEOHead';
 import {
@@ -45,8 +46,14 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
   // Find the target article
   const rawArticle = useMemo(() => {
     if (!activeSlug) return null;
-    return researchArticles.find(
-      (a) => a.slug.toLowerCase() === activeSlug.toLowerCase()
+    const direct = researchArticles.find(
+      (a) => a.slug.toLowerCase() === activeSlug.toLowerCase() || a.id.toLowerCase() === activeSlug.toLowerCase()
+    );
+    if (direct) return direct;
+    return (
+      INITIAL_RESEARCH_ARTICLES.find(
+        (a) => a.slug.toLowerCase() === activeSlug.toLowerCase() || a.id.toLowerCase() === activeSlug.toLowerCase()
+      ) || null
     );
   }, [researchArticles, activeSlug]);
 

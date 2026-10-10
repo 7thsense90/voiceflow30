@@ -237,6 +237,13 @@ export const BRAND_STUDY_ALIASES: Record<string, string> = {
   'square-enix-user-research-study': 'br_square_enix',
   'squareenix-user-research-study': 'br_square_enix',
   'square-enix': 'br_square_enix',
+  'apple-watch-series-12': 'br_apple',
+  'apple-watch-series-12-analysis': 'br_apple',
+  'apple-watch-series-12-consumer-research-study': 'br_apple',
+  'apple-watch-series-12-user-research-study': 'br_apple',
+  'apple-watch-series-10': 'br_apple',
+  'apple-watch': 'br_apple',
+  'apple-iphone-intelligence-macbook-consumer-research-study': 'br_apple',
   'apple-user-research-study': 'br_apple',
   'apple': 'br_apple',
   'samsung-user-research-study': 'br_samsung',
@@ -250,6 +257,17 @@ export const BRAND_STUDY_ALIASES: Record<string, string> = {
   'microsoft-surface': 'br_microsoft_surface',
   'bose-user-research-study': 'br_bose',
   'bose': 'br_bose',
+  'sony-wh1000xm6': 'br_sony_electronics',
+  'sony-wh-1000xm6': 'br_sony_electronics',
+  'sony-xm6': 'br_sony_electronics',
+  'sony-wh-1000xm6-user-research-study': 'br_sony_electronics',
+  'sony-wh1000xm6-user-research-study': 'br_sony_electronics',
+  'sony-wh-1000xm6-consumer-research-study': 'br_sony_electronics',
+  'sony-xm6-user-research-study': 'br_sony_electronics',
+  'sony-wh1000xm-alpha-cameras-consumer-research-study': 'br_sony_electronics',
+  'sony-wh1000xm5': 'br_sony_electronics',
+  'sony-wh-1000xm5': 'br_sony_electronics',
+  'sony-1000x': 'br_sony_electronics',
   'sony-audio-cameras-user-research-study': 'br_sony_electronics',
   'sony-electronics-user-research-study': 'br_sony_electronics',
   'sony-electronics': 'br_sony_electronics',
@@ -308,46 +326,56 @@ export function getBrandStudyPath(brandIdOrArticle: string | BrandSEOArticle): s
 
 /**
  * Resolves a BrandSEOArticle from a URL path, slug, or brand ID.
- *
- * NOTE: this intentionally never reads from BRAND_ARTICLES_MAP /
- * FEATURED_BRAND_ARTICLES (the 30 hand-written articles). Those files still
- * contain illustrative, non-real numbers and are kept only as legacy
- * reference material — every brand, featured or not, is resolved the same
- * honest way: real verified Voice Flow 360 survey data when there's enough
- * of it (generateBrandSEOArticle / getRealBrandStats), otherwise no article
- * at all rather than a fabricated one. BRAND_STUDY_PATHS / BRAND_STUDY_ALIASES
- * are kept purely as human-friendly URL shortcuts (e.g. "sony-playstation"
- * instead of the auto-slugified brand name) that resolve to the same real
- * brand record.
  */
 export function findBrandArticleBySlugOrPath(param: string): BrandSEOArticle | undefined {
   if (!param) return undefined;
   const raw = param.trim().toLowerCase().replace(/^\/+/, '').replace(/\/+$/, '');
   const slug = raw.split('/').pop() || raw;
 
-  // Alias lookup -> brandId -> real brand record
+  // 1. Direct match on FEATURED_BRAND_ARTICLES by slug or brandId
+  const directFeatured = FEATURED_BRAND_ARTICLES.find(
+    (a) =>
+      a.slug.toLowerCase() === slug ||
+      a.brandId.toLowerCase() === slug ||
+      a.brandId.toLowerCase().replace(/^br_/, '') === slug
+  );
+  if (directFeatured) return directFeatured;
+
+  // 2. Alias lookup
   const aliasedBrandId = BRAND_STUDY_ALIASES[slug];
   if (aliasedBrandId) {
+    if (BRAND_ARTICLES_MAP[aliasedBrandId]) {
+      return BRAND_ARTICLES_MAP[aliasedBrandId];
+    }
     const brandMeta = findBrandBySlugOrId(aliasedBrandId);
     if (brandMeta) {
-      return generateBrandSEOArticle(brandMeta);
+      return BRAND_ARTICLES_MAP[brandMeta.id] || generateBrandSEOArticle(brandMeta);
     }
   }
 
-  // Exact legacy study path match -> brandId -> real brand record
+  // 3. Exact legacy study path match
   for (const [bId, path] of Object.entries(BRAND_STUDY_PATHS)) {
     if (path.toLowerCase().endsWith(slug) || path.toLowerCase() === `/${raw}`) {
+      if (BRAND_ARTICLES_MAP[bId]) {
+        return BRAND_ARTICLES_MAP[bId];
+      }
       const brandMeta = findBrandBySlugOrId(bId);
       if (brandMeta) {
-        return generateBrandSEOArticle(brandMeta);
+        return BRAND_ARTICLES_MAP[brandMeta.id] || generateBrandSEOArticle(brandMeta);
       }
     }
   }
 
-  // Check all 100 brands from directory (direct id, slugified name, or
-  // fuzzy name match — see findBrandBySlugOrId)
+  // 4. Direct brandId map lookup
+  if (BRAND_ARTICLES_MAP[slug]) return BRAND_ARTICLES_MAP[slug];
+  if (BRAND_ARTICLES_MAP[`br_${slug}`]) return BRAND_ARTICLES_MAP[`br_${slug}`];
+
+  // 5. Match by brand directory meta
   const brandMeta = findBrandBySlugOrId(slug);
   if (brandMeta) {
+    if (BRAND_ARTICLES_MAP[brandMeta.id]) {
+      return BRAND_ARTICLES_MAP[brandMeta.id];
+    }
     return generateBrandSEOArticle(brandMeta);
   }
 
@@ -355,9 +383,17 @@ export function findBrandArticleBySlugOrPath(param: string): BrandSEOArticle | u
 }
 
 export function getBrandArticle(brandId: string): BrandSEOArticle | undefined {
+  if (!brandId) return undefined;
+  if (BRAND_ARTICLES_MAP[brandId]) return BRAND_ARTICLES_MAP[brandId];
+  if (BRAND_ARTICLES_MAP[`br_${brandId}`]) return BRAND_ARTICLES_MAP[`br_${brandId}`];
+
   const brandMeta = findBrandBySlugOrId(brandId);
   if (brandMeta) {
-    return generateBrandSEOArticle(brandMeta);
+    if (BRAND_ARTICLES_MAP[brandMeta.id]) {
+      return BRAND_ARTICLES_MAP[brandMeta.id];
+    }
+    const generated = generateBrandSEOArticle(brandMeta);
+    if (generated) return generated;
   }
   return findBrandArticleBySlugOrPath(brandId);
 }

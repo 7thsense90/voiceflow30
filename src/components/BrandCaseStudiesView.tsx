@@ -4,10 +4,12 @@ import { SEOHead } from './SEOHead';
 import { Link } from './Link';
 import { Pagination } from './Pagination';
 import {
+  FEATURED_BRAND_ARTICLES,
   getPublishedBrandArticles,
   getBrandArticle,
   hasBrandArticle,
   getBrandStudyPath,
+  findBrandArticleBySlugOrPath,
   BrandSEOArticle,
 } from '../data/brandArticles';
 import { RAW_100_BRANDS } from '../data/brandsData';
@@ -97,8 +99,15 @@ export const BrandCaseStudiesView: React.FC = () => {
     const list: UnifiedCaseStudy[] = [];
     const seenIds = new Set<string>();
 
-    // 1. Source-based brand articles: Labeled Editorial Analysis, with stats strictly from approved production records
+    // 1. Source-based brand articles: Labeled Editorial Analysis
+    const baseArticles = [...FEATURED_BRAND_ARTICLES];
     getPublishedBrandArticles().forEach((art) => {
+      if (!baseArticles.some((b) => b.brandId === art.brandId)) {
+        baseArticles.push(art);
+      }
+    });
+
+    baseArticles.forEach((art) => {
       seenIds.add(art.brandId);
       const brandMeta = RAW_100_BRANDS.find((b) => b.id === art.brandId);
       const metrics = calculateBrandResearchMetrics(art.brandId, responses, campaigns);
@@ -256,12 +265,10 @@ export const BrandCaseStudiesView: React.FC = () => {
   }, [allCaseStudies]);
 
   const handleStudyClick = (study: UnifiedCaseStudy) => {
-    if (study.articlePath.startsWith('/brand-insights/')) {
-      const article = getBrandArticle(study.brandId);
-      if (article) {
-        setCurrentView('brand-study', true, study.brandId, study.articlePath);
-        return;
-      }
+    const brandArt = getBrandArticle(study.brandId) || findBrandArticleBySlugOrPath(study.slug);
+    if (brandArt) {
+      setCurrentView('brand-study', true, study.brandId, getBrandStudyPath(brandArt));
+      return;
     }
     // Navigate via research article slug or brand study
     if (study.slug) {

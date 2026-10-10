@@ -17,6 +17,7 @@ import { injectSeoAndContent } from '../server/seoRenderer';
 import { APP_ROUTES } from '../src/utils/routes';
 import { RAW_100_BRANDS } from '../src/data/brandsData';
 import { FEATURED_BRAND_ARTICLES, getBrandStudyPath, slugifyBrandName } from '../src/data/brandArticles';
+import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
 
 async function runPrerender() {
   const distDir = path.resolve(process.cwd(), 'dist');
@@ -101,6 +102,14 @@ async function runPrerender() {
     // 4. Also add getBrandStudyPath
     routeSet.add(getBrandStudyPath(article));
   }
+
+  // Published Brand Research Studies
+  for (const ra of INITIAL_RESEARCH_ARTICLES) {
+    routeSet.add(`/brand-research-studies/${ra.slug}`);
+  }
+  routeSet.add('/brand-research-studies/apple-watch-series-12');
+  routeSet.add('/brand-research-studies/sony-wh1000xm6');
+  routeSet.add('/brand-research-studies/sony-wh-1000xm6');
 
   // All 100+ Brands Directory detail pages
   for (const brand of RAW_100_BRANDS) {

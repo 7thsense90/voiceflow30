@@ -294,10 +294,10 @@ export function findBrandBySlugOrId(identifier: string): BrandMeta | undefined {
   const bySlug = RAW_100_BRANDS.find((b) => slugifyBrandName(b.name) === slug || slugifyBrandName(b.name) === slug.replace(/-user-research-study$/, ''));
   if (bySlug) return bySlug;
 
-  // 3. Name comparison
+  // 3. Name comparison (exact name or brand name contains input, not vice-versa)
   const byName = RAW_100_BRANDS.find((b) => {
     const bName = b.name.toLowerCase();
-    return bName === normalizedSlug || bName.includes(normalizedSlug) || normalizedSlug.includes(bName);
+    return bName === normalizedSlug || bName.includes(normalizedSlug);
   });
   if (byName) return byName;
 

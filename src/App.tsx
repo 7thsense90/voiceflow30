@@ -144,15 +144,12 @@ const MainAppContent: React.FC = () => {
           />
         );
       }
-      const knownBrand = selectedBrandId
-        ? findBrandBySlugOrId(selectedBrandId)
-        : (selectedArticleSlug ? findBrandBySlugOrId(selectedArticleSlug) : null);
-      if (knownBrand) {
-        return <BrandDetail />;
-      }
-      if (typeof window !== 'undefined') {
-        const fromPath = findBrandBySlugOrId(window.location.pathname);
-        if (fromPath) {
+      const isExplicitBrandRoute = typeof window !== 'undefined' && window.location.pathname.startsWith('/brands/');
+      if (isExplicitBrandRoute) {
+        const knownBrand = selectedBrandId
+          ? findBrandBySlugOrId(selectedBrandId)
+          : (selectedArticleSlug ? findBrandBySlugOrId(selectedArticleSlug) : null);
+        if (knownBrand) {
           return <BrandDetail />;
         }
       }
@@ -165,10 +162,20 @@ const MainAppContent: React.FC = () => {
       return <BrandResearchStudiesIndex />;
     }
     if (currentView === 'brand-research-study-detail') {
-      if (typeof window !== 'undefined') {
-        const known = findBrandBySlugOrId(selectedArticleSlug || window.location.pathname);
-        if (known) {
-          return <BrandDetail />;
+      const slugCandidate =
+        selectedArticleSlug ||
+        (typeof window !== 'undefined'
+          ? window.location.pathname.replace(/^\/brand-research-studies\//, '').replace(/^\/brand-insights\//, '')
+          : '');
+      if (slugCandidate) {
+        const brandArt = findBrandArticleBySlugOrPath(slugCandidate);
+        if (brandArt) {
+          return (
+            <BrandSEOArticleView
+              article={brandArt}
+              onBack={() => setCurrentView('brand-research-studies')}
+            />
+          );
         }
       }
       return <BrandResearchStudyDetail />;

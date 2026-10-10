@@ -105,10 +105,6 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (brandArticle) {
       return renderBrandStudySeo(origin, brandArticle);
     }
-    const knownBrand = findBrandBySlugOrId(slug);
-    if (knownBrand) {
-      return renderBrandDetailSeo(origin, knownBrand);
-    }
     return render404Seo(origin, cleanPath);
   }
 

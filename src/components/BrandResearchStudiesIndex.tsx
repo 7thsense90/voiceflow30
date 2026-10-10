@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import { INITIAL_RESEARCH_ARTICLES } from '../data/initialResearchArticles';
 import { AdSenseAd } from './AdSenseAd';
 import { Pagination } from './Pagination';
 import {
@@ -24,7 +25,13 @@ export const BrandResearchStudiesIndex: React.FC = () => {
 
   // Only display published articles to the public
   const publishedArticles = useMemo(() => {
-    return researchArticles.filter((a) => a.status === 'published');
+    const list = researchArticles.filter((a) => a.status === 'published');
+    if (list.length === 0) {
+      return INITIAL_RESEARCH_ARTICLES.filter((a) => a.status === 'published');
+    }
+    const ids = new Set(list.map((a) => a.id));
+    const missing = INITIAL_RESEARCH_ARTICLES.filter((a) => a.status === 'published' && !ids.has(a.id));
+    return missing.length > 0 ? [...list, ...missing] : list;
   }, [researchArticles]);
 
   // Extract all categories available

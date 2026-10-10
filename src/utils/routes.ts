@@ -351,6 +351,13 @@ export function parseRoute(pathname: string): ParsedRoute {
         studyPath: cleanPath,
       };
     }
+    if (cleanPath.startsWith('/brand-research-studies/')) {
+      return {
+        view: 'brand-research-study-detail',
+        articleSlug: slug,
+        studyPath: cleanPath,
+      };
+    }
     const knownBrand = findBrandBySlugOrId(slug);
     if (knownBrand) {
       return {
