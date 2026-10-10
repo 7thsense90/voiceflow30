@@ -15,7 +15,7 @@ import {
   getPublishedBrandArticles,
   findBrandBySlugOrId,
   BrandSEOArticle,
-} from '../src/data/brandArticles/index';
+} from '../src/data/brandArticles';
 import { RAW_100_BRANDS, BrandMeta } from '../src/data/brandsData';
 import { LAUNCHED_PRODUCTS } from '../src/data/productReviewsData';
 import { INITIAL_RESEARCH_ARTICLES } from '../src/data/initialResearchArticles';
@@ -77,15 +77,15 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (article) {
       return renderBrandStudySeo(origin, article);
     }
+    const knownBrand = findBrandBySlugOrId(targetArticleSlug);
+    if (knownBrand) {
+      return renderBrandDetailSeo(origin, knownBrand);
+    }
     const ra = INITIAL_RESEARCH_ARTICLES.find(
       (a) => a.slug.toLowerCase() === targetArticleSlug.toLowerCase() || a.id.toLowerCase() === targetArticleSlug.toLowerCase()
     );
     if (ra) {
       return renderBrandResearchStudyArticleSeo(origin, ra);
-    }
-    const knownBrand = findBrandBySlugOrId(targetArticleSlug);
-    if (knownBrand) {
-      return renderBrandDetailSeo(origin, knownBrand);
     }
     return render404Seo(origin, cleanPath);
   }
@@ -959,6 +959,9 @@ function renderAboutPageSeo(origin: string): PageSeoResult {
         <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
           Voice Flow 360 bridges the gap between everyday consumers and global enterprise decision-makers through dynamic conversational surveys and fair compensation.
         </p>
+        <p class="text-xs text-slate-500 mt-2">
+          Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+        </p>
       </header>
 
       <section class="space-y-4">
@@ -1258,6 +1261,7 @@ function renderPrivacyPageSeo(origin: string): PageSeoResult {
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Privacy Policy &amp; Data Protection</h1>
+        <p class="text-xs font-semibold text-slate-500">Last updated: October 2026</p>
         <p class="text-slate-600 text-sm">Transparent policies governing data collection, survey response privacy, and advertising cookies in compliance with global standards.</p>
       </header>
       <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
@@ -1340,6 +1344,7 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Terms of Service</h1>
+        <p class="text-xs font-semibold text-slate-500">Last updated: October 2026</p>
         <p class="text-slate-600 text-sm">Legal conditions governing panel usage, research participation, and account conduct.</p>
       </header>
       <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
@@ -1404,6 +1409,7 @@ function renderContactPageSeo(origin: string): PageSeoResult {
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Contact Voice Flow 360</h1>
         <p class="text-slate-600 text-sm">We are here to assist participants, researchers, and prospective enterprise partners.</p>
+        <p class="text-xs text-slate-500 mt-2">Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.</p>
       </header>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
         <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100">

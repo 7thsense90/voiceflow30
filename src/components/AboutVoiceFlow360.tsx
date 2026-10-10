@@ -96,6 +96,9 @@ export const AboutVoiceFlow360: React.FC = () => {
           <p className="text-base sm:text-lg text-purple-100/90 leading-relaxed">
             Voice Flow 360 combines conversational consumer surveys with independent editorial analysis of products, brands and market trends. Eligible participants can earn rewards for accepted survey responses, subject to our published review and withdrawal policy.
           </p>
+          <p className="text-xs text-purple-200/80">
+            Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+          </p>
         </div>
       </div>
 

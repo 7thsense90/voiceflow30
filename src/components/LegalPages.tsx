@@ -30,9 +30,11 @@ export const PageWrapper: React.FC<{
 export const PrivacyPolicy: React.FC = () => (
   <PageWrapper
     title="Privacy Policy"
+    subtitle="Last updated: October 2026"
     description="Learn how Voice Flow 360 protects your personal data, survey responses, and reward cashout privacy in compliance with global standards and Google AdSense policies."
     canonicalPath="/privacy"
   >
+    <p className="text-sm text-slate-500 mb-6 font-medium">Last updated: October 2026</p>
     <h3>1. Information We Collect</h3>
     <p>
       When you use Voice Flow 360, we collect information necessary to operate our research panel, match you with survey campaigns, and process coin reward redemptions:
@@ -126,16 +128,18 @@ export const PrivacyPolicy: React.FC = () => (
       We employ robust technical and organizational security measures to protect your information. If you have questions regarding this Privacy Policy, our advertising integrations, or wish to exercise your privacy rights, please contact our Data Protection Officer at <a href="mailto:privacy@voiceflow360.com" className="font-semibold text-purple-600">privacy@voiceflow360.com</a> or via our <Link to="/contact" className="font-semibold text-purple-600 hover:underline">Contact Us</Link> page.
     </p>
     
-    <p className="text-sm text-slate-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
+    <p className="text-sm text-slate-500 mt-8">Last updated: October 2026</p>
   </PageWrapper>
 );
 
 export const TermsOfService: React.FC = () => (
   <PageWrapper
     title="Terms of Service"
+    subtitle="Last updated: October 2026"
     description="Review the official terms of service, reward redemption guidelines, anti-fraud standards, and user rights for Voice Flow 360."
     canonicalPath="/terms"
   >
+    <p className="text-sm text-slate-500 mb-6 font-medium">Last updated: October 2026</p>
     <h3>1. Acceptance of Terms</h3>
     <p>By accessing and using Voice Flow 360, you accept and agree to be bound by these Terms of Service. If you do not agree, you must not use our platform.</p>
     
@@ -157,12 +161,15 @@ export const TermsOfService: React.FC = () => (
       We reserve the right to modify platform operational features, available survey campaigns, and technical infrastructure. However, in accordance with our published <Link to="/rewards-and-withdrawals" className="font-semibold text-purple-600 hover:underline">Rewards &amp; Withdrawals Policy</Link>, all already-earned and credited coins maintain our published fixed conversion ratio of <strong>100 Coins = $1.00 USD ($0.01 per coin)</strong>. Any prospective modifications to minimum payout thresholds or disbursement rails will be announced with at least 30 days&apos; advance notice to active participants, ensuring no retroactive devaluation of accrued rewards. Contact <a href="mailto:legal@voiceflow360.com" className="font-semibold text-purple-600">legal@voiceflow360.com</a> for legal inquiries.
     </p>
     
-    <p className="text-sm text-slate-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
+    <p className="text-sm text-slate-500 mt-8">Last updated: October 2026</p>
   </PageWrapper>
 );
 
 export const AboutUs: React.FC = () => (
   <PageWrapper title="About Us">
+    <p className="text-xs text-slate-500 mb-4 font-medium">
+      Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+    </p>
     <p className="text-lg leading-relaxed text-slate-700 mb-6">
       Voice Flow 360 is a next-generation consumer intelligence platform designed to bridge the gap between forward-thinking brands and engaged consumers.
     </p>
@@ -197,6 +204,9 @@ export const ContactUs: React.FC = () => {
         <div>
           <p className="text-slate-600 leading-relaxed">
             Have a question, feedback, partnership inquiry, or need help with a reward redemption? Our dedicated support team is here to assist you.
+          </p>
+          <p className="text-xs text-slate-500 mt-2">
+            Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
           </p>
         </div>
         
