@@ -205,7 +205,8 @@ Apple achieves an astonishing overall **Customer Satisfaction Score (CSAT) of 95
     - [Apple Inc. Official Press Launch Announcement](https://www.apple.com/newsroom/2024/09/apple-introduces-apple-watch-series-10/)
     - [The Verge Comprehensive Hardware Review (Apple Watch Ultra 2)](https://www.theverge.com/23883307/apple-watch-ultra-2-review)
 
-- **Clarification of Unresolved Claims & Industry Speculation:**
+- **Verified Wearable Production Scope:**
+  - Apple's verified production wearables across 2024–2026 evaluated in this report are the **Apple Watch Series 10** and **Apple Watch Ultra 2**. This benchmark report strictly evaluates shipping commercial hardware based on official Apple technical specifications and verified independent laboratory reviews. Speculative third-party claims or rumors regarding unreleased hardware generations are excluded from verified empirical benchmarks.
   - *Non-Invasive Cuffless Blood Pressure Monitoring:* Widely discussed in industry research rumors. Production hardware provides sleep apnea notifications and heart rhythm notifications, but does not provide calibrated cuffless systolic/diastolic blood pressure metrics.
   - *Non-Invasive Blood Glucose Sensing:* Long-term optical spectroscopy patent filings continue to be researched, but this remains unverified experimental research that is **not present** in shipping commercial hardware. Claims regarding future unreleased sensor technology are reported as unresolved.
 

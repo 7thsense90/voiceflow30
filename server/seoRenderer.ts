@@ -895,6 +895,22 @@ function renderBrandDetailSeo(origin: string, brand: BrandMeta): PageSeoResult {
         <p class="text-sm text-slate-600">Official Website: <a href="${escapeHtml(brand.website)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brand.website)}</a></p>
       </section>
 
+      <section class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-slate-900">Research Methodology &amp; Fieldwork Disclosures</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-600">
+          <div><strong class="text-slate-800">Fieldwork Dates:</strong> January 14, 2026 – March 30, 2026 (Continuous panel cycle)</div>
+          <div><strong class="text-slate-800">Recruitment Method:</strong> Registered consumer panel participants</div>
+          <div><strong class="text-slate-800">Participant Incentive:</strong> 100 reward coins per completed, quality-screened response</div>
+          <div><strong class="text-slate-800">Quality Checks:</strong> Self-reported product ownership and automated attention verification</div>
+        </div>
+        <div class="pt-2 border-t border-slate-200 text-xs text-slate-600 space-y-1">
+          <div><strong class="text-slate-800">CSAT Calculation:</strong> CSAT (% satisfied) is calculated as the percentage of respondents rating 4 or 5 stars out of 5 on a standardized 5-point scale.</div>
+          <div><strong class="text-slate-800">NPS Calculation:</strong> NPS (-100 to +100) is calculated as % Promoters (ratings 9–10 or 5 stars) minus % Detractors (ratings 0–6 or 1–3 stars) divided by total rating submissions.</div>
+          <div><strong class="text-slate-800">Rating Calculation:</strong> Average Star Rating is the unweighted arithmetic mean across all approved 1–5 scale evaluation responses.</div>
+          <div><strong class="text-slate-800">Limitations:</strong> Non-probability opt-in panel sample; metrics reflect survey respondents and are not statistically weighted for national demographic representativeness.</div>
+        </div>
+      </section>
+
       <section class="space-y-4">
         <h2 class="text-xl font-bold text-slate-900">Consumer Feedback &amp; Survey Participation</h2>
         <p class="text-sm text-slate-700 leading-relaxed">
@@ -1179,6 +1195,10 @@ function renderFaqPageSeo(origin: string): PageSeoResult {
       q: 'Are surveys available in all countries?',
       a: 'Yes, Voice Flow 360 accepts global participants. Survey availability depends on demographic requests from our enterprise brand partners.',
     },
+    {
+      q: 'How is my private data and survey feedback protected?',
+      a: 'Sponsoring brands receive aggregated research reports, verbatim quotations, and transcribed audio feedback without your private contact or payment details. In alignment with our Privacy Policy, because verbatim answers and spoken audio snippets may reflect individual personal perspectives, responses are not described as completely anonymized or completely anonymous.',
+    },
   ];
 
   const structuredData = {
@@ -1244,7 +1264,7 @@ function renderPrivacyPageSeo(origin: string): PageSeoResult {
 
         <div>
           <h2 class="text-lg font-bold text-slate-900 mb-1.5">2. How We Use Your Information</h2>
-          <p>We use your information to provide, maintain, and improve our services, process payout transactions, prevent fraud, send system updates, and deliver authentic market research to brand partners in an aggregated, anonymized format.</p>
+          <p>We use your information to provide, maintain, and improve our services, process payout transactions, prevent fraud, send system updates, and deliver authentic market research to brand partners in aggregated research benchmarks, transcripts, and verbatim sentiment reports without private contact or payment credentials. In alignment with our disclosures, because verbatim text and audio can reflect unique personal perspectives, responses are not described as completely anonymized.</p>
         </div>
 
         <div>
@@ -1346,7 +1366,7 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
 
         <div>
           <h2 class="text-lg font-bold text-slate-900 mb-1.5">6. Intellectual Property &amp; Research Output</h2>
-          <p>All brand research reports, consumer sentiment analyses, and site design are the proprietary intellectual property of Voice Flow 360 and its partners. Anonymized survey responses are compiled into published industry reports.</p>
+          <p>All brand research reports, consumer sentiment analyses, and site design are the proprietary intellectual property of Voice Flow 360 and its partners. Aggregated survey responses, verbatim quotations, and sentiment findings are compiled into published industry reports without private participant contact details.</p>
         </div>
 
         <div>

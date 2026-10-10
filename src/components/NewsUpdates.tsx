@@ -99,7 +99,7 @@ export const NewsUpdates: React.FC = () => {
       details: [
         'Attentiveness and consistency audits applied to survey responses prior to monthly reward approval',
         'Granular cookie consent controls integrated with Google Consent Mode v2, strictly respecting Essential Only choices',
-        'Anonymous survey reporting ensuring personal participant details are never sold or shared with external parties',
+        'Aggregated research and verbatim sentiment reporting ensuring private account credentials and contact details are never sold or shared with external parties',
       ],
     },
   ];

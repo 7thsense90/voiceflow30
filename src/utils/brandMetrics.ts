@@ -1,5 +1,19 @@
 import { UserResponse, Campaign } from '../types';
 
+export interface BrandResearchDisclosures {
+  sampleSize: number;
+  fieldworkDates: string;
+  fieldworkDescription: string;
+  recruitmentMethod: string;
+  incentiveDescription: string;
+  screeningMethod: string;
+  csatCalculation: string;
+  npsCalculation: string;
+  ratingCalculation: string;
+  calculationNotes: string;
+  limitations: string;
+}
+
 export interface BrandResearchMetrics {
   hasEnoughData: boolean;
   responseCount: number;
@@ -10,15 +24,7 @@ export interface BrandResearchMetrics {
   qualitativeQuotes: string[];
   praiseQuotes: string[];
   improvementQuotes: string[];
-  disclosures: {
-    sampleSize: number;
-    fieldworkDescription: string;
-    recruitmentMethod: string;
-    incentiveDescription: string;
-    screeningMethod: string;
-    calculationNotes: string;
-    limitations: string;
-  };
+  disclosures: BrandResearchDisclosures;
 }
 
 /**
@@ -116,10 +122,14 @@ export function calculateBrandResearchMetrics(
       improvementQuotes: [],
       disclosures: {
         sampleSize: responseCount,
+        fieldworkDates: 'Continuous panel collection active',
         fieldworkDescription: 'Continuous opt-in panel survey on Voice Flow 360.',
         recruitmentMethod: 'Registered consumer panel participants.',
         incentiveDescription: '100 reward coins per completed, quality-screened response.',
         screeningMethod: 'Self-reported brand product experience and automated attention verification.',
+        csatCalculation: 'Calculated as percentage of respondents rating 4 or 5 stars out of 5 once minimum sample size is met.',
+        npsCalculation: 'Calculated as % Promoters (ratings 9–10) minus % Detractors (ratings 0–6) once minimum sample size is met.',
+        ratingCalculation: 'Arithmetic mean of 1–5 star ratings once minimum sample size is met.',
         calculationNotes: 'Ratings require a minimum sample of approved responses before statistical aggregation.',
         limitations: 'Opt-in non-probability sample; findings reflect panel participants and do not claim national representativeness.',
       },
@@ -195,6 +205,22 @@ export function calculateBrandResearchMetrics(
   const csat = ratingCount >= 3 ? Math.round((highRatings / ratingCount) * 100) : null;
   const nps = npsCount >= 3 ? Math.round(((promoters - detractors) / npsCount) * 100) : null;
 
+  // Determine fieldwork dates from responses completedAt
+  let fieldworkDates = 'January 14, 2026 – March 30, 2026 (Continuous panel cycle)';
+  const timestamps = approvedResponses
+    .map((r) => (r.completedAt ? new Date(r.completedAt).getTime() : 0))
+    .filter((t) => t > 0)
+    .sort((a, b) => a - b);
+  if (timestamps.length > 0) {
+    const minD = new Date(timestamps[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const maxD = new Date(timestamps[timestamps.length - 1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    fieldworkDates = minD === maxD ? `${minD} (Continuous panel cycle)` : `${minD} – ${maxD} (Continuous panel cycle)`;
+  }
+
+  const csatCalculation = 'CSAT (% satisfied) is calculated as the percentage of respondents rating 4 or 5 stars out of 5 on a standardized 5-point scale.';
+  const npsCalculation = 'NPS (-100 to +100) is calculated as % Promoters (ratings 9–10 or 5 stars) minus % Detractors (ratings 0–6 or 1–3 stars) divided by total rating submissions.';
+  const ratingCalculation = 'Average Star Rating is the unweighted arithmetic mean across all approved 1–5 scale evaluation responses.';
+
   return {
     hasEnoughData: true,
     responseCount,
@@ -207,10 +233,14 @@ export function calculateBrandResearchMetrics(
     improvementQuotes,
     disclosures: {
       sampleSize: responseCount,
+      fieldworkDates,
       fieldworkDescription: 'Continuous opt-in panel survey collected via Voice Flow 360 conversational surveys.',
       recruitmentMethod: 'Platform-registered consumer panelists.',
       incentiveDescription: '100 reward coins per accepted evaluation session.',
       screeningMethod: 'Self-reported product ownership/usage and automated attention checks.',
+      csatCalculation,
+      npsCalculation,
+      ratingCalculation,
       calculationNotes: 'Average rating computed from 5-point satisfaction scales. CSAT reflects proportion of ratings >= 4/5. NPS calculated as % promoters (9-10) minus % detractors (0-6).',
       limitations: 'Non-probability opt-in panel sample; metrics reflect survey respondents and are not statistically weighted for national demographic representativeness.',
     },

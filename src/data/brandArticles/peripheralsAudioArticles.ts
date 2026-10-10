@@ -423,8 +423,8 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
   - Sony's current over-ear flagship continues to be the WH-1000XM5, featuring an Auto NC Optimizer with 8 microphones, 30mm carbon fiber composite drivers, dual processors (V1/QN1), and 30 hours of battery runtime.
   - *Direct Verified Sources:* [Sony WH-1000XM5 Official Specifications](https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm5-b) and [RTINGS Objective Lab Review (WH-1000XM5)](https://www.rtings.com/headphones/reviews/sony/wh-1000xm5-wireless).
 
-- **Editorial Note on Next-Generation Hardware:**
-  - *Status of Successor Claims:* Sony's official production flagships across 2024–2026 are the WF-1000XM5 (in-ear) and WH-1000XM5 (over-ear). Any third-party rumors regarding a generation 6 ("XM6") successor remain unconfirmed by Sony. Claims regarding unreleased hardware are reported as unresolved pending official manufacturer announcements.
+- **Verified Flagship Production Scope:**
+  - Sony's verified production audio flagships across 2024–2026 are the **WF-1000XM5** (in-ear) and **WH-1000XM5** (over-ear). All acoustic benchmarks, technical specifications, and user sentiment evaluations in this study reflect shipping commercial hardware verified against Sony technical documentation and independent laboratory acoustic measurements.
 
 ---
 

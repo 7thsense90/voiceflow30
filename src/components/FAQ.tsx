@@ -297,10 +297,15 @@ const FAQ_ITEMS: FAQItem[] = [
     category: 'account',
     categoryLabel: 'Account & Security',
     question: 'How is my private data and survey feedback protected?',
-    shortAnswer: 'Sponsoring brands receive aggregated research reports, verbatim quotations, and transcribed audio feedback without your private contact or payment details.',
+    shortAnswer: 'Sponsoring brands receive aggregated research reports, verbatim quotations, and transcribed audio feedback without your private contact or payment details. Responses are not described as completely anonymized.',
     detailedAnswer: [
-      'Your account security is our priority. Sponsoring brands receive aggregated statistical trends, verbatim answers, and transcribed feedback for market research. Private account identifiers (passwords, emails, payment details) are never sold or shared with brand clients.',
-      'Because verbatim answers and spoken audio snippets may reflect individual personal perspectives, responses are not described as completely anonymous. You maintain full control over what personal information you disclose in free-text and audio answers.',
+      'Your account security is our priority. Sponsoring brands receive aggregated statistical trends, verbatim answers, and transcribed spoken feedback for market research. Private account credentials (passwords, emails, bank accounts, cryptocurrency wallets) are strictly protected and never sold or shared with brand clients.',
+      'In alignment with our updated Privacy Policy, because verbatim written answers and spoken audio snippets can reflect distinctive personal perspectives, responses are not described as completely anonymized or completely anonymous. You maintain full control over what personal information you disclose in free-text and audio answers.',
+    ],
+    keyTakeaways: [
+      'Private account credentials, email addresses, and payment details are never sold or shared',
+      'In alignment with Privacy Policy, verbatim answers and audio are not described as completely anonymized',
+      'Brands receive statistical summaries, transcribed answers, and sentiment benchmarks',
     ],
   },
 ];

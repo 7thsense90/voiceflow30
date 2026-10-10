@@ -257,7 +257,7 @@ export const RESEARCH_METHODOLOGY_ARTICLES: EducationalArticle[] = [
       {
         heading: 'Aggregated Sentiment Analysis vs. Private Individual Responses',
         content: [
-          'Enterprise decision-makers do not receive raw, identifying private records of individual panelists. Instead, responses are parsed, anonymized, and aggregated into structured sentiment vectors:',
+          'Enterprise decision-makers do not receive raw, identifying private contact records of individual panelists. Instead, responses are parsed, aggregated, and compiled into structured sentiment vectors:',
           '• Net Promoter Scores (NPS) cross-tabulated against product tenure.',
           '• Semantic thematic clusters identifying top reported frustrations.',
           '• Willingness-to-pay (Van Westendorp price sensitivity models) mapping optimal pricing corridors.',
@@ -265,7 +265,7 @@ export const RESEARCH_METHODOLOGY_ARTICLES: EducationalArticle[] = [
         ],
         callout: {
           title: 'Privacy Safeguard',
-          body: 'Brands receive statistical summaries and anonymized theme clusters. Individual participant names, email addresses, and private account identifiers are never sold, rented, or distributed.',
+          body: 'Brands receive statistical summaries, sentiment clusters, and verbatim quotations without personal contact details. Individual participant account passwords, email addresses, and payment identifiers are never sold, rented, or distributed.',
         },
       },
       {

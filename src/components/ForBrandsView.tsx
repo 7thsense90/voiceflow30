@@ -962,13 +962,13 @@ export const ForBrandsView: React.FC = () => {
             <div className="p-6 rounded-2xl bg-purple-50/80 border border-purple-200 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="space-y-1 text-center md:text-left">
                 <div className="text-xs font-bold text-purple-700 uppercase tracking-wider">
-                  Verified Research Scope
+                  Proposed Study Scope
                 </div>
                 <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                  <span className="text-2xl font-black text-slate-900">{sampleSize.toLocaleString()} Verified Participants</span>
+                  <span className="text-2xl font-black text-slate-900">Target Sample: {sampleSize.toLocaleString()} Verified Participants</span>
                 </div>
                 <p className="text-xs text-slate-600 max-w-lg">
-                  Audited consumer responses, rigorous quality checks, audio feedback transcription, and comprehensive cross-tabulation analytics for your brand.
+                  Target sample size for commissioned study. Fieldwork begins once research scope and screening criteria are approved. Audited consumer responses, audio feedback transcription, and cross-tabulation analytics delivered upon study completion.
                 </p>
               </div>
 

@@ -323,18 +323,39 @@ export const BrandDetail: React.FC = () => {
               </div>
 
               {/* Research Methodology & Fieldwork Disclosures */}
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-2">
-                <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-purple-600" />
-                  <span>Research Methodology &amp; Fieldwork Disclosures</span>
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-3">
+                <div className="font-bold text-slate-900 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-purple-600" />
+                    <span className="text-sm font-extrabold text-slate-900">Research Methodology &amp; Fieldwork Disclosures</span>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                    Audit Certified
+                  </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 text-[11px]">
-                  <div><strong className="text-slate-700">Sample Size:</strong> {realStats.disclosures.sampleSize} approved responses</div>
-                  <div><strong className="text-slate-700">Recruitment:</strong> {realStats.disclosures.recruitmentMethod}</div>
-                  <div><strong className="text-slate-700">Participant Incentive:</strong> {realStats.disclosures.incentiveDescription}</div>
-                  <div><strong className="text-slate-700">Quality Checks:</strong> {realStats.disclosures.screeningMethod}</div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-[11px]">
+                  <div><strong className="text-slate-800">Sample Size:</strong> {realStats.disclosures.sampleSize} approved responses</div>
+                  <div><strong className="text-slate-800">Fieldwork Dates:</strong> {realStats.disclosures.fieldworkDates}</div>
+                  <div><strong className="text-slate-800">Recruitment Method:</strong> {realStats.disclosures.recruitmentMethod}</div>
+                  <div><strong className="text-slate-800">Participant Incentive:</strong> {realStats.disclosures.incentiveDescription}</div>
+                  <div><strong className="text-slate-800">Quality Checks:</strong> {realStats.disclosures.screeningMethod}</div>
+                  <div><strong className="text-slate-800">Deduplication:</strong> Single submission per panelist enforced</div>
                 </div>
-                <p className="text-[11px] text-slate-500 pt-1 border-t border-slate-200">
+
+                <div className="space-y-1.5 pt-2.5 border-t border-slate-200 text-[11px] text-slate-600">
+                  <div>
+                    <strong className="text-slate-800">CSAT Calculation:</strong> {realStats.disclosures.csatCalculation}
+                  </div>
+                  <div>
+                    <strong className="text-slate-800">NPS Calculation:</strong> {realStats.disclosures.npsCalculation}
+                  </div>
+                  <div>
+                    <strong className="text-slate-800">Average Rating Calculation:</strong> {realStats.disclosures.ratingCalculation}
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
                   <strong className="text-slate-600">Limitations:</strong> {realStats.disclosures.limitations}
                 </p>
               </div>
