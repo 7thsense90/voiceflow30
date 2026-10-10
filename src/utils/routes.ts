@@ -323,6 +323,14 @@ export function parseRoute(pathname: string): ParsedRoute {
         studyPath: cleanPath,
       };
     }
+    const knownBrand = findBrandBySlugOrId(studyNestedMatch[1]);
+    if (knownBrand) {
+      return {
+        view: 'brand-detail',
+        brandId: knownBrand.id,
+        studyPath: cleanPath,
+      };
+    }
   }
 
   // 1b. Check for individual article URLs: /brand-research-studies/:slug, /brand-insights/:slug, /brand-study/:slug
@@ -343,6 +351,14 @@ export function parseRoute(pathname: string): ParsedRoute {
         studyPath: cleanPath,
       };
     }
+    const knownBrand = findBrandBySlugOrId(slug);
+    if (knownBrand) {
+      return {
+        view: 'brand-detail',
+        brandId: knownBrand.id,
+        studyPath: cleanPath,
+      };
+    }
     return {
       view: 'brand-research-study-detail',
       articleSlug: slug,
@@ -353,7 +369,9 @@ export function parseRoute(pathname: string): ParsedRoute {
   // 2. Specific brand detail URL: /brands/:brandId
   const brandMatch = cleanPath.match(/^\/brands\/([a-zA-Z0-9_-]+)$/);
   if (brandMatch) {
-    return { view: 'brand-detail', brandId: brandMatch[1] };
+    const rawBrand = brandMatch[1];
+    const knownBrand = findBrandBySlugOrId(rawBrand);
+    return { view: 'brand-detail', brandId: knownBrand ? knownBrand.id : rawBrand };
   }
 
   // 3. Check query string if user navigated via ?brand= or ?article= while on /brand-insights

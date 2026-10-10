@@ -34,7 +34,10 @@ export const PrivacyPolicy: React.FC = () => (
     description="Learn how Voice Flow 360 protects your personal data, survey responses, and reward cashout privacy in compliance with global standards and Google AdSense policies."
     canonicalPath="/privacy"
   >
-    <p className="text-sm text-slate-500 mb-6 font-medium">Last updated: October 2026</p>
+    <div className="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full mb-4">
+      Last updated: October 2026
+    </div>
+    <p className="text-sm text-purple-700 mb-6 font-semibold">Last updated: October 2026</p>
     <h3>1. Information We Collect</h3>
     <p>
       When you use Voice Flow 360, we collect information necessary to operate our research panel, match you with survey campaigns, and process coin reward redemptions:
@@ -139,7 +142,10 @@ export const TermsOfService: React.FC = () => (
     description="Review the official terms of service, reward redemption guidelines, anti-fraud standards, and user rights for Voice Flow 360."
     canonicalPath="/terms"
   >
-    <p className="text-sm text-slate-500 mb-6 font-medium">Last updated: October 2026</p>
+    <div className="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full mb-4">
+      Last updated: October 2026
+    </div>
+    <p className="text-sm text-purple-700 mb-6 font-semibold">Last updated: October 2026</p>
     <h3>1. Acceptance of Terms</h3>
     <p>By accessing and using Voice Flow 360, you accept and agree to be bound by these Terms of Service. If you do not agree, you must not use our platform.</p>
     
@@ -167,8 +173,8 @@ export const TermsOfService: React.FC = () => (
 
 export const AboutUs: React.FC = () => (
   <PageWrapper title="About Us">
-    <p className="text-xs text-slate-500 mb-4 font-medium">
-      Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+    <p className="text-xs text-slate-600 mb-4 font-semibold">
+      Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
     </p>
     <p className="text-lg leading-relaxed text-slate-700 mb-6">
       Voice Flow 360 is a next-generation consumer intelligence platform designed to bridge the gap between forward-thinking brands and engaged consumers.
@@ -205,8 +211,8 @@ export const ContactUs: React.FC = () => {
           <p className="text-slate-600 leading-relaxed">
             Have a question, feedback, partnership inquiry, or need help with a reward redemption? Our dedicated support team is here to assist you.
           </p>
-          <p className="text-xs text-slate-500 mt-2">
-            Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+          <p className="text-xs text-slate-600 mt-2 font-semibold">
+            Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
           </p>
         </div>
         

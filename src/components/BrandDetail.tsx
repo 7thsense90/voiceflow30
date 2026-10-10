@@ -19,7 +19,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { RAW_100_BRANDS } from '../data/brandsData';
-import { getBrandArticle, hasBrandArticle, getBrandStudyPath } from '../data/brandArticles';
+import { getBrandArticle, hasBrandArticle, getBrandStudyPath, findBrandBySlugOrId } from '../data/brandArticles';
 import { calculateBrandResearchMetrics, getApprovedProductionResponses } from '../utils/brandMetrics';
 import { BrandSEOArticleView } from './BrandSEOArticleView';
 import { getBrandEmpiricalProfile } from '../data/brandEmpiricalProfiles';
@@ -28,8 +28,10 @@ import { ShieldCheck, BarChart2, Activity } from 'lucide-react';
 export const BrandDetail: React.FC = () => {
   const { brands, campaigns, responses, selectedBrandId, setCurrentView, startChat } = useApp();
   
-  const brand = brands.find((b) => b.id === selectedBrandId);
-  const rawMeta = RAW_100_BRANDS.find((b) => b.id === selectedBrandId);
+  const targetId = selectedBrandId || (typeof window !== 'undefined' ? window.location.pathname.split('/').filter(Boolean).pop() : '');
+  const brandMeta = targetId ? (findBrandBySlugOrId(targetId) || RAW_100_BRANDS.find((b) => b.id === targetId || b.id === `br_${targetId}`)) : undefined;
+  const brand = brands.find((b) => b.id === selectedBrandId || (brandMeta && b.id === brandMeta.id)) || brandMeta;
+  const rawMeta = brandMeta || RAW_100_BRANDS.find((b) => b.id === selectedBrandId);
   
   const [activeTab, setActiveTab] = useState<'overview' | 'responses' | 'article'>('overview');
   const [search, setSearch] = useState('');

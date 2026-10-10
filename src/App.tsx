@@ -17,7 +17,7 @@ import { BrandDetail } from './components/BrandDetail';
 import { NewsUpdates } from './components/NewsUpdates';
 import { BrandInsights } from './components/BrandInsights';
 import { BrandSEOArticleView } from './components/BrandSEOArticleView';
-import { getBrandArticle, findBrandArticleBySlugOrPath } from './data/brandArticles';
+import { getBrandArticle, findBrandArticleBySlugOrPath, findBrandBySlugOrId } from './data/brandArticles';
 import { BrandResearchStudiesIndex } from './components/BrandResearchStudiesIndex';
 import { BrandResearchStudyDetail } from './components/BrandResearchStudyDetail';
 import { AboutVoiceFlow360 } from './components/AboutVoiceFlow360';
@@ -144,6 +144,18 @@ const MainAppContent: React.FC = () => {
           />
         );
       }
+      const knownBrand = selectedBrandId
+        ? findBrandBySlugOrId(selectedBrandId)
+        : (selectedArticleSlug ? findBrandBySlugOrId(selectedArticleSlug) : null);
+      if (knownBrand) {
+        return <BrandDetail />;
+      }
+      if (typeof window !== 'undefined') {
+        const fromPath = findBrandBySlugOrId(window.location.pathname);
+        if (fromPath) {
+          return <BrandDetail />;
+        }
+      }
       return <BrandCaseStudiesView />;
     }
     if (currentView === 'brand-insights') return <BrandCaseStudiesView />;
@@ -153,6 +165,12 @@ const MainAppContent: React.FC = () => {
       return <BrandResearchStudiesIndex />;
     }
     if (currentView === 'brand-research-study-detail') {
+      if (typeof window !== 'undefined') {
+        const known = findBrandBySlugOrId(selectedArticleSlug || window.location.pathname);
+        if (known) {
+          return <BrandDetail />;
+        }
+      }
       return <BrandResearchStudyDetail />;
     }
 

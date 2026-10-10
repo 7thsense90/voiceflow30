@@ -960,7 +960,7 @@ function renderAboutPageSeo(origin: string): PageSeoResult {
           Voice Flow 360 bridges the gap between everyday consumers and global enterprise decision-makers through dynamic conversational surveys and fair compensation.
         </p>
         <p class="text-xs text-slate-500 mt-2">
-          Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.
+          Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
         </p>
       </header>
 
@@ -1260,8 +1260,11 @@ function renderPrivacyPageSeo(origin: string): PageSeoResult {
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
+        <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full mb-1">
+          Last updated: October 2026
+        </div>
         <h1 class="text-3xl font-extrabold text-slate-900">Privacy Policy &amp; Data Protection</h1>
-        <p class="text-xs font-semibold text-slate-500">Last updated: October 2026</p>
+        <p class="text-sm font-semibold text-purple-700">Last updated: October 2026</p>
         <p class="text-slate-600 text-sm">Transparent policies governing data collection, survey response privacy, and advertising cookies in compliance with global standards.</p>
       </header>
       <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
@@ -1343,8 +1346,11 @@ function renderTermsPageSeo(origin: string): PageSeoResult {
   const htmlContent = `
     <div class="ssr-page-wrapper max-w-4xl mx-auto px-4 py-8 text-slate-800 font-sans space-y-6">
       <header class="border-b border-slate-200 pb-6 space-y-2">
+        <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full mb-1">
+          Last updated: October 2026
+        </div>
         <h1 class="text-3xl font-extrabold text-slate-900">Terms of Service</h1>
-        <p class="text-xs font-semibold text-slate-500">Last updated: October 2026</p>
+        <p class="text-sm font-semibold text-purple-700">Last updated: October 2026</p>
         <p class="text-slate-600 text-sm">Legal conditions governing panel usage, research participation, and account conduct.</p>
       </header>
       <section class="space-y-6 text-sm text-slate-700 leading-relaxed">
@@ -1409,7 +1415,7 @@ function renderContactPageSeo(origin: string): PageSeoResult {
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Contact Voice Flow 360</h1>
         <p class="text-slate-600 text-sm">We are here to assist participants, researchers, and prospective enterprise partners.</p>
-        <p class="text-xs text-slate-500 mt-2">Voice Flow 360 is operated by [YOUR COMPANY LEGAL NAME], [CITY, COUNTRY]. Contact: contact@voiceflow360.com.</p>
+        <p class="text-xs text-slate-500 mt-2">Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.</p>
       </header>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
         <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100">
