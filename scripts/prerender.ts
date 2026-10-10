@@ -16,7 +16,7 @@ import path from 'path';
 import { injectSeoAndContent } from '../server/seoRenderer';
 import { APP_ROUTES } from '../src/utils/routes';
 import { RAW_100_BRANDS } from '../src/data/brandsData';
-import { FEATURED_BRAND_ARTICLES, getBrandStudyPath } from '../src/data/brandArticles/index';
+import { FEATURED_BRAND_ARTICLES, getBrandStudyPath, slugifyBrandName } from '../src/data/brandArticles/index';
 
 async function runPrerender() {
   const distDir = path.resolve(process.cwd(), 'dist');
@@ -108,6 +108,8 @@ async function runPrerender() {
     if (brand.id.startsWith('br_')) {
       routeSet.add(`/brands/${brand.id.replace('br_', '')}`);
     }
+    routeSet.add(`/brand-insights/${slugifyBrandName(brand.name)}-user-research-study`);
+    routeSet.add(`/brands/${slugifyBrandName(brand.name)}/user-research-study`);
   }
 
   const allRoutes = Array.from(routeSet);

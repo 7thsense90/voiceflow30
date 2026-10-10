@@ -105,6 +105,10 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
     if (brandArticle) {
       return renderBrandStudySeo(origin, brandArticle);
     }
+    const knownBrand = findBrandBySlugOrId(slug);
+    if (knownBrand) {
+      return renderBrandDetailSeo(origin, knownBrand);
+    }
     return render404Seo(origin, cleanPath);
   }
 
@@ -129,7 +133,7 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
   const brandDetailMatch = cleanPath.match(/^\/brands\/([a-zA-Z0-9_-]+)$/);
   if (brandDetailMatch && brandDetailMatch[1] !== 'brands') {
     const brandId = brandDetailMatch[1];
-    const brand = RAW_100_BRANDS.find(
+    const brand = findBrandBySlugOrId(brandId) || RAW_100_BRANDS.find(
       (b) => b.id.toLowerCase() === brandId.toLowerCase() || b.id.replace(/^br_/, '').toLowerCase() === brandId.toLowerCase()
     );
     if (brand) {
