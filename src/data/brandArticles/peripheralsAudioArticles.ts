@@ -408,7 +408,17 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
 | **Battery Life on Z-Series Camera Cells** | 92% | 72% | All-day shooting endurance without overheating |
 | **Complex Camera Menu Hierarchies** | 68% | 76% | Dense technical menus can intimidate beginners |
 
-### Verified Audio Specifications & Hardware Reference (Sony 1000X Series Production Flagships)
+### Verified Audio Specifications & Hardware Reference (Sony 1000X Series Audio Flagships)
+
+- **Sony WH-1000XM6 Wireless Noise-Cancelling Flagship ($449.99 MSRP):**
+  - **Processing & Active Noise Cancellation:** Powered by Sony's custom **HD Noise Cancelling Processor QN3** powering an adaptive 12-microphone acoustic sensor architecture (6 microphones per earcup) with real-time AI noise filter adaptation.
+  - **Acoustic Transducer Engineering:** Precision 30mm carbon fiber composite drivers delivering low distortion, rigid dome dampening, and expanded dynamic frequency range.
+  - **Connectivity & Codecs:** Certified Hi-Res Audio Wireless with **LDAC** (up to 990 kbps 24-bit/96kHz), **Bluetooth 5.3**, LC3 / LE Audio support, and multipoint device pairing.
+  - **Design & Endurance:** Redesigned folding hinge architecture for compact travel portability; up to 30 hours continuous playback with ANC enabled (up to 40 hours with ANC disabled); USB-PD fast charge provides 3 hours playback in 3 minutes.
+  - **Direct Verified Sources:**
+    - [Sony WH-1000XM6 Official Product Specifications](https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6)
+    - [Sony Official WH-1000XM6 Press Launch Announcement](https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones)
+    - [RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)](https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless)
 
 - **Sony WF-1000XM5 Flagship Truly Wireless Earbuds ($299.99 MSRP):**
   - **Processing & Noise Cancellation:** Powered by Sony's dedicated **HD Noise Cancelling Processor QN2e** coupled with the **Integrated Processor V2**, multi-microphone noise sensor architecture with **dual feedback microphones per earbud**, and polyurethane noise isolation earbud tips.
@@ -420,13 +430,9 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
     - [Sony Official WF-1000XM5 Launch Press Announcement](https://presscentre.sony.eu/pressreleases/for-the-silence-for-the-music-sony-introduces-the-wf-1000xm5-truly-wireless-noise-cancelling-headphones-3265743)
     - [RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM5)](https://www.rtings.com/headphones/reviews/sony/wf-1000xm5-truly-wireless)
 
-- **Flagship Over-Ear Reference — Sony WH-1000XM5 ($399.99 MSRP):**
-  - Sony's current over-ear flagship continues to be the WH-1000XM5, featuring an Auto NC Optimizer with 8 microphones, 30mm carbon fiber composite drivers, dual processors (V1/QN1), and 30 hours of battery runtime.
+- **Flagship Predecessor Over-Ear Reference — Sony WH-1000XM5 ($399.99 MSRP):**
+  - Sony's predecessor over-ear flagship continues as an industry benchmark, featuring an Auto NC Optimizer with 8 microphones, 30mm carbon fiber composite drivers, dual processors (V1/QN1), and 30 hours of battery runtime.
   - *Direct Verified Sources:* [Sony WH-1000XM5 Official Specifications](https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm5-b) and [RTINGS Objective Lab Review (WH-1000XM5)](https://www.rtings.com/headphones/reviews/sony/wh-1000xm5-wireless).
-
-- **Model Alignment & Verification Scope: WH-1000XM5 & WF-1000XM5:**
-  - Sony's verified production audio flagships across 2024–2026 are the **WF-1000XM5** (in-ear) and **WH-1000XM5** (over-ear). All acoustic benchmarks, technical specifications, and user sentiment evaluations in this study reflect shipping commercial hardware verified against Sony technical documentation and independent laboratory acoustic measurements.
-  - All claims in this study are strictly calibrated to match the cited models and verified RTINGS acoustic measurements; prospective claims regarding future unannounced revisions (such as an XM6 generation) are excluded to ensure complete factual concordance with official specifications.
 
 ---
 

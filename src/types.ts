@@ -347,11 +347,12 @@ export interface ResearchArticle {
   title: string;
   slug: string;
   brand_name: string;
+  brand_id?: string;
   category: string;
   cover_image_url: string;
   excerpt: string;
   body: string;
-  sources_note: string;
+  sources_note?: string;
   status: ResearchArticleStatus;
   published_at: string | null;
   created_at: string;

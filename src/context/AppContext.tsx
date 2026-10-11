@@ -341,9 +341,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!loaded || loaded.length === 0) {
       return INITIAL_RESEARCH_ARTICLES;
     }
-    const loadedIds = new Set(loaded.map((a) => a.id));
+    const initialMap = new Map(INITIAL_RESEARCH_ARTICLES.map((a) => [a.id, a]));
+    const updatedLoaded = loaded.map((a) => initialMap.get(a.id) || a);
+    const loadedIds = new Set(updatedLoaded.map((a) => a.id));
     const missing = INITIAL_RESEARCH_ARTICLES.filter((a) => !loadedIds.has(a.id));
-    return missing.length > 0 ? [...loaded, ...missing] : loaded;
+    return missing.length > 0 ? [...updatedLoaded, ...missing] : updatedLoaded;
   });
   const [selectedArticleSlug, setSelectedArticleSlugState] = useState<string | null>(() => initialRoute.articleSlug || null);
   const [selectedMethodologySlug, setSelectedMethodologySlugState] = useState<string | null>(() => initialRoute.methodologySlug || null);

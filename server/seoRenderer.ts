@@ -94,9 +94,13 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
   // Pattern: /brand-research-studies/:slug
   const researchStudyMatch = cleanPath.match(/^\/brand-research-studies\/([a-zA-Z0-9_-]+)$/);
   if (researchStudyMatch && researchStudyMatch[1] !== 'brand-research-studies') {
-    const slug = researchStudyMatch[1].toLowerCase();
+    const slug = researchStudyMatch[1].toLowerCase().replace(/_/g, '-');
     const article = INITIAL_RESEARCH_ARTICLES.find(
-      (a) => a.slug.toLowerCase() === slug || a.id.toLowerCase() === slug
+      (a) =>
+        a.slug.toLowerCase() === slug ||
+        a.id.toLowerCase() === slug ||
+        (slug.includes('series-12') && a.slug.includes('series-12')) ||
+        (slug.includes('xm6') && a.slug.includes('xm6'))
     );
     if (article) {
       return renderBrandResearchStudyArticleSeo(origin, article);

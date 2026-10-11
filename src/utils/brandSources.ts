@@ -25,35 +25,35 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   // Sony Audio & Cameras / Electronics
   br_sony_electronics: {
     productSpecs: {
-      label: 'Sony WF-1000XM5 Official Product Specifications',
-      url: 'https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm5-b',
-      note: 'Official Sony specifications: HD Noise Cancelling Processor QN2e, Integrated Processor V2, Dynamic Driver X, LDAC, IPX4, $299.99 MSRP (Current flagship in-ear model)',
+      label: 'Sony WH-1000XM6 Official Product Specifications',
+      url: 'https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6',
+      note: 'Official Sony specifications: HD Noise Cancelling Processor QN3, 12-microphone adaptive array, LDAC, 30-40hr battery life, foldable design',
     },
     announcementOrFilings: {
-      label: 'Sony Official WF-1000XM5 Launch Press Announcement',
-      url: 'https://presscentre.sony.eu/pressreleases/for-the-silence-for-the-music-sony-introduces-the-wf-1000xm5-truly-wireless-noise-cancelling-headphones-3265743',
-      note: 'Sony official press release introducing flagship WF-1000XM5 truly wireless noise-cancelling headphones',
+      label: 'Sony Official WH-1000XM6 Press Launch Announcement',
+      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones',
+      note: 'Sony official press release introducing flagship WH-1000XM6 wireless noise-cancelling headphones',
     },
     verifiedReviews: {
-      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM5)',
-      url: 'https://www.rtings.com/headphones/reviews/sony/wf-1000xm5-truly-wireless',
+      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)',
+      url: 'https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless',
       note: 'Lab measurements for active noise cancellation, isolation attenuation, frequency response consistency, and wireless battery runtime',
     },
   },
   br_sonyaudio: {
     productSpecs: {
-      label: 'Sony WH-1000XM5 Official Product Specifications',
-      url: 'https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm5-b',
-      note: 'Auto NC Optimizer, dual processors V1/QN1, 30mm carbon drivers, 30-hour battery life (Current production flagship)',
+      label: 'Sony WH-1000XM6 Official Product Specifications',
+      url: 'https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6',
+      note: 'HD Noise Cancelling Processor QN3, 12-microphone array, 30-40hr battery life, foldable chassis (Flagship over-ear model)',
     },
     announcementOrFilings: {
-      label: 'Sony Official WH-1000XM5 Press Launch Announcement',
-      url: 'https://presscentre.sony.eu/pressreleases/your-world-nothing-else-sony-introduces-the-wh-1000xm5-wireless-noise-cancelling-headphones-3183575',
+      label: 'Sony Official WH-1000XM6 Press Launch Announcement',
+      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones',
       note: 'Official Sony product debut release documenting noise reduction engineering and acoustic design',
     },
     verifiedReviews: {
-      label: 'RTINGS Objective Headphone Lab Measurements (WH-1000XM5)',
-      url: 'https://www.rtings.com/headphones/reviews/sony/wh-1000xm5-wireless',
+      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)',
+      url: 'https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless',
       note: 'Lab-measured noise isolation attenuation, frequency response consistency, and wireless latency tests',
     },
   },

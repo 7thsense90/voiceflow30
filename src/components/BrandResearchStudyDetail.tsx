@@ -46,13 +46,22 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
   // Find the target article
   const rawArticle = useMemo(() => {
     if (!activeSlug) return null;
+    const cleanSlug = activeSlug.toLowerCase().replace(/_/g, '-');
     const direct = researchArticles.find(
-      (a) => a.slug.toLowerCase() === activeSlug.toLowerCase() || a.id.toLowerCase() === activeSlug.toLowerCase()
+      (a) =>
+        a.slug.toLowerCase() === cleanSlug ||
+        a.id.toLowerCase() === cleanSlug ||
+        (cleanSlug.includes('series-12') && a.slug.includes('series-12')) ||
+        (cleanSlug.includes('xm6') && a.slug.includes('xm6'))
     );
     if (direct) return direct;
     return (
       INITIAL_RESEARCH_ARTICLES.find(
-        (a) => a.slug.toLowerCase() === activeSlug.toLowerCase() || a.id.toLowerCase() === activeSlug.toLowerCase()
+        (a) =>
+          a.slug.toLowerCase() === cleanSlug ||
+          a.id.toLowerCase() === cleanSlug ||
+          (cleanSlug.includes('series-12') && a.slug.includes('series-12')) ||
+          (cleanSlug.includes('xm6') && a.slug.includes('xm6'))
       ) || null
     );
   }, [researchArticles, activeSlug]);

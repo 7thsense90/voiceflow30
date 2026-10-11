@@ -165,20 +165,9 @@ const MainAppContent: React.FC = () => {
       const slugCandidate =
         selectedArticleSlug ||
         (typeof window !== 'undefined'
-          ? window.location.pathname.replace(/^\/brand-research-studies\//, '').replace(/^\/brand-insights\//, '')
+          ? window.location.pathname.replace(/^\/brand-research-studies\//, '').replace(/^\/brand-insights\//, '').split('/')[0].split('?')[0]
           : '');
-      if (slugCandidate) {
-        const brandArt = findBrandArticleBySlugOrPath(slugCandidate);
-        if (brandArt) {
-          return (
-            <BrandSEOArticleView
-              article={brandArt}
-              onBack={() => setCurrentView('brand-research-studies')}
-            />
-          );
-        }
-      }
-      return <BrandResearchStudyDetail />;
+      return <BrandResearchStudyDetail slug={slugCandidate || undefined} />;
     }
 
     // 4. News and Updates

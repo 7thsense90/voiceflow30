@@ -248,7 +248,16 @@ export const BrandResearchStudiesIndex: React.FC = () => {
                         </div>
 
                         <h2 className="text-lg font-black text-slate-900 group-hover:text-purple-600 transition-colors tracking-tight leading-snug line-clamp-2">
-                          {article.title}
+                          <a
+                            href={`/brand-research-studies/${article.slug}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigateToResearchArticle(article.slug);
+                            }}
+                            className="hover:underline"
+                          >
+                            {article.title}
+                          </a>
                         </h2>
 
                         <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
@@ -258,8 +267,17 @@ export const BrandResearchStudiesIndex: React.FC = () => {
 
                       {/* Card Footer Link */}
                       <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-600 group-hover:text-purple-700">
-                        <span>Read Analysis</span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <a
+                          href={`/brand-research-studies/${article.slug}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigateToResearchArticle(article.slug);
+                          }}
+                          className="inline-flex items-center gap-1.5 hover:underline"
+                        >
+                          <span>Read Analysis</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </a>
                       </div>
                     </div>
                   </article>
