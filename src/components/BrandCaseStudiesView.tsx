@@ -138,7 +138,8 @@ export const BrandCaseStudiesView: React.FC = () => {
     researchArticles
       .filter((ra) => ra.status === 'published')
       .forEach((ra) => {
-        if (!seenIds.has(ra.brand_id) && !seenIds.has(ra.slug)) {
+        if (!seenIds.has(ra.id) && !seenIds.has(ra.slug)) {
+          seenIds.add(ra.id);
           seenIds.add(ra.slug);
           const wordCount = ra.body.split(/\s+/).filter(Boolean).length;
           const readTime = Math.max(2, Math.ceil(wordCount / 200));

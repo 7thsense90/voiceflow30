@@ -174,7 +174,7 @@ export const TermsOfService: React.FC = () => (
 export const AboutUs: React.FC = () => (
   <PageWrapper title="About Us">
     <p className="text-xs text-slate-600 mb-4 font-semibold">
-      Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
+      Voice Flow 360 is operated by Voice Flow 360 Inc., California, USA.
     </p>
     <p className="text-lg leading-relaxed text-slate-700 mb-6">
       Voice Flow 360 is a next-generation consumer intelligence platform designed to bridge the gap between forward-thinking brands and engaged consumers.
@@ -212,7 +212,7 @@ export const ContactUs: React.FC = () => {
             Have a question, feedback, partnership inquiry, or need help with a reward redemption? Our dedicated support team is here to assist you.
           </p>
           <p className="text-xs text-slate-600 mt-2 font-semibold">
-            Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
+            Voice Flow 360 is operated by Voice Flow 360 Inc., California, USA.
           </p>
         </div>
         

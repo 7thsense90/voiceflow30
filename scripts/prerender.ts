@@ -107,7 +107,10 @@ async function runPrerender() {
   for (const ra of INITIAL_RESEARCH_ARTICLES) {
     routeSet.add(`/brand-research-studies/${ra.slug}`);
   }
+  routeSet.add('/brand-research-studies/apple-watch-series-12-2026');
   routeSet.add('/brand-research-studies/apple-watch-series-12');
+  routeSet.add('/brand-research-studies/sony-wf-1000xm6-2026');
+  routeSet.add('/brand-research-studies/sony-wf-1000xm6');
   routeSet.add('/brand-research-studies/sony-wh1000xm6');
   routeSet.add('/brand-research-studies/sony-wh-1000xm6');
 

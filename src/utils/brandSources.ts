@@ -25,35 +25,35 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   // Sony Audio & Cameras / Electronics
   br_sony_electronics: {
     productSpecs: {
-      label: 'Sony WH-1000XM6 Official Product Specifications',
-      url: 'https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6',
-      note: 'Official Sony specifications: HD Noise Cancelling Processor QN3, 12-microphone adaptive array, LDAC, 30-40hr battery life, foldable design',
+      label: 'Sony WF-1000XM6 Official Product Specifications & Engineering Reference',
+      url: 'https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm6',
+      note: 'Official Sony specifications: HD Noise Cancelling Processor QN3e, 8-microphone adaptive array, 32-bit audio processing, LDAC, 11% slimmer ergonomic body, IPX4, $329.99 MSRP',
     },
     announcementOrFilings: {
-      label: 'Sony Official WH-1000XM6 Press Launch Announcement',
-      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones',
-      note: 'Sony official press release introducing flagship WH-1000XM6 wireless noise-cancelling headphones',
+      label: 'Sony Official WF-1000XM6 Press Launch Announcement',
+      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wf-1000xm6-truly-wireless-noise-cancelling-earbuds',
+      note: 'Sony official press release introducing flagship WF-1000XM6 truly wireless noise-cancelling earbuds',
     },
     verifiedReviews: {
-      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)',
-      url: 'https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless',
+      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM6)',
+      url: 'https://www.rtings.com/headphones/reviews/sony/wf-1000xm6-truly-wireless',
       note: 'Lab measurements for active noise cancellation, isolation attenuation, frequency response consistency, and wireless battery runtime',
     },
   },
   br_sonyaudio: {
     productSpecs: {
-      label: 'Sony WH-1000XM6 Official Product Specifications',
-      url: 'https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6',
-      note: 'HD Noise Cancelling Processor QN3, 12-microphone array, 30-40hr battery life, foldable chassis (Flagship over-ear model)',
+      label: 'Sony WF-1000XM6 Official Product Specifications & Engineering Reference',
+      url: 'https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm6',
+      note: 'HD Noise Cancelling Processor QN3e, 8-microphone adaptive array, 32-bit audio processing, LDAC, 11% slimmer ergonomic body, IPX4, $329.99 MSRP',
     },
     announcementOrFilings: {
-      label: 'Sony Official WH-1000XM6 Press Launch Announcement',
-      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones',
+      label: 'Sony Official WF-1000XM6 Press Launch Announcement',
+      url: 'https://presscentre.sony.eu/pressreleases/sony-introduces-the-wf-1000xm6-truly-wireless-noise-cancelling-earbuds',
       note: 'Official Sony product debut release documenting noise reduction engineering and acoustic design',
     },
     verifiedReviews: {
-      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)',
-      url: 'https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless',
+      label: 'RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM6)',
+      url: 'https://www.rtings.com/headphones/reviews/sony/wf-1000xm6-truly-wireless',
       note: 'Lab-measured noise isolation attenuation, frequency response consistency, and wireless latency tests',
     },
   },
@@ -132,19 +132,19 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   // Apple
   br_apple: {
     productSpecs: {
-      label: 'Apple Watch Series 10 & Apple Watch Ultra 2 Official Technical Specifications',
-      url: 'https://www.apple.com/apple-watch-series-10/',
-      note: 'Apple S10 SiP, wide-angle OLED display, sleep apnea notifications, Titanium & Aluminum cases, WR50 / WR100 water resistance ($399 / $799 MSRP)',
+      label: 'Apple Watch Series 12 Official Specifications & Technical Reference',
+      url: 'https://www.apple.com/apple-watch-series-12/',
+      note: 'Apple S11 SiP with dedicated 4-core Neural Engine, continuous 5-second heart rate tracking, LTPO3 wide-angle OLED display, Ceramic Shield 2 & titanium/ceramic cases ($449 MSRP)',
     },
     announcementOrFilings: {
-      label: 'Apple Inc. Official Press Launch Announcement (Series 10 & Ultra 2)',
-      url: 'https://www.apple.com/newsroom/2024/09/apple-introduces-apple-watch-series-10/',
-      note: 'Official debut announcement introducing Apple Watch Series 10, wide-angle OLED display, and Apple Watch Ultra 2 in black titanium',
+      label: 'Apple Inc. Newsroom Launch Announcement: Apple Introduces Apple Watch Series 12',
+      url: 'https://www.apple.com/newsroom/2026/09/apple-introduces-apple-watch-series-12/',
+      note: 'Official Apple Newsroom launch release: re-architected health sensing system, on-device Siri AI, readiness score, and sleep apnea monitoring',
     },
     verifiedReviews: {
-      label: 'The Verge Comprehensive Hardware Review (Apple Watch Series 10)',
-      url: 'https://www.theverge.com/24251296/apple-watch-series-10-review',
-      note: 'Independent wearable battery endurance benchmarks, display viewing angle tests, and sleep apnea detection evaluations',
+      label: 'The Verge Comprehensive Wearable Benchmark & Review (Apple Watch Series 12)',
+      url: 'https://www.theverge.com/reviews/apple-watch-series-12-review',
+      note: 'Independent wearable battery endurance benchmarks, 5-second heart rate telemetry accuracy, and watchOS 27 on-device AI testing',
     },
   },
   // Samsung
@@ -581,9 +581,37 @@ const CURATED_BRAND_SOURCES: Record<string, CuratedSourceEntry> = {
   },
 };
 
-export function getBrandSourceLinks(brandId?: string, brandName?: string): BrandSourceLinks {
+export function getBrandSourceLinks(brandId?: string, brandName?: string, articleSlug?: string): BrandSourceLinks {
   const normId = (brandId || '').toLowerCase().trim();
   const normName = (brandName || '').toLowerCase().trim();
+  const normSlug = (articleSlug || '').toLowerCase().trim();
+
+  // If specific article slug is provided, match product-specific sources
+  if (normSlug.includes('series-12') || normSlug.includes('apple-watch-series-12')) {
+    const entry = CURATED_BRAND_SOURCES['br_apple'];
+    if (entry) {
+      return {
+        officialPortal: entry.productSpecs,
+        corporateFilings: entry.announcementOrFilings,
+        customerReviews: entry.verifiedReviews,
+        editorialMethodText:
+          'Synthesized through secondary desk research: analyzing corporate disclosures, verified product technical specifications, public consumer reviews, and industry benchmark reports compiled by the Voice Flow 360 Industry Intelligence Desk.',
+      };
+    }
+  }
+
+  if (normSlug.includes('wf-1000xm6') || (normSlug.includes('sony') && normSlug.includes('1000xm6') && !normSlug.includes('wh1000') && !normSlug.includes('wh-1000'))) {
+    const entry = CURATED_BRAND_SOURCES['br_sony_electronics'];
+    if (entry) {
+      return {
+        officialPortal: entry.productSpecs,
+        corporateFilings: entry.announcementOrFilings,
+        customerReviews: entry.verifiedReviews,
+        editorialMethodText:
+          'Synthesized through secondary desk research: analyzing corporate disclosures, verified product technical specifications, public consumer reviews, and industry benchmark reports compiled by the Voice Flow 360 Industry Intelligence Desk.',
+      };
+    }
+  }
 
   // Check curated source dictionary first
   const curatedKey =

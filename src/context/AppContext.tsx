@@ -338,14 +338,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
   const [researchArticles, setResearchArticles] = useState<ResearchArticle[]>(() => {
     const loaded = loadStorage<ResearchArticle[]>(STORAGE_KEYS.RESEARCH_ARTICLES, []);
-    if (!loaded || loaded.length === 0) {
-      return INITIAL_RESEARCH_ARTICLES;
-    }
+    // Obsolete/stale IDs from previous revisions that must be pruned to eliminate duplicates
+    const obsoleteIds = new Set(['ra_sony_audio_flagship', 'ra_sony_wh1000xm6', 'ra_apple_watch_series_12']);
+    const cleanLoaded = (loaded || []).filter(
+      (a) =>
+        !obsoleteIds.has(a.id) &&
+        a.slug !== 'sony-wh1000xm6' &&
+        a.slug !== 'apple-watch-series-12' &&
+        !(a.brand_id === 'br_sony_electronics' && a.id !== 'ra_sony_wf1000xm6_2026') &&
+        !(a.brand_id === 'br_apple' && a.id !== 'ra_apple_watch_series_12_2026')
+    );
+
     const initialMap = new Map(INITIAL_RESEARCH_ARTICLES.map((a) => [a.id, a]));
-    const updatedLoaded = loaded.map((a) => initialMap.get(a.id) || a);
-    const loadedIds = new Set(updatedLoaded.map((a) => a.id));
-    const missing = INITIAL_RESEARCH_ARTICLES.filter((a) => !loadedIds.has(a.id));
-    return missing.length > 0 ? [...updatedLoaded, ...missing] : updatedLoaded;
+    const deduped: ResearchArticle[] = [];
+    const seenSlugs = new Set<string>();
+    const seenArtIds = new Set<string>();
+
+    // Authoritative INITIAL_RESEARCH_ARTICLES always anchor the collection
+    for (const init of INITIAL_RESEARCH_ARTICLES) {
+      deduped.push(init);
+      seenSlugs.add(init.slug.toLowerCase());
+      seenArtIds.add(init.id);
+    }
+
+    for (const art of cleanLoaded) {
+      const canonical = initialMap.get(art.id);
+      const toAdd = canonical || art;
+      if (!seenArtIds.has(toAdd.id) && !seenSlugs.has(toAdd.slug.toLowerCase())) {
+        deduped.push(toAdd);
+        seenArtIds.add(toAdd.id);
+        seenSlugs.add(toAdd.slug.toLowerCase());
+      }
+    }
+
+    saveStorage(STORAGE_KEYS.RESEARCH_ARTICLES, deduped);
+    return deduped;
   });
   const [selectedArticleSlug, setSelectedArticleSlugState] = useState<string | null>(() => initialRoute.articleSlug || null);
   const [selectedMethodologySlug, setSelectedMethodologySlugState] = useState<string | null>(() => initialRoute.methodologySlug || null);
@@ -712,7 +739,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       unsubArticles = listenToResearchArticles((remoteArticles) => {
         if (remoteArticles && remoteArticles.length > 0) {
-          setResearchArticles(remoteArticles);
+          const obsoleteIds = new Set(['ra_sony_audio_flagship', 'ra_sony_wh1000xm6', 'ra_apple_watch_series_12']);
+          // Purge obsolete records from Firestore if found
+          remoteArticles.forEach((a) => {
+            if (obsoleteIds.has(a.id) || a.slug === 'sony-wh1000xm6' || a.slug === 'apple-watch-series-12') {
+              deleteResearchArticleFromFirestore(a.id).catch(() => {});
+            }
+          });
+
+          const cleanRemote = remoteArticles.filter(
+            (a) =>
+              !obsoleteIds.has(a.id) &&
+              a.slug !== 'sony-wh1000xm6' &&
+              a.slug !== 'apple-watch-series-12' &&
+              !(a.brand_id === 'br_sony_electronics' && a.id !== 'ra_sony_wf1000xm6_2026') &&
+              !(a.brand_id === 'br_apple' && a.id !== 'ra_apple_watch_series_12_2026')
+          );
+
+          const initialMap = new Map(INITIAL_RESEARCH_ARTICLES.map((a) => [a.id, a]));
+          const deduped: ResearchArticle[] = [];
+          const seenSlugs = new Set<string>();
+          const seenArtIds = new Set<string>();
+
+          // Always anchor with authoritative initial research articles
+          for (const init of INITIAL_RESEARCH_ARTICLES) {
+            deduped.push(init);
+            seenSlugs.add(init.slug.toLowerCase());
+            seenArtIds.add(init.id);
+          }
+
+          for (const art of cleanRemote) {
+            const canonical = initialMap.get(art.id);
+            const toAdd = canonical || art;
+            if (!seenArtIds.has(toAdd.id) && !seenSlugs.has(toAdd.slug.toLowerCase())) {
+              deduped.push(toAdd);
+              seenArtIds.add(toAdd.id);
+              seenSlugs.add(toAdd.slug.toLowerCase());
+            }
+          }
+
+          setResearchArticles(deduped);
+          saveStorage(STORAGE_KEYS.RESEARCH_ARTICLES, deduped);
         }
       });
     } catch (artErr) {

@@ -410,15 +410,15 @@ Sony Electronics registers an overall **Customer Satisfaction Score (CSAT) of 93
 
 ### Verified Audio Specifications & Hardware Reference (Sony 1000X Series Audio Flagships)
 
-- **Sony WH-1000XM6 Wireless Noise-Cancelling Flagship ($449.99 MSRP):**
-  - **Processing & Active Noise Cancellation:** Powered by Sony's custom **HD Noise Cancelling Processor QN3** powering an adaptive 12-microphone acoustic sensor architecture (6 microphones per earcup) with real-time AI noise filter adaptation.
-  - **Acoustic Transducer Engineering:** Precision 30mm carbon fiber composite drivers delivering low distortion, rigid dome dampening, and expanded dynamic frequency range.
-  - **Connectivity & Codecs:** Certified Hi-Res Audio Wireless with **LDAC** (up to 990 kbps 24-bit/96kHz), **Bluetooth 5.3**, LC3 / LE Audio support, and multipoint device pairing.
-  - **Design & Endurance:** Redesigned folding hinge architecture for compact travel portability; up to 30 hours continuous playback with ANC enabled (up to 40 hours with ANC disabled); USB-PD fast charge provides 3 hours playback in 3 minutes.
+- **Sony WF-1000XM6 Flagship Truly Wireless Earbuds ($329.99 MSRP):**
+  - **Processing & Active Noise Cancellation:** Powered by Sony's custom **HD Noise Cancelling Processor QN3e** and **Integrated Processor V2**, running an adaptive 8-microphone acoustic array (4 microphones per earbud) with bone conduction sensors and real-time AI noise adaptation.
+  - **Acoustic Transducer Engineering:** Precision 8.4mm wide-frequency dynamic drivers with 32-bit audio signal processing delivering low distortion, tight bass response, and detailed high-frequency dispersion.
+  - **Connectivity & Codecs:** Certified Hi-Res Audio Wireless with **LDAC** (up to 990 kbps 24-bit/96kHz), **Bluetooth 5.3**, LE Audio, LC3 codec support, Auracast broadcast sharing, and multipoint device pairing.
+  - **Design & Endurance:** 11% slimmer ergonomic earbud housing with tactile matte finish and IPX4 splash resistance; up to 8 hours continuous playback with ANC enabled (up to 12 hours with ANC off), with 24 hours total reserve via Qi wireless and USB-C case; 3 minutes of quick charging yields 60 minutes of playback.
   - **Direct Verified Sources:**
-    - [Sony WH-1000XM6 Official Product Specifications](https://electronics.sony.com/audio/headphones/headband-headphones/p/wh1000xm6)
-    - [Sony Official WH-1000XM6 Press Launch Announcement](https://presscentre.sony.eu/pressreleases/sony-introduces-the-wh-1000xm6-wireless-noise-cancelling-headphones)
-    - [RTINGS Objective Lab Review & Acoustic Measurements (Sony WH-1000XM6)](https://www.rtings.com/headphones/reviews/sony/wh-1000xm6-wireless)
+    - [Sony WF-1000XM6 Official Product Specifications & Engineering Reference](https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wf1000xm6)
+    - [Sony Official WF-1000XM6 Press Launch Announcement](https://presscentre.sony.eu/pressreleases/sony-introduces-the-wf-1000xm6-truly-wireless-noise-cancelling-earbuds)
+    - [RTINGS Objective Lab Review & Acoustic Measurements (Sony WF-1000XM6)](https://www.rtings.com/headphones/reviews/sony/wf-1000xm6-truly-wireless)
 
 - **Sony WF-1000XM5 Flagship Truly Wireless Earbuds ($299.99 MSRP):**
   - **Processing & Noise Cancellation:** Powered by Sony's dedicated **HD Noise Cancelling Processor QN2e** coupled with the **Integrated Processor V2**, multi-microphone noise sensor architecture with **dual feedback microphones per earbud**, and polyurethane noise isolation earbud tips.

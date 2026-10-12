@@ -43,27 +43,45 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
          '')
       : '');
 
-  // Find the target article
+  // Find the target article using exact slug/id priority and authoritative records
   const rawArticle = useMemo(() => {
     if (!activeSlug) return null;
     const cleanSlug = activeSlug.toLowerCase().replace(/_/g, '-');
-    const direct = researchArticles.find(
-      (a) =>
-        a.slug.toLowerCase() === cleanSlug ||
-        a.id.toLowerCase() === cleanSlug ||
-        (cleanSlug.includes('series-12') && a.slug.includes('series-12')) ||
-        (cleanSlug.includes('xm6') && a.slug.includes('xm6'))
-    );
-    if (direct) return direct;
-    return (
-      INITIAL_RESEARCH_ARTICLES.find(
-        (a) =>
-          a.slug.toLowerCase() === cleanSlug ||
-          a.id.toLowerCase() === cleanSlug ||
-          (cleanSlug.includes('series-12') && a.slug.includes('series-12')) ||
-          (cleanSlug.includes('xm6') && a.slug.includes('xm6'))
-      ) || null
-    );
+
+    // 1. Direct exact slug match in researchArticles state or INITIAL_RESEARCH_ARTICLES
+    let match = researchArticles.find((a) => a.slug.toLowerCase() === cleanSlug);
+    if (!match) {
+      match = INITIAL_RESEARCH_ARTICLES.find((a) => a.slug.toLowerCase() === cleanSlug);
+    }
+    // 2. Direct exact id match
+    if (!match) {
+      match = researchArticles.find((a) => a.id.toLowerCase() === cleanSlug);
+    }
+    if (!match) {
+      match = INITIAL_RESEARCH_ARTICLES.find((a) => a.id.toLowerCase() === cleanSlug);
+    }
+
+    // 3. Explicit canonical aliases for Apple Watch Series 12
+    if (!match && (cleanSlug === 'apple-watch-series-12' || cleanSlug === 'apple-watch-series-12-2026')) {
+      match =
+        researchArticles.find((a) => a.slug === 'apple-watch-series-12-2026') ||
+        INITIAL_RESEARCH_ARTICLES.find((a) => a.slug === 'apple-watch-series-12-2026');
+    }
+
+    // 4. Explicit canonical aliases for Sony WF-1000XM6 (Earbuds only, never over-ear headphones)
+    if (
+      !match &&
+      (cleanSlug === 'sony-wf-1000xm6-2026' ||
+        cleanSlug === 'sony-wf-1000xm6' ||
+        cleanSlug === 'sony-wh1000xm6' ||
+        cleanSlug === 'sony-wh-1000xm6')
+    ) {
+      match =
+        researchArticles.find((a) => a.slug === 'sony-wf-1000xm6-2026') ||
+        INITIAL_RESEARCH_ARTICLES.find((a) => a.slug === 'sony-wf-1000xm6-2026');
+    }
+
+    return match || null;
   }, [researchArticles, activeSlug]);
 
   // Phase 6 Requirement: Unreviewed drafts remain private until an authorized reviewer approves them.
@@ -84,10 +102,10 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
       .slice(0, 3);
   }, [researchArticles, article]);
 
-  // Word count and read time
+  // Verified brand & product source links
   const sourceLinks = useMemo(
-    () => getBrandSourceLinks(undefined, article?.brand_name),
-    [article?.brand_name]
+    () => getBrandSourceLinks(article?.brand_id, article?.brand_name, article?.slug),
+    [article?.brand_id, article?.brand_name, article?.slug]
   );
 
   const readTimeMinutes = useMemo(() => {
@@ -523,6 +541,62 @@ export const BrandResearchStudyDetail: React.FC<BrandResearchStudyDetailProps> =
                       {article.sample_limitations ||
                         'Convenience sample derived from opted-in panel respondents. Percentages reflect sample responses and are not generalized as representative of the entire population without demographic weighting.'}
                     </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1.5 md:col-span-2">
+                    <span className="font-bold text-slate-800 uppercase tracking-wider block">
+                      Primary Linked Sources &amp; Public References
+                    </span>
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                      <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                        <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                          <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                          <a
+                            href={sourceLinks.officialPortal.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-purple-900 truncate"
+                          >
+                            {sourceLinks.officialPortal.label}
+                          </a>
+                        </div>
+                        <span className="text-[10px] text-slate-500 leading-tight">
+                          {sourceLinks.officialPortal.note}
+                        </span>
+                      </li>
+                      <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                        <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                          <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                          <a
+                            href={sourceLinks.corporateFilings.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-purple-900 truncate"
+                          >
+                            {sourceLinks.corporateFilings.label}
+                          </a>
+                        </div>
+                        <span className="text-[10px] text-slate-500 leading-tight">
+                          {sourceLinks.corporateFilings.note}
+                        </span>
+                      </li>
+                      <li className="flex flex-col p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
+                        <div className="flex items-center gap-1.5 font-bold text-purple-700">
+                          <ExternalLink className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                          <a
+                            href={sourceLinks.customerReviews.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-purple-900 truncate"
+                          >
+                            {sourceLinks.customerReviews.label}
+                          </a>
+                        </div>
+                        <span className="text-[10px] text-slate-500 leading-tight">
+                          {sourceLinks.customerReviews.note}
+                        </span>
+                      </li>
+                    </ul>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-white border border-slate-200 space-y-1 md:col-span-2 flex flex-wrap items-center justify-between gap-2">

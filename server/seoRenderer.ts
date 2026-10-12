@@ -95,13 +95,21 @@ export function getPageSeoAndContent(requestPath: string): PageSeoResult {
   const researchStudyMatch = cleanPath.match(/^\/brand-research-studies\/([a-zA-Z0-9_-]+)$/);
   if (researchStudyMatch && researchStudyMatch[1] !== 'brand-research-studies') {
     const slug = researchStudyMatch[1].toLowerCase().replace(/_/g, '-');
-    const article = INITIAL_RESEARCH_ARTICLES.find(
-      (a) =>
-        a.slug.toLowerCase() === slug ||
-        a.id.toLowerCase() === slug ||
-        (slug.includes('series-12') && a.slug.includes('series-12')) ||
-        (slug.includes('xm6') && a.slug.includes('xm6'))
+    let article = INITIAL_RESEARCH_ARTICLES.find(
+      (a) => a.slug.toLowerCase() === slug || a.id.toLowerCase() === slug
     );
+    if (!article && (slug === 'apple-watch-series-12' || slug === 'apple-watch-series-12-2026')) {
+      article = INITIAL_RESEARCH_ARTICLES.find((a) => a.slug === 'apple-watch-series-12-2026');
+    }
+    if (
+      !article &&
+      (slug === 'sony-wf-1000xm6-2026' ||
+        slug === 'sony-wf-1000xm6' ||
+        slug === 'sony-wh1000xm6' ||
+        slug === 'sony-wh-1000xm6')
+    ) {
+      article = INITIAL_RESEARCH_ARTICLES.find((a) => a.slug === 'sony-wf-1000xm6-2026');
+    }
     if (article) {
       return renderBrandResearchStudyArticleSeo(origin, article);
     }
@@ -560,6 +568,8 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
             article.valid_responses_count && article.valid_responses_count > 0 && !article.is_illustrative_demo
           );
 
+          const brandLinks = getBrandSourceLinks(article.brand_id, article.brand_name, article.slug);
+
           if (isEmpiricalSurvey) {
             return `
               <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-4">
@@ -575,6 +585,14 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
                   <div><strong>Geographic Scope:</strong> ${escapeHtml(article.participant_geography || 'North America & Western Europe (multi-country panel)')}</div>
                   ${article.participant_demographics ? `<div class="sm:col-span-2"><strong>Participant Demographics:</strong> ${escapeHtml(article.participant_demographics)}</div>` : ''}
                   <div class="sm:col-span-2 bg-white p-3 rounded-xl border border-slate-200">
+                    <strong>Primary Linked Sources &amp; Public References:</strong>
+                    <ul class="list-disc pl-5 mt-1 space-y-1">
+                      <li><a href="${escapeHtml(brandLinks.officialPortal.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.officialPortal.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.officialPortal.note)}</span></li>
+                      <li><a href="${escapeHtml(brandLinks.corporateFilings.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.corporateFilings.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.corporateFilings.note)}</span></li>
+                      <li><a href="${escapeHtml(brandLinks.customerReviews.url)}" target="_blank" rel="noopener noreferrer" class="text-purple-600 underline">${escapeHtml(brandLinks.customerReviews.label)}</a> - <span class="text-slate-500">${escapeHtml(brandLinks.customerReviews.note)}</span></li>
+                    </ul>
+                  </div>
+                  <div class="sm:col-span-2 bg-white p-3 rounded-xl border border-slate-200">
                     <strong>Sample Limitations &amp; Potential Bias:</strong> ${escapeHtml(article.sample_limitations || 'Convenience sample derived from opted-in panel respondents. Percentages reflect sample responses and are not generalized as representative of the entire population without demographic weighting.')}
                   </div>
                   <div><strong>Auditor / Reviewer:</strong> ${escapeHtml(article.reviewer_name || 'Voice Flow 360 Research Standards Desk')}</div>
@@ -584,7 +602,6 @@ function renderBrandResearchStudyArticleSeo(origin: string, article: ResearchArt
             `;
           }
 
-          const brandLinks = getBrandSourceLinks(undefined, article.brand_name);
           return `
             <section class="sources-methodology-box bg-slate-50 border border-slate-200 rounded-2xl p-6 mt-8 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-slate-200">
@@ -960,7 +977,7 @@ function renderAboutPageSeo(origin: string): PageSeoResult {
           Voice Flow 360 bridges the gap between everyday consumers and global enterprise decision-makers through dynamic conversational surveys and fair compensation.
         </p>
         <p class="text-xs text-slate-500 mt-2">
-          Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.
+          Voice Flow 360 is operated by Voice Flow 360 Inc., California, USA.
         </p>
       </header>
 
@@ -1415,7 +1432,7 @@ function renderContactPageSeo(origin: string): PageSeoResult {
       <header class="border-b border-slate-200 pb-6 space-y-2">
         <h1 class="text-3xl font-extrabold text-slate-900">Contact Voice Flow 360</h1>
         <p class="text-slate-600 text-sm">We are here to assist participants, researchers, and prospective enterprise partners.</p>
-        <p class="text-xs text-slate-500 mt-2">Voice Flow 360 is operated by Voice Flow 360 Inc., City California, USA. Contact: contact@voiceflow360.com.</p>
+        <p class="text-xs text-slate-500 mt-2">Voice Flow 360 is operated by Voice Flow 360 Inc., California, USA.</p>
       </header>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
         <div class="p-5 rounded-2xl bg-purple-50/60 border border-purple-100">

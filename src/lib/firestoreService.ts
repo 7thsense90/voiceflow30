@@ -155,14 +155,27 @@ export async function seedInitialFirestoreData(): Promise<void> {
         await subBatch.commit();
       }
 
-      // Ensure research articles collection is seeded if empty
+      // Ensure research articles collection is seeded and synchronized with authoritative articles
       const articlesSnap = await getDocs(collection(db, RESEARCH_ARTICLES_COL));
-      if (articlesSnap.empty) {
-        console.log(`Synchronizing ${INITIAL_RESEARCH_ARTICLES.length} initial brand research studies to Firestore...`);
-        const articleBatch = writeBatch(db);
-        for (const art of INITIAL_RESEARCH_ARTICLES) {
-          articleBatch.set(doc(db, RESEARCH_ARTICLES_COL, art.id), cleanData(art));
+      const obsoleteIds = new Set(['ra_sony_audio_flagship', 'ra_sony_wh1000xm6', 'ra_apple_watch_series_12']);
+      const articleBatch = writeBatch(db);
+      let needsCommit = false;
+
+      // Delete any obsolete stale documents
+      articlesSnap.forEach((docSnap) => {
+        const d = docSnap.data();
+        if (obsoleteIds.has(docSnap.id) || d?.slug === 'sony-wh1000xm6' || d?.slug === 'apple-watch-series-12') {
+          articleBatch.delete(doc(db, RESEARCH_ARTICLES_COL, docSnap.id));
+          needsCommit = true;
         }
+      });
+
+      // Synchronize authoritative initial brand research studies
+      for (const art of INITIAL_RESEARCH_ARTICLES) {
+        articleBatch.set(doc(db, RESEARCH_ARTICLES_COL, art.id), cleanData(art), { merge: true });
+        needsCommit = true;
+      }
+      if (needsCommit) {
         await articleBatch.commit();
       }
     }
